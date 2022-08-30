@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <style>
+        .box {
+            display: flex;
+            z-index: 3;
+            height: 37px;
+            background: #fff;
+            border: 1px solid #dfe1e5;
+            box-shadow: none;
+            border-radius: 24px;
+            margin: 0 auto;
+            width: calc(632px + 6px);
+            /* width: auto; */
+            max-width: 584px;
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .search {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0);
+        }
+
+        .left {
+            display: flex;
+            align-items: center;
+            padding-right: 20px;
+            margin-top: -5px;
+        }
+
+        .right {
+            display: flex;
+            flex: 0 0 auto;
+            margin-top: -5px;
+            align-items: stretch;
+            flex-direction: row;
+            padding-left: 20px;
+        }
+
+        .topbar {
+            flex: 1 0 auto;
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            border: 0;
+            background: transparent;
+            outline: none;
+            /* padding: 0 8px; */
+            width: 24px;
+            /* line-height: 24px; */
+            transform: translateY(25%) translateX(-35%);
+            /* transform: translateX(-30%); */
+        }
+    </style>
+    <style>
+        .logo {
+            width: 100px;
+            transform: translateY(50%);
+            position: fixed;
+            z-index: 999;
+            top: 0;
+        }
+
+        .content {
+            transform: translateY(2050%);
+        }
+
+        .clean {
+            width: 100px;
+            background: rgba(200, 100, 100, 0);
+        }
+
+        [text~="xs"] {
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        [bg~="gray-100"] {
+            --un-bg-opacity: 1;
+            background-color: rgba(243, 244, 246, var(--un-bg-opacity));
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .flex,
+        [flex~="\~"] {
+            display: flex;
+        }
+
+        [w~="full"] {
+            width: 100%;
+        }
+
+        [h~="\31 2"] {
+            height: 3rem;
+        }
+
+        .right-0 {
+            right: 0rem;
+        }
+
+        .left-0 {
+            left: 0rem;
+        }
+
+        .bottom-0 {
+            bottom: 0rem;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+    </style>
+    <style>
+        .tag {
+            display: inline-block;
+            padding: 0 8px;
+            box-sizing: border-box;
+            font-weight: 400;
+            line-height: 1.5;
+            border-radius: 2px;
+            font-size: 0.875em;
+            margin-right: 5px;
+        }
+
+        .href-title {
+            border-bottom: 1px solid cornflowerblue;
+        }
+
+        .link:visited {
+            color: rgb(145, 45, 145) !important;
+        }
+
+        .lgbbssave {
+            margin: 0;
+            padding: 0;
+            border: 1px solid transparent;
+            outline: none;
+            cursor: pointer;
+        }
+
+        @media (prefers-color-scheme: dark) {
+
+            /* 操作系统及浏览器支持且用户开启了 Dark Mode */
+            .pb {
+                color: white !important;
+            }
+        }
+    </style>
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+    <title>加载中 - 🍋OISO🔍</title>
+    <link rel="shortcut icon" href="img/favicon.svg">
+</head>
+
+<body class="mdui-theme-primary-indigo mdui-color-theme-50 mdui-theme-accent-blue mdui-theme-layout-auto">
+    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide">
+        <div class="mdui-toolbar mdui-color-theme">
+            <div>
+                <a href="/">
+                    <img class="logo" src="img/logo.png" />
+                </a>
+            </div>
+            <div class="clean"></div>
+            <div id="container" class="box mdui-hoverable" style="transform: translateY(25%);">
+                <div class="left"></div>
+                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~" onkeypress="getKey();" />
+                <div class="right">
+                    <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
+                </div>
+            </div>
+            <!-- <div class="mdui-toolbar-spacer"></div>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">more_vert</i>
+            </a> -->
+        </div>
+        <div class="mdui-tab mdui-color-theme" mdui-tab>
+            <a id="aall" class="mdui-ripple mdui-ripple-white">综合</a>
+            <a id="awiki" class="mdui-ripple mdui-ripple-white">维基</a>
+            <a id="aproblem" class="mdui-ripple mdui-ripple-white">题目</a>
+            <a id="abbs" class="mdui-ripple mdui-ripple-white">讨论</a>
+            <a id="aarticle" class="mdui-ripple mdui-ripple-white">文章</a>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+        <br><br><br><br><br><br><br>
+        <div id="all">
+            <div class="mdui-typo mdui-col-md-7 mdui-col-xs-12 mdui-col-sm-10" id="allContent">
+                <center>
+                    <br><br><br><br><br>
+                    <div class="mdui-spinner mdui-spinner-colorful"></div>
+                </center>
+            </div>
+        </div>
+        <script>
+            function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) { return pair[1]; }
+                }
+                return (false);
+            }
+            function getq() {
+                var q = getQueryVariable("q");
+                if (q == false) {
+                    location.href = "/";
+                } else {
+                    document.getElementById("inputBox").value = decodeURIComponent(q);
+                    document.title = decodeURIComponent(q) + " - 🍋OISO🔍";
+                }
+                return q;
+            }
+            setTimeout(() => document.getElementById("aall").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=all');"), 100);
+            setTimeout(() => document.getElementById("awiki").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=wiki');"), 100);
+            setTimeout(() => document.getElementById("aproblem").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=problem');"), 100);
+            setTimeout(() => document.getElementById("abbs").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=bbs');"), 100);
+            setTimeout(() => document.getElementById("aarticle").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=article');"), 100);
+        </script>
+        <script type="text/javascript">
+            //获得文本框元素
+            var txtSearch = document.getElementById('inputBox');
+            //文本框得到焦点事件 onfocus()
+            txtSearch.onfocus = function () {
+                document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-3");
+            }
+            //文本框失去焦点事件 onblur()
+            txtSearch.onblur = function () {
+                document.getElementById("container").setAttribute("class", "box mdui-hoverable");
+            }
+        </script>
+        <!-- MDUI JavaScript -->
+        <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+        <script>
+            function changeurl(url) {
+                document.getElementById("allContent").innerHTML = `<center>
+                    <br><br><br><br><br>
+                    <div class="mdui-spinner mdui-spinner-colorful"></div>
+                </center>`;
+                const newUrl = url;
+                history.pushState('', '', newUrl); // 不刷新页面
+                document.title = decodeURIComponent(getQueryVariable("q")) + " - 🍋OISO🔍";
+                search();
+            }
+            function go() {
+                if (document.getElementById("inputBox").value == '') {
+                    mdui.snackbar("鸡你太美~哒哒~啦啦~");
+                    return;
+                }
+                type = getQueryVariable("type");
+                if (type == false)
+                    changeurl("search?q=" + encodeURIComponent(document.getElementById("inputBox").value));
+                else
+                    changeurl("search?q=" + encodeURIComponent(document.getElementById("inputBox").value) + "&type=" + type);
+            }
+            function getKey() {
+                if (event.keyCode == 13) {
+                    go();
+                }
+            }
+        </script>
+        <script>
+            function timestampToTime(timestamp) {
+                var now = new Date(timestamp * 1000), // js和python关于时间戳的精确度不一样QWQ...
+                    y = now.getFullYear(),
+                    m = now.getMonth() + 1,
+                    d = now.getDate();
+                return y + "-" + (m < 10 ? "0" + m : m) + "-" + (d < 10 ? "0" + d : d) + " " + now.toTimeString().substr(0, 8)
+            }
+            function indexToName(index) {
+                CHART = {
+                    "lgbbs": "洛谷帖子",
+                    "oiwiki": "OI Wiki",
+                    "hydro": "Hydro题",
+                    "luogu": "洛谷题",
+                    "cf": "CF题",
+                    "luoguB": "洛谷水题",
+                    "spoj": "SPOJ题",
+                    "uva": "UVA题",
+                    "atcoder": "Atcoder题"
+                }
+                CHART2 = {
+                    "luogu": "洛谷博客"
+                }
+                if (index['_index'] == "articles") {
+                    return CHART2[index['_source']['platform']];
+                }
+                else if (index['_index'] == "problems") {
+                    return CHART[index['_source']['oj']];
+                } else if (index['_index'] in CHART) {
+                    return CHART[index['_index']];
+                } else {
+                    return index['_index'];
+                }
+            }
+            function allWrite(text) {
+                document.getElementById("allContent").innerHTML += text;
+                // document.getElementById("allContent").innerHTML+='<br>';
+            }
+            function makePageButton(num) {
+                page = getQueryVariable("page");
+                if (page == false) {
+                    page = 1;
+                } else {
+                    page = Number(page);
+                }
+                q = getQueryVariable("q");
+                type = getQueryVariable("type");
+                if (type == false) {
+                    type = "all";
+                }
+                if (page == 1)
+                    allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">arrow_back</i></button>`);
+                else
+                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_back</i></button>`);
+                if (page == 1)
+                    allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">chevron_left</i></button>`);
+                else
+                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(page - 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_left</i></button>`);
+                var text = (`<div class="mdui-btn-group">`);
+                var startpage, endpage;
+                var tot = Math.ceil(num / 20);
+                // console.log(tot);
+                if (page <= 3) {
+                    startpage = 1, endpage = Math.min(10, tot);
+                } else if (page >= tot - 6) {
+                    startpage = Math.max(tot - 9, 1);
+                    endpage = tot;
+                } else {
+                    startpage = page - 3;
+                    endpage = Math.min(page + 6, tot);
+                }
+                for (var i = startpage; i <= endpage; i++) {
+                    if (i == page) {
+                        text += (`<button class="mdui-btn-active mdui-btn pb">` + String(i) + `</button>`);
+                    } else {
+                        text += (`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(i) + `';" class="mdui-btn mdui-ripple pb">` + String(i) + `</button>`);
+                    }
+                }
+                text += (`</div>`);
+                allWrite(text);
+                if (page == tot)
+                    allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">chevron_right</i></button>`);
+                else
+                    allWrite(`<button  onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(page + 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_right</i></button>`);
+                if (page == tot)
+                    allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">arrow_forward</i></button>`);
+                else
+                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(tot) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>`);
+                allWrite(`<br><br><br><br><br>`);
+            }
+            function makeHTML(info) {
+                ret = '';
+                ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p class="href-title">' + info['_source']['title'] + '</p></a></h5>';
+                ret += '<small>' + info['_source']['content'] + '</small><br>';
+                ret += '<small class="mdui-text-color-cyan">' + info['_source']['url'] + '</small><br>';
+                ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 171, 160);">` + timestampToTime(info['_source']['time']) + `</span>`;
+                ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 102, 171);">` + indexToName(info) + `</span>`;
+                ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(171, 13, 102);">` + String(info['_score']) + `</span>`;
+                if (info['_index'] == "lgbbs") {
+                    ret += `<span class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
+                }
+                if (info['_index'] == "problems" && (info['_id'].indexOf("UVA") != -1 || info['_id'].indexOf("CF") != -1) || info['_id'].indexOf("SP") != -1) {
+                    ret += `<span class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
+                }
+                ret += '<hr/>';
+                return ret;
+            }
+            function search() {
+                BASEURL = 'http://pi.amzcd.top:2333';
+                type = getQueryVariable("type");
+                page = getQueryVariable("page");
+                if (page == false) page = 1;
+                else page = Number(page);
+                mdui.mutation();
+                if (type == false || type == "all") {
+                    document.getElementById("aall").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/search?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...");
+                    });
+                } else if (type == "bbs") {
+                    document.getElementById("abbs").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/bbs?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...");
+                    });
+                } else if (type == "problem") {
+                    document.getElementById("aproblem").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/problem?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...");
+                    });
+                } else if (type == "wiki") {
+                    document.getElementById("awiki").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/wiki?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...");
+                    });
+                } else if (type == "article") {
+                    document.getElementById("aarticle").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/article?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...");
+                    });
+                }
+                mdui.mutation();
+            }
+            search();
+            q=getQueryVariable("q");
+            document.getElementById("inputBox").value=decodeURIComponent(q);
+            document.title = decodeURIComponent(q) + " - 🍋OISO🔍";
+        </script>
+        <div class="fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
+            w="full" h="12" text="xs" id="foot" hidden="hidden">
+            <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
+                    href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
+                        alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
+                    href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.1 测试版 | Developed
+                by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top"
+                    target="_blank">diyanqi</a>&nbsp;
+            </div>
+            <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2"
+                    title="关于">
+                    <div i-ri-information-line=""></div>
+                </a></div>
+        </div>
+        <script>
+            function getScrollTop() {
+                var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+                if (document.body) {
+                    bodyScrollTop = document.body.scrollTop;
+                }
+                if (document.documentElement) {
+                    documentScrollTop = document.documentElement.scrollTop;
+                }
+                scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+                return scrollTop;
+            }
+            //文档的总高度
+            function getScrollHeight() {
+                var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+                if (document.body) {
+                    bodyScrollHeight = document.body.scrollHeight;
+                }
+                if (document.documentElement) {
+                    documentScrollHeight = document.documentElement.scrollHeight;
+                }
+                scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+                return scrollHeight;
+            }
+            //浏览器视口的高度
+            function getWindowHeight() {
+                var windowHeight = 0;
+                if (document.compatMode == "CSS1Compat") {
+                    windowHeight = document.documentElement.clientHeight;
+                } else {
+                    windowHeight = document.body.clientHeight;
+                }
+                return windowHeight;
+            }
+            window.onscroll = function () {
+                // console.log(getScrollTop() , getWindowHeight(),getScrollHeight());
+                if (Math.abs(getScrollTop() + getWindowHeight() - getScrollHeight()) <= 15) {
+                    document.getElementById("foot").removeAttribute("hidden");
+                } else {
+                    document.getElementById("foot").setAttribute("hidden", "hidden");
+                }
+            };
+        </script>
+</body>
+
+</html>

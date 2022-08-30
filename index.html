@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <style>
+        .box {
+            display: flex;
+            z-index: 3;
+            height: 44px;
+            background: #fff;
+            border: 1px solid #dfe1e5;
+            box-shadow: none;
+            border-radius: 24px;
+            margin: 0 auto;
+            width: calc(632px + 6px);
+            width: auto;
+            max-width: 584px;
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        .search {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0);
+        }
+
+        .left {
+            display: flex;
+            align-items: center;
+            padding-right: 20px;
+            margin-top: -5px;
+        }
+
+        .right {
+            display: flex;
+            flex: 0 0 auto;
+            margin-top: -5px;
+            align-items: stretch;
+            flex-direction: row;
+            padding-left: 20px;
+        }
+
+        .topbar {
+            flex: 1 0 auto;
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            border: 0;
+            background: transparent;
+            outline: none;
+            /* padding: 0 8px; */
+            width: 24px;
+            /* line-height: 24px; */
+            transform: translateY(30%) translateX(-35%);
+            /* transform: translateX(-30%); */
+        }
+
+        [text~="xs"] {
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        [bg~="gray-100"] {
+            --un-bg-opacity: 1;
+            background-color: rgba(243, 244, 246, var(--un-bg-opacity));
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .flex,
+        [flex~="\~"] {
+            display: flex;
+        }
+
+        [w~="full"] {
+            width: 100%;
+        }
+
+        [h~="\31 2"] {
+            height: 3rem;
+        }
+
+        .right-0 {
+            right: 0rem;
+        }
+
+        .left-0 {
+            left: 0rem;
+        }
+
+        .bottom-0 {
+            bottom: 0rem;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        /*包含以下四种的链接*/
+        a {
+            text-decoration: none;
+        }
+
+        /*正常的未被访问过的链接*/
+        a:link {
+            text-decoration: none;
+        }
+
+        /*已经访问过的链接*/
+        a:visited {
+            text-decoration: none;
+        }
+
+        /*鼠标划过(停留)的链接*/
+        a:hover {
+            text-decoration: none;
+        }
+
+        /* 正在点击的链接*/
+        a:active {
+            text-decoration: none;
+        }
+    </style>
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+    <title>🍋OISO🔍 - 一款为OIer和开发者而生的搜索引擎</title>
+    <link rel="shortcut icon" href="img/favicon.svg">
+</head>
+
+<body class="mdui-theme-layout-auto">
+    <div class="mdui-container">
+        <center>
+            <img id="logo" src="img/logo.png" class="mdui-img-fluid" style="transform: translateY(150%);"
+                onload="if(this.width >= 333){this.width = 333;}" />
+        </center>
+        <center>
+            <div id="container" class="box mdui-hoverable" style="transform: translateY(425%);">
+                <div class="left"></div>
+                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~" onkeypress="getKey();" />
+                <div class="right">
+                    <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
+                </div>
+            </div>
+        </center>
+    </div>
+    <script type="text/javascript">
+        //获得文本框元素
+        var txtSearch = document.getElementById('inputBox');
+        //文本框得到焦点事件 onfocus()
+        txtSearch.onfocus = function () {
+            document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-7");
+        }
+        //文本框失去焦点事件 onblur()
+        txtSearch.onblur = function () {
+            document.getElementById("container").setAttribute("class", "box mdui-hoverable");
+        }
+    </script>
+    <!-- MDUI JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <script>
+        function go() {
+            var value = document.getElementById("inputBox").value;
+            if (value == '') {
+                mdui.snackbar("小黑子，露出鸡脚了吧~");
+            } else {
+                location.href = "search?q=" + value;
+            }
+        }
+        function getKey() {
+            if (event.keyCode == 13) {
+                go();
+            }
+        }
+    </script>
+    <script>
+        fetch("http://pi.amzcd.top:2333").then(function (response) {
+            return response.text();
+        }).then(function (data) {
+            console.log(data);
+            if (data != `OISO 2022. All rights reserved.`) {
+                mdui.snackbar("服务器错误：" + data);
+            }
+        }).catch(function () {
+            mdui.snackbar("服务器炸了QWQ...");
+        });
+    </script>
+    <!-- <div id="footer" style="position: absolute; bottom: 0; left: 50%; transform: translate(-50%, -50%);">
+        <div style="height: 23px;">
+            <center>
+                <p><a href="https://oiso.cf">🍋Oiso.cf🔍</a> 2022 - 现在 | Developed by <a href="https://www.amzcd.top">diyanqi</a></p>
+            </center>
+        </div>
+    </div> -->
+    <div class="fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
+        w="full" h="12" text="xs">
+        <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
+                href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
+                    alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.1 测试版 | Developed
+            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a>&nbsp;
+        </div>
+        <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
+                <div i-ri-information-line=""></div>
+            </a></div>
+    </div>
+</body>
+
+</html>
