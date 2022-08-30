@@ -167,7 +167,7 @@
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
     <title>加载中 - 🍋OISO🔍</title>
-    <link rel="shortcut icon" href="img/favicon.svg">
+    <link rel="shortcut icon" href="/img/favicon.svg">
 </head>
 
 <body class="mdui-theme-primary-indigo mdui-color-theme-50 mdui-theme-accent-blue mdui-theme-layout-auto">
@@ -175,7 +175,7 @@
         <div class="mdui-toolbar mdui-color-theme">
             <div>
                 <a href="/">
-                    <img class="logo" src="img/logo.png" />
+                    <img class="logo" src="/img/logo.png" />
                 </a>
             </div>
             <div class="clean"></div>
@@ -230,11 +230,11 @@
                 }
                 return q;
             }
-            setTimeout(() => document.getElementById("aall").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=all');"), 100);
-            setTimeout(() => document.getElementById("awiki").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=wiki');"), 100);
-            setTimeout(() => document.getElementById("aproblem").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=problem');"), 100);
-            setTimeout(() => document.getElementById("abbs").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=bbs');"), 100);
-            setTimeout(() => document.getElementById("aarticle").setAttribute("onclick", "changeurl('search?q='+getq()+'&type=article');"), 100);
+            setTimeout(() => document.getElementById("aall").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=all');"), 100);
+            setTimeout(() => document.getElementById("awiki").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=wiki');"), 100);
+            setTimeout(() => document.getElementById("aproblem").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=problem');"), 100);
+            setTimeout(() => document.getElementById("abbs").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=bbs');"), 100);
+            setTimeout(() => document.getElementById("aarticle").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=article');"), 100);
         </script>
         <script type="text/javascript">
             //获得文本框元素
@@ -268,9 +268,9 @@
                 }
                 type = getQueryVariable("type");
                 if (type == false)
-                    changeurl("search?q=" + encodeURIComponent(document.getElementById("inputBox").value));
+                    changeurl("/search?q=" + encodeURIComponent(document.getElementById("inputBox").value));
                 else
-                    changeurl("search?q=" + encodeURIComponent(document.getElementById("inputBox").value) + "&type=" + type);
+                    changeurl("/search?q=" + encodeURIComponent(document.getElementById("inputBox").value) + "&type=" + type);
             }
             function getKey() {
                 if (event.keyCode == 13) {
@@ -331,11 +331,11 @@
                 if (page == 1)
                     allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">arrow_back</i></button>`);
                 else
-                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_back</i></button>`);
+                    allWrite(`<button onclick="location.href='/search?q=` + q + `&type=` + type + `&page=` + String(1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_back</i></button>`);
                 if (page == 1)
                     allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">chevron_left</i></button>`);
                 else
-                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(page - 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_left</i></button>`);
+                    allWrite(`<button onclick="location.href='/search?q=` + q + `&type=` + type + `&page=` + String(page - 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_left</i></button>`);
                 var text = (`<div class="mdui-btn-group">`);
                 var startpage, endpage;
                 var tot = Math.ceil(num / 20);
@@ -353,7 +353,7 @@
                     if (i == page) {
                         text += (`<button class="mdui-btn-active mdui-btn pb">` + String(i) + `</button>`);
                     } else {
-                        text += (`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(i) + `';" class="mdui-btn mdui-ripple pb">` + String(i) + `</button>`);
+                        text += (`<button onclick="location.href='/search?q=` + q + `&type=` + type + `&page=` + String(i) + `';" class="mdui-btn mdui-ripple pb">` + String(i) + `</button>`);
                     }
                 }
                 text += (`</div>`);
@@ -361,11 +361,11 @@
                 if (page == tot)
                     allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">chevron_right</i></button>`);
                 else
-                    allWrite(`<button  onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(page + 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_right</i></button>`);
+                    allWrite(`<button  onclick="location.href='/search?q=` + q + `&type=` + type + `&page=` + String(page + 1) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">chevron_right</i></button>`);
                 if (page == tot)
                     allWrite(`<button class="mdui-btn-icon mdui-btn mdui-ripple" disabled="disabled"><i class="mdui-icon material-icons">arrow_forward</i></button>`);
                 else
-                    allWrite(`<button onclick="location.href='search?q=` + q + `&type=` + type + `&page=` + String(tot) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>`);
+                    allWrite(`<button onclick="location.href='/search?q=` + q + `&type=` + type + `&page=` + String(tot) + `';" class="mdui-btn-icon mdui-btn mdui-ripple"><i class="mdui-icon material-icons">arrow_forward</i></button>`);
                 allWrite(`<br><br><br><br><br>`);
             }
             function makeHTML(info) {
