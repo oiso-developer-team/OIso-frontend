@@ -73,6 +73,12 @@
             background-color: rgba(243, 244, 246, var(--un-bg-opacity));
         }
 
+        @media (prefers-color-scheme: dark) {
+            .dARkdOOr {
+                background-color: rgb(70, 70, 70) !important;
+            }
+        }
+
         .justify-center {
             justify-content: center;
         }
@@ -113,6 +119,7 @@
         /*包含以下四种的链接*/
         a {
             text-decoration: none;
+            color: deepskyblue;
         }
 
         /*正常的未被访问过的链接*/
@@ -134,6 +141,15 @@
         a:active {
             text-decoration: none;
         }
+
+        .color {
+            position: fixed !important;
+            z-index: 999;
+            top: 45px;
+            right: 0;
+            _position: absolute !important;
+            *zoom: 1 !important;
+        }
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
@@ -142,6 +158,15 @@
 </head>
 
 <body class="mdui-theme-layout-auto">
+    <!-- <div class="mdui-toolbar mdui-color-theme">
+        <div class="mdui-toolbar-spacer"></div>
+        <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-light-blue"
+            mdui-dialog="{target: '#dialog-docs-theme'}">
+            <i class="mdui-icon material-icons">color_lens</i>
+        </span>
+    </div> -->
+    <!-- 个性化先咕了，太懒了（逃 ε=ε=ε=┏(゜ロ゜;)┛ -->
+
     <div class="mdui-container">
         <center>
             <img id="logo" src="img/logo.png" class="mdui-img-fluid" style="transform: translateY(150%);"
@@ -205,17 +230,306 @@
             </center>
         </div>
     </div> -->
-    <div class="fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
+    <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
         w="full" h="12" text="xs">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.1 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.2 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a>&nbsp;
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
             </a></div>
+    </div>
+    <div class="mdui-dialog" id="dialog-docs-theme">
+        <div class="mdui-dialog-title">设置文档主题</div>
+        <div class="mdui-dialog-content">
+
+            <p class="mdui-typo-title">主题色</p>
+            <div class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
+                <div class="mdui-col">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-layout" value="auto" checked="">
+                        <i class="mdui-radio-icon"></i>
+                        Auto
+                    </label>
+                </div>
+                <div class="mdui-col">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-layout" value="light">
+                        <i class="mdui-radio-icon"></i>
+                        Light
+                    </label>
+                </div>
+                <div class="mdui-col">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-layout" value="dark">
+                        <i class="mdui-radio-icon"></i>
+                        Dark
+                    </label>
+                </div>
+            </div>
+
+            <p class="mdui-typo-title mdui-text-color-theme">主色</p>
+            <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
+                <div class="mdui-col mdui-text-color-amber">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="amber">
+                        <i class="mdui-radio-icon"></i>
+                        Amber
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-blue">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="blue">
+                        <i class="mdui-radio-icon"></i>
+                        Blue
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-blue-grey">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="blue-grey">
+                        <i class="mdui-radio-icon"></i>
+                        Blue Grey
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-brown">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="brown">
+                        <i class="mdui-radio-icon"></i>
+                        Brown
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-cyan">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="cyan">
+                        <i class="mdui-radio-icon"></i>
+                        Cyan
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-deep-orange">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="deep-orange">
+                        <i class="mdui-radio-icon"></i>
+                        Deep Orange
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-deep-purple">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="deep-purple">
+                        <i class="mdui-radio-icon"></i>
+                        Deep Purple
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-green">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="green">
+                        <i class="mdui-radio-icon"></i>
+                        Green
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-grey">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="grey">
+                        <i class="mdui-radio-icon"></i>
+                        Grey
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-indigo">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="indigo" checked="">
+                        <i class="mdui-radio-icon"></i>
+                        Indigo
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-light-blue">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="light-blue">
+                        <i class="mdui-radio-icon"></i>
+                        Light Blue
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-light-green">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="light-green">
+                        <i class="mdui-radio-icon"></i>
+                        Light Green
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-lime">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="lime">
+                        <i class="mdui-radio-icon"></i>
+                        Lime
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-orange">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="orange">
+                        <i class="mdui-radio-icon"></i>
+                        Orange
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-pink">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="pink">
+                        <i class="mdui-radio-icon"></i>
+                        Pink
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-purple">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="purple">
+                        <i class="mdui-radio-icon"></i>
+                        Purple
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-red">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="red">
+                        <i class="mdui-radio-icon"></i>
+                        Red
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-teal">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="teal">
+                        <i class="mdui-radio-icon"></i>
+                        Teal
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-yellow">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-primary" value="yellow">
+                        <i class="mdui-radio-icon"></i>
+                        Yellow
+                    </label>
+                </div>
+            </form>
+
+            <p class="mdui-typo-title mdui-text-color-theme-accent">强调色</p>
+            <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
+                <div class="mdui-col mdui-text-color-amber">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="amber">
+                        <i class="mdui-radio-icon"></i>
+                        Amber
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-blue">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="blue">
+                        <i class="mdui-radio-icon"></i>
+                        Blue
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-cyan">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="cyan">
+                        <i class="mdui-radio-icon"></i>
+                        Cyan
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-deep-orange">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="deep-orange">
+                        <i class="mdui-radio-icon"></i>
+                        Deep Orange
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-deep-purple">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="deep-purple">
+                        <i class="mdui-radio-icon"></i>
+                        Deep Purple
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-green">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="green">
+                        <i class="mdui-radio-icon"></i>
+                        Green
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-indigo">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="indigo">
+                        <i class="mdui-radio-icon"></i>
+                        Indigo
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-light-blue">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="light-blue">
+                        <i class="mdui-radio-icon"></i>
+                        Light Blue
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-light-green">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="light-green">
+                        <i class="mdui-radio-icon"></i>
+                        Light Green
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-lime">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="lime">
+                        <i class="mdui-radio-icon"></i>
+                        Lime
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-orange">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="orange">
+                        <i class="mdui-radio-icon"></i>
+                        Orange
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-pink">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="pink" checked="">
+                        <i class="mdui-radio-icon"></i>
+                        Pink
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-purple">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="purple">
+                        <i class="mdui-radio-icon"></i>
+                        Purple
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-red">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="red">
+                        <i class="mdui-radio-icon"></i>
+                        Red
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-teal">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="teal">
+                        <i class="mdui-radio-icon"></i>
+                        Teal
+                    </label>
+                </div>
+                <div class="mdui-col mdui-text-color-yellow">
+                    <label class="mdui-radio mdui-m-b-1">
+                        <input type="radio" name="theme-accent" value="yellow">
+                        <i class="mdui-radio-icon"></i>
+                        Yellow
+                    </label>
+                </div>
+            </form>
+
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple mdui-float-left" mdui-dialog-cancel="">恢复默认主题</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">ok</button>
+        </div>
     </div>
 </body>
 

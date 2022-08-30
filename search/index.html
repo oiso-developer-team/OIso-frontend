@@ -32,6 +32,32 @@
             background: rgba(255, 255, 255, 0);
         }
 
+        /*包含以下四种的链接*/
+        .aaa {
+            text-decoration: none;
+            color: deepskyblue;
+        }
+
+        /*正常的未被访问过的链接*/
+        .aaa:link {
+            text-decoration: none;
+        }
+
+        /*已经访问过的链接*/
+        .aaa:visited {
+            text-decoration: none;
+        }
+
+        /*鼠标划过(停留)的链接*/
+        .aaa:hover {
+            text-decoration: none;
+        }
+
+        /* 正在点击的链接*/
+        .aaa:active {
+            text-decoration: none;
+        }
+
         .left {
             display: flex;
             align-items: center;
@@ -154,6 +180,12 @@
             border: 1px solid transparent;
             outline: none;
             cursor: pointer;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dARkdOOr {
+                background-color: rgb(70, 70, 70) !important;
+            }
         }
 
         @media (prefers-color-scheme: dark) {
@@ -486,17 +518,17 @@
                 mdui.mutation();
             }
             search();
-            q=getQueryVariable("q");
-            document.getElementById("inputBox").value=decodeURIComponent(q);
+            q = getQueryVariable("q");
+            document.getElementById("inputBox").value = decodeURIComponent(q);
             document.title = decodeURIComponent(q) + " - 🍋OISO🔍";
         </script>
-        <div class="fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
-            w="full" h="12" text="xs" id="foot" hidden="hidden">
+        <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
+            bg="gray-100" w="full" h="12" text="xs" id="foot" hidden="hidden">
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
-                        alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                    href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.1 测试版 | Developed
-                by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top"
+                        alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a class="aaa"
+                    href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.2 测试版 | Developed
+                by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
                     target="_blank">diyanqi</a>&nbsp;
             </div>
             <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2"
