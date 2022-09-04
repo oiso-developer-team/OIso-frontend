@@ -85,7 +85,22 @@
             /* padding: 0 8px; */
             width: 24px;
             /* line-height: 24px; */
-            transform: translateY(25%) translateX(-35%);
+            transform: translateY(27%) translateX(-35%);
+            /* transform: translateX(-30%); */
+        }
+
+        .topbar2 {
+            flex: 1 0 auto;
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            border: 0;
+            background: transparent;
+            outline: none;
+            /* padding: 0 8px; */
+            width: 24px;
+            /* line-height: 24px; */
+            transform: translateY(20%) translateX(-50%) scale(0.75, 0.75) !important;
             /* transform: translateX(-30%); */
         }
     </style>
@@ -198,7 +213,7 @@
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
-    <title>加载中 - 🍋OISO🔍</title>
+    <title>加载中 - 🍋OIso🔍</title>
     <link rel="shortcut icon" href="/img/favicon.svg">
 </head>
 
@@ -215,9 +230,22 @@
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~" onkeypress="getKey();" />
                 <div class="right">
-                    <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
+                    <i id="clearBox" class="mdui-icon material-icons topbar2 mdui-text-color-black"
+                        mdui-tooltip="{content: '清空', delay: 750}"
+                        onclick="document.getElementById('inputBox').value='';" hidden="hidden">clear</i>
+                    <i class="mdui-icon material-icons topbar mdui-text-color-black"
+                        mdui-tooltip="{content: '搜索', delay: 750}" onclick="go();">search</i>
                 </div>
             </div>
+            <script>
+                var oDiv = document.getElementById("container");
+                oDiv.onmouseover = function () {
+                    document.getElementById("clearBox").removeAttribute("hidden");
+                }
+                oDiv.onmouseout = function () {
+                    document.getElementById("clearBox").setAttribute("hidden","hidden");
+                }
+            </script>
             <!-- <div class="mdui-toolbar-spacer"></div>
             <a href="javascript:;" class="mdui-btn mdui-btn-icon">
                 <i class="mdui-icon material-icons">more_vert</i>
@@ -258,7 +286,7 @@
                     location.href = "/";
                 } else {
                     document.getElementById("inputBox").value = decodeURIComponent(q);
-                    document.title = decodeURIComponent(q) + " - 🍋OISO🔍";
+                    document.title = decodeURIComponent(q) + " - 🍋OIso🔍";
                 }
                 return q;
             }
@@ -290,7 +318,7 @@
                 </center>`;
                 const newUrl = url;
                 history.pushState('', '', newUrl); // 不刷新页面
-                document.title = decodeURIComponent(getQueryVariable("q")) + " - 🍋OISO🔍";
+                document.title = decodeURIComponent(getQueryVariable("q")) + " - 🍋OIso🔍";
                 search();
             }
             function go() {
@@ -520,14 +548,14 @@
             search();
             q = getQueryVariable("q");
             document.getElementById("inputBox").value = decodeURIComponent(q);
-            document.title = decodeURIComponent(q) + " - 🍋OISO🔍";
+            document.title = decodeURIComponent(q) + " - 🍋OIso🔍";
         </script>
         <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
             bg="gray-100" w="full" h="12" text="xs" id="foot" hidden="hidden">
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
-                        alt="🍋OISO🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a class="aaa"
-                    href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.2 测试版 | Developed
+                        alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
+                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3 测试版 | Developed
                 by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
                     target="_blank">diyanqi</a>&nbsp;
             </div>
