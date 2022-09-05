@@ -472,10 +472,10 @@
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 102, 171);">` + indexToName(info) + `</span>`;
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(171, 13, 102);">` + String(info['_score']) + `</span>`;
                 if (info['_index'] == "lgbbs") {
-                    ret += `<span onmouseover="view('` + info['_source']['url'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
+                    ret += `<span onmouseover="view("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
                 }
                 if (info['_index'] == "problems" && (info['_id'].indexOf("UVA") != -1 || info['_id'].indexOf("CF") != -1) || info['_id'].indexOf("SP") != -1) {
-                    ret += `<span onmouseover="view('` + info['_source']['url'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
+                    ret += `<span onmouseover="view("https://www.luogu.com.cn/problem/` + info['_id'] + `");" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
                 }
                 ret += '<hr/>';
                 return ret;
