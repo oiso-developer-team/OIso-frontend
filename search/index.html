@@ -232,7 +232,8 @@
                 <div class="right">
                     <i id="clearBox" class="mdui-icon material-icons topbar2 mdui-text-color-black"
                         mdui-tooltip="{content: '清空', delay: 750}"
-                        onclick="document.getElementById('inputBox').value='';" hidden="hidden">clear</i>
+                        onclick="document.getElementById('inputBox').value='';document.getElementById('inputBox').focus();"
+                        hidden="hidden">clear</i>
                     <i class="mdui-icon material-icons topbar mdui-text-color-black"
                         mdui-tooltip="{content: '搜索', delay: 750}" onclick="go();">search</i>
                 </div>
@@ -243,7 +244,7 @@
                     document.getElementById("clearBox").removeAttribute("hidden");
                 }
                 oDiv.onmouseout = function () {
-                    document.getElementById("clearBox").setAttribute("hidden","hidden");
+                    document.getElementById("clearBox").setAttribute("hidden", "hidden");
                 }
             </script>
             <!-- <div class="mdui-toolbar-spacer"></div>
@@ -269,7 +270,41 @@
                     <div class="mdui-spinner mdui-spinner-colorful"></div>
                 </center>
             </div>
+            <div class="mdui-typo mdui-col-md-1 mdui-col-xs-12 mdui-col-sm-10" id="allContent">
+                <!-- 占位~ -->
+            </div>
+            <div class="mdui-typo mdui-col-md-4 mdui-col-xs-12 mdui-col-sm-10" id="quickView">
+                <br><br>
+                <iframe id="mainiframe" width="100%" height="500" frameborder="0"
+                    scrolling="auto" class="mdui-hoverable mdui-shadow-3" src="/quickView.html" style="position: absolute;">
+                </iframe>
+            </div>
         </div>
+        <script>
+            function view(url) {
+                document.getElementById("mainiframe").setAttribute("src", url);
+            }
+
+            function changeFrameHeight() {
+                var ifm = document.getElementById("mainiframe");
+                ifm.height = document.documentElement.clientHeight - 233;
+            }
+            window.onresize = function () { changeFrameHeight(); }
+                (function () { changeFrameHeight(); });
+        </script>
+        <script>
+            window.onscroll = function () {
+                // console.log(getScrollTop() , getWindowHeight(),getScrollHeight());
+                if (Math.abs(getScrollTop() + getWindowHeight() - getScrollHeight()) <= 15) {
+                    document.getElementById("foot").removeAttribute("hidden");
+                } else {
+                    document.getElementById("foot").setAttribute("hidden", "hidden");
+                }
+                var f = document.getElementById("mainiframe");
+                f.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) + getWindowHeight() * 0.05) + "px";
+                // console.log(f.top);
+            };
+        </script>
         <script>
             function getQueryVariable(variable) {
                 var query = window.location.search.substring(1);
@@ -430,7 +465,7 @@
             }
             function makeHTML(info) {
                 ret = '';
-                ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p class="href-title">' + info['_source']['title'] + '</p></a></h5>';
+                ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p onmouseover="view(`' + info['_source']['url'] + '`);" class="href-title">' + info['_source']['title'] + '</p></a></h5>';
                 ret += '<small>' + info['_source']['content'] + '</small><br>';
                 ret += '<small class="mdui-text-color-cyan">' + info['_source']['url'] + '</small><br>';
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 171, 160);">` + timestampToTime(info['_source']['time']) + `</span>`;
@@ -555,10 +590,10 @@
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
                         alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3 测试版 | Developed
+                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3.5 测试版 | Developed
                 by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
-                    target="_blank">diyanqi</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
-                    target="_blank">👉食用指南&反馈👈</a>
+                    target="_blank">diyanqi</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
+                    href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
             </div>
             <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2"
                     title="关于">
@@ -599,14 +634,6 @@
                 }
                 return windowHeight;
             }
-            window.onscroll = function () {
-                // console.log(getScrollTop() , getWindowHeight(),getScrollHeight());
-                if (Math.abs(getScrollTop() + getWindowHeight() - getScrollHeight()) <= 15) {
-                    document.getElementById("foot").removeAttribute("hidden");
-                } else {
-                    document.getElementById("foot").setAttribute("hidden", "hidden");
-                }
-            };
         </script>
 </body>
 
