@@ -276,7 +276,7 @@
             <div class="mdui-typo mdui-col-md-4 mdui-col-xs-12 mdui-col-sm-10" id="quickView">
                 <br><br>
                 <iframe id="mainiframe" width="100%" height="500" frameborder="0"
-                    scrolling="auto" class="mdui-hoverable mdui-shadow-3" src="/quickView.html" style="position: absolute;">
+                    scrolling="auto" class="mdui-hoverable mdui-shadow-3" src="/quickView.html" style="position: absolute; border-radius: 15px;">
                 </iframe>
             </div>
         </div>
@@ -301,7 +301,7 @@
                     document.getElementById("foot").setAttribute("hidden", "hidden");
                 }
                 var f = document.getElementById("mainiframe");
-                f.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) + getWindowHeight() * 0.05) + "px";
+                f.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) + getWindowHeight() * 0.03) + "px";
                 // console.log(f.top);
             };
         </script>
@@ -472,10 +472,10 @@
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 102, 171);">` + indexToName(info) + `</span>`;
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(171, 13, 102);">` + String(info['_score']) + `</span>`;
                 if (info['_index'] == "lgbbs") {
-                    ret += `<span onmouseover="view("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
+                    ret += `<span onmouseover="view('https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
                 }
                 if (info['_index'] == "problems" && (info['_id'].indexOf("UVA") != -1 || info['_id'].indexOf("CF") != -1) || info['_id'].indexOf("SP") != -1) {
-                    ret += `<span onmouseover="view("https://www.luogu.com.cn/problem/` + info['_id'] + `");" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
+                    ret += `<span onmouseover="view('https://www.luogu.com.cn/problem/` + info['_id'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
                 }
                 ret += '<hr/>';
                 return ret;
