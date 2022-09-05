@@ -215,10 +215,11 @@
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
     <title>加载中 - 🍋OIso🔍</title>
     <link rel="shortcut icon" href="/img/favicon.svg">
+    <meta name="color-scheme" content="dark light">
 </head>
 
 <body class="mdui-theme-primary-indigo mdui-color-theme-50 mdui-theme-accent-blue mdui-theme-layout-auto">
-    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide">
+    <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" id="appbar">
         <div class="mdui-toolbar mdui-color-theme">
             <div>
                 <a href="/">
@@ -275,19 +276,37 @@
             </div>
             <div class="mdui-typo mdui-col-md-4 mdui-col-xs-12 mdui-col-sm-10" id="quickView">
                 <br><br>
-                <iframe id="mainiframe" width="100%" height="500" frameborder="0"
-                    scrolling="auto" class="mdui-hoverable mdui-shadow-3" src="/quickView.html" style="position: absolute; border-radius: 15px;">
-                </iframe>
+                <div class="mdui-card" id="iframeCard" style="border-radius: 15px;">
+
+                    <!-- 卡片的内容 -->
+                    <div class="mdui-card-content">
+                        <iframe id="mainiframe" width="100%" height="300" frameborder="0" scrolling="auto"
+                            src="https://www.oiso.cf/quickView.html">
+                        </iframe>
+                    </div>
+
+                    <!-- 卡片的按钮 -->
+                    <div class="mdui-card-actions">
+                        <button class="mdui-btn mdui-ripple" onclick="open_in_new();" style="border-radius: 15px;"><small><i class="mdui-icon material-icons" style="transform: scale(0.75, 0.75);">open_in_new</i></small>打开此页面</button>
+                        <!-- <button class="mdui-btn mdui-ripple" style="border-radius: 15px;" onclick="hide();">隐藏快速预览</button> -->
+                    </div>
+
+                </div>
             </div>
         </div>
         <script>
+            function open_in_new(){
+                url=document.getElementById("mainiframe").getAttribute("src");
+                window.open(url);
+            }
             function view(url) {
                 document.getElementById("mainiframe").setAttribute("src", url);
             }
-
             function changeFrameHeight() {
                 var ifm = document.getElementById("mainiframe");
-                ifm.height = document.documentElement.clientHeight - 233;
+                ifm.height = document.documentElement.clientHeight - 300;
+                var cd = document.getElementById("iframeCard");
+                cd.height = document.documentElement.clientHeight - 300;
             }
             window.onresize = function () { changeFrameHeight(); }
                 (function () { changeFrameHeight(); });
@@ -300,9 +319,14 @@
                 } else {
                     document.getElementById("foot").setAttribute("hidden", "hidden");
                 }
-                var f = document.getElementById("mainiframe");
-                f.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) + getWindowHeight() * 0.03) + "px";
-                // console.log(f.top);
+                // var f = document.getElementById("mainiframe");
+                var c = document.getElementById("iframeCard");
+                if (document.getElementById("appbar").getAttribute("class").indexOf("mdui-headroom-unpinned-toolbar") != -1) {
+                    // 说明是收缩上去了
+                    c.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) - getWindowHeight() * 0.07) + "px";
+                } else {
+                    c.style.top = String((document.documentElement.scrollTop || document.body.scrollTop) - getWindowHeight() * 0.015) + "px";
+                }
             };
         </script>
         <script>
@@ -590,7 +614,7 @@
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
                         alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3.5 测试版 | Developed
+                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3.6 测试版 | Developed
                 by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
                     target="_blank">diyanqi</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
                     href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
