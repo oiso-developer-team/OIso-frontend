@@ -167,6 +167,30 @@
     </div> -->
     <!-- 个性化先咕了，太懒了（逃 ε=ε=ε=┏(゜ロ゜;)┛ -->
 
+    <div class="mdui-toolbar mdui-color-theme">
+        <div class="mdui-toolbar-spacer"></div>
+            <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();">
+                登录
+            </button>
+    </div>
+
+    <script>
+        fetch("https://api.oiso.cf:8443/profile").then(function (response) {
+            return response.text();
+        }).then(function (data) {
+            console.log(data);
+            if (data == `False`) {
+                mdui.snackbar("请点击右上角登录");
+            }else{
+                document.getElementById("lbt").innerHTML=JSON.parse(data).name;
+                document.getElementById("lbt").setAttribute("mdui-dialog","{target: '#dialog-logout'}");
+                document.getElementById("lbt").setAttribute("onclick","");
+            }
+        }).catch(function () {
+            // mdui.snackbar("服务器错误：" + data);
+        });
+    </script>
+
     <div class="mdui-container">
         <center>
             <img id="logo" src="img/logo.png" class="mdui-img-fluid" style="transform: translateY(150%);"
@@ -235,7 +259,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.3.6 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
@@ -530,6 +554,100 @@
             <button class="mdui-btn mdui-ripple mdui-float-left" mdui-dialog-cancel="">恢复默认主题</button>
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">ok</button>
         </div>
+    </div>
+
+    <div class="mdui-dialog" id="dialog-logout">
+        <div class="mdui-dialog-title">退出登录</div>
+        <div class="mdui-dialog-content">确定要退出登录吗？</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();">确定</button>
+        </div>
+        <script>
+            function gologout(){
+                fetch("https://api.oiso.cf:8443/logout").then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if(data=='True'){
+                        mdui.snackbar("登出成功；请刷新页面");
+                    }else{
+                        mdui.snackbar("登出失败");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("服务器开小差了……");
+                });
+            }
+        </script>
+    </div>
+
+    <div class="mdui-dialog" id="dialog-login">
+        <div class="mdui-dialog-title">通过洛谷登录</div>
+        <div class="mdui-dialog-content mdui-typo">
+
+            <p class="mdui-typo-title">STEP 1</p>
+            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为 10 分钟）</b>。</p>
+            <pre>加载中，请稍后……</pre>
+            <script>
+                function copy_key() {
+                    var key = document.querySelector("#dialog-login pre").innerText;
+                    var input = document.createElement("input");
+                    input.value = key;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(input);
+                    mdui.snackbar({
+                        message: "已复制密钥",
+                        position: "right-top"
+                    });
+                }
+            </script>
+            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense" onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
+
+            <p class="mdui-typo-title">STEP 2</p>
+            <p>发布后，请将这个云剪贴板的链接粘贴到下面：</p>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" placeholder="形如：https://www.luogu.com.cn/paste/ler564eo"/>
+              </div>
+            <p>完成后，请点击下方确认按钮进行校验。</p>
+
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();">确认</button>
+        </div>
+        <script>
+            function get_key(){
+                fetch("https://api.oiso.cf:8443/key_request").then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    document.querySelector("#dialog-login pre").innerText = data;
+                }).catch(function () {
+                    mdui.snackbar("获取密钥失败……会不会是访问太频繁了？");
+                });
+            }
+            function gologin(){
+                var url = document.querySelector("#dialog-login input").value;
+                if(url == ""){
+                    mdui.snackbar("请输入云剪贴板的链接");
+                    return;
+                }
+                fetch("https://api.oiso.cf:8443/key_check?url=" + url).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if(data != "False"){
+                        mdui.snackbar("登录成功！请刷新页面！");
+                    }else{
+                        mdui.snackbar("登录失败……");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("登录失败……");
+                });
+            }
+        </script>
     </div>
 </body>
 
