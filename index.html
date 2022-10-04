@@ -192,30 +192,6 @@
         </button>
     </div>
 
-    <script>
-        fetch("https://api.oiso.cf:8443/profile", {
-            credentials: 'include'
-        }).then(function (response) {
-            return response.text();
-        }).then(function (data) {
-            console.log(data);
-            if (data == `False`) {
-                mdui.snackbar("请点击右上角登录");
-            } else {
-                document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
-                document.getElementById("lbt").setAttribute("onclick", "");
-                try {
-                    document.getElementById("lbt").innerHTML = JSON.parse(data).name;
-                } catch {
-                    document.getElementById("lbt").innerHTML = "登出";
-                }
-                get_benben();
-            }
-        }).catch(function () {
-            // mdui.snackbar("服务器错误：" + data);
-        });
-    </script>
-
     <div class="mdui-container">
         <center>
             <img id="logo" src="img/logo.png" class="mdui-img-fluid" style="transform: translateY(150%);"
@@ -224,7 +200,8 @@
         <center>
             <div id="container" class="box mdui-hoverable" style="transform: translateY(425%);">
                 <div class="left"></div>
-                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 当你登录后，下滑解锁新世界" onkeypress="getKey();" />
+                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 当你登录后，下滑解锁新世界"
+                    onkeypress="getKey();" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
@@ -284,7 +261,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.5 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.5.1 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -687,7 +664,7 @@
     </div>
 
     <div class="mdui-container">
-        <div class="mdui-container" id="happy">
+        <div class="mdui-container" id="happy" hidden="hidden">
             <div class="mdui-row">
                 <div class="mdui-col-xs-12 mdui-col-md-6">
                     <div class="mdui-card">
@@ -798,6 +775,31 @@
                 mdui.snackbar("获取犇犇失败……");
             });
         }
+    </script>
+
+    <script>
+        fetch("https://api.oiso.cf:8443/profile", {
+            credentials: 'include'
+        }).then(function (response) {
+            return response.text();
+        }).then(function (data) {
+            console.log(data);
+            if (data == `False`) {
+                mdui.snackbar("请点击右上角登录");
+            } else {
+                document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
+                document.getElementById("lbt").setAttribute("onclick", "");
+                try {
+                    document.getElementById("lbt").innerHTML = JSON.parse(data).name;
+                } catch {
+                    document.getElementById("lbt").innerHTML = "登出";
+                }
+                document.getElementById("happy").removeAttribute("hidden");
+                get_benben();
+            }
+        }).catch(function () {
+            // mdui.snackbar("服务器错误：" + data);
+        });
     </script>
 
 </body>
