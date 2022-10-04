@@ -150,6 +150,23 @@
             _position: absolute !important;
             *zoom: 1 !important;
         }
+
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: -moz-hidden-unscrollable;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            -ms-overflow-style: none;
+            overflow: auto;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
@@ -169,13 +186,14 @@
 
     <div class="mdui-toolbar mdui-color-theme">
         <div class="mdui-toolbar-spacer"></div>
-            <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();">
-                登录
-            </button>
+        <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}"
+            onclick="get_key();">
+            登录
+        </button>
     </div>
 
     <script>
-        fetch("https://api.oiso.cf:8443/profile",{
+        fetch("https://api.oiso.cf:8443/profile", {
             credentials: 'include'
         }).then(function (response) {
             return response.text();
@@ -183,10 +201,15 @@
             console.log(data);
             if (data == `False`) {
                 mdui.snackbar("请点击右上角登录");
-            }else{
-                document.getElementById("lbt").innerHTML=JSON.parse(data).name;
-                document.getElementById("lbt").setAttribute("mdui-dialog","{target: '#dialog-logout'}");
-                document.getElementById("lbt").setAttribute("onclick","");
+            } else {
+                document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
+                document.getElementById("lbt").setAttribute("onclick", "");
+                try {
+                    document.getElementById("lbt").innerHTML = JSON.parse(data).name;
+                } catch {
+                    document.getElementById("lbt").innerHTML = "登出";
+                }
+                get_benben();
             }
         }).catch(function () {
             // mdui.snackbar("服务器错误：" + data);
@@ -201,7 +224,7 @@
         <center>
             <div id="container" class="box mdui-hoverable" style="transform: translateY(425%);">
                 <div class="left"></div>
-                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~" onkeypress="getKey();" />
+                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 当你登录后，下滑解锁新世界" onkeypress="getKey();" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
@@ -256,13 +279,15 @@
             </center>
         </div>
     </div> -->
-    <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700" bg="gray-100"
-        w="full" h="12" text="xs">
+    <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
+        bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.3 测试版 | Developed
-            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.5 测试版 | Developed
+            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
+                class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
+                target="_blank">👉食用指南&反馈👈</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
@@ -566,16 +591,16 @@
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();">确定</button>
         </div>
         <script>
-            function gologout(){
-                fetch("https://api.oiso.cf:8443/logout",{
+            function gologout() {
+                fetch("https://api.oiso.cf:8443/logout", {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
                     console.log(data);
-                    if(data=='True'){
+                    if (data == 'True') {
                         mdui.snackbar("登出成功；请刷新页面");
-                    }else{
+                    } else {
                         mdui.snackbar("登出失败");
                     }
                 }).catch(function () {
@@ -590,7 +615,8 @@
         <div class="mdui-dialog-content mdui-typo">
 
             <p class="mdui-typo-title">STEP 1</p>
-            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为 10 分钟）</b>。</p>
+            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为
+                    10 分钟）</b>。</p>
             <pre>加载中，请稍后……</pre>
             <script>
                 function copy_key() {
@@ -607,13 +633,15 @@
                     });
                 }
             </script>
-            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense" onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
+            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense"
+                    onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
 
             <p class="mdui-typo-title">STEP 2</p>
             <p>发布后，请将这个云剪贴板的链接粘贴到下面：</p>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text" placeholder="形如：https://www.luogu.com.cn/paste/ler564eo"/>
-              </div>
+                <input class="mdui-textfield-input" type="text"
+                    placeholder="形如：https://www.luogu.com.cn/paste/ler564eo" />
+            </div>
             <p>完成后，请点击下方确认按钮进行校验。</p>
 
         </div>
@@ -622,33 +650,33 @@
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();">确认</button>
         </div>
         <script>
-            function get_key(){
-                fetch("https://api.oiso.cf:8443/key_request",{
-                    credentials:'include'
+            function get_key() {
+                fetch("https://api.oiso.cf:8443/key_request", {
+                    credentials: 'include'
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
                     console.log(data);
                     document.querySelector("#dialog-login pre").innerText = data;
                 }).catch(function () {
-                    mdui.snackbar("获取密钥失败……会不会是访问太频繁了？");
+                    mdui.snackbar("获取密钥失败……一天最多15个o(╥﹏╥)o");
                 });
             }
-            function gologin(){
+            function gologin() {
                 var url = document.querySelector("#dialog-login input").value;
-                if(url == ""){
+                if (url == "") {
                     mdui.snackbar("请输入云剪贴板的链接");
                     return;
                 }
-                fetch("https://api.oiso.cf:8443/key_check?url=" + url,{
-                    credentials:'include'
+                fetch("https://api.oiso.cf:8443/key_check?url=" + url, {
+                    credentials: 'include'
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
                     console.log(data);
-                    if(data != "False"){
+                    if (data != "False") {
                         mdui.snackbar("登录成功！请刷新页面！");
-                    }else{
+                    } else {
                         mdui.snackbar("登录失败……");
                     }
                 }).catch(function () {
@@ -657,6 +685,121 @@
             }
         </script>
     </div>
+
+    <div class="mdui-container">
+        <div class="mdui-container" id="happy">
+            <div class="mdui-row">
+                <div class="mdui-col-xs-12 mdui-col-md-6">
+                    <div class="mdui-card">
+
+                        <!-- 卡片的标题和副标题 -->
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">犇犇区</div>
+                            <div class="mdui-card-primary-subtitle">尽情摸鱼～</div>
+                        </div>
+
+                        <!-- 卡片的内容 -->
+                        <div class="mdui-card-content" id="benben">
+                            <div class="mdui-spinner mdui-spinner-colorful"></div>
+                        </div>
+
+                        <!-- 卡片的按钮 -->
+                        <div class="mdui-card-actions">
+                            <div class="mdui-textfield">
+                                <input class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" />
+                            </div>
+                        </div>
+                        <script>
+                            function send_benben() {
+                                var text = document.getElementById("ib").value;
+                                if (text == "") {
+                                    mdui.snackbar("请输入内容");
+                                    return;
+                                }
+                                fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
+                                    credentials: 'include'
+                                }).then(function (response) {
+                                    return response.text();
+                                }).then(function (data) {
+                                    console.log(data);
+                                    if (data == "True") {
+                                        mdui.snackbar("发送成功！");
+                                        document.getElementById("ib").value = "";
+                                    } else {
+                                        mdui.snackbar("发送失败……");
+                                    }
+                                }).catch(function () {
+                                    mdui.snackbar("发送失败……");
+                                });
+                            }
+                            document.getElementById("ib").addEventListener("keyup", function (event) {
+                                // console.log(event);
+                                if (event.keyCode === 13) {
+                                    event.preventDefault();
+                                    send_benben();
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <br><br><br>
+            <br><br><br>
+        </div>
+    </div>
+
+    <script>
+        function getWindowHeight() {
+            var windowHeight = 0;
+            if (document.compatMode == "CSS1Compat") {
+                windowHeight = document.documentElement.clientHeight;
+            } else {
+                windowHeight = document.body.clientHeight;
+            }
+            return windowHeight;
+        }
+
+        console.log(getWindowHeight());
+
+        document.getElementById("happy").style.position = "absolute";
+        document.getElementById("happy").style.top = getWindowHeight() + "px";
+
+
+        function get_benben() {
+            fetch("https://api.oiso.cf:8443/getmsg", {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                console.log(data);
+                j = JSON.parse(data);
+                document.querySelector("#benben").innerHTML = "";
+                // 按时间排序
+                j.sort(function (a, b) {
+                    return b.time - a.time;
+                });
+                for (i in j) {
+                    var msg = j[i];
+                    // 防止注入
+                    msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    var txt = `<div class="mdui-typo">`;
+                    var timeChinese = new Date(msg.time * 1000).toLocaleString();
+                    var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+                    txt += ` <blockquote>
+                        <p>`+ msg.msg + `</p>
+                        <footer><a href="`+ lgurl + `">@` + msg.user + `</a> 于 ` + timeChinese + `</footer>
+                    </blockquote>`;
+                    txt += `</div>`;
+                    document.querySelector("#benben").innerHTML += txt;
+                }
+            }).catch(function () {
+                mdui.snackbar("获取犇犇失败……");
+            });
+        }
+    </script>
+
 </body>
 
 </html>
