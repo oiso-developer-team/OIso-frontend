@@ -176,7 +176,7 @@
 
     <script>
         fetch("https://api.oiso.cf:8443/profile",{
-            credentials: "include"
+            credentials: 'include'
         }).then(function (response) {
             return response.text();
         }).then(function (data) {
@@ -567,7 +567,6 @@
         </div>
         <script>
             function gologout(){
-                setCookie("user", "", -1);
                 fetch("https://api.oiso.cf:8443/logout").then(function (response) {
                     return response.text();
                 }).then(function (data) {
@@ -642,11 +641,6 @@
                 }).then(function (data) {
                     console.log(data);
                     if(data != "False"){
-                        var now=new Date();
-                        var min=60*24*15;
-                        now.setMinutes(now.getMinutes()+min);
-                        document.cookie='user='+data+';expires='+now.toGMTString();
-                        console.log(document.cookie);
                         mdui.snackbar("登录成功！请刷新页面！");
                     }else{
                         mdui.snackbar("登录失败……");
