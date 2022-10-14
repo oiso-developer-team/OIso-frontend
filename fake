@@ -1,0 +1,95 @@
+<div class="mdui-col-xs-12 mdui-col-md-6">
+                    <div class="mdui-card">
+
+                        <!-- 卡片的标题和副标题 -->
+                        <div class="mdui-card-primary">
+                            <div class="mdui-card-primary-title">犇犇区</div>
+                            <div class="mdui-card-primary-subtitle">尽情摸鱼～</div>
+                        </div>
+
+                        <!-- 卡片的内容 -->
+                        <div class="mdui-card-content" id="benben">
+                            <div class="mdui-spinner mdui-spinner-colorful"></div>
+                        </div>
+
+                        <!-- 卡片的按钮 -->
+                        <div class="mdui-card-actions">
+                            <div class="mdui-container">
+                                <div class="mdui-textfield">
+                                    <input class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" />
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            function send_benben() {
+                                var text = document.getElementById("ib").value;
+                                if (text == "") {
+                                    mdui.snackbar("请输入内容");
+                                    return;
+                                }
+                                fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
+                                    credentials: 'include'
+                                }).then(function (response) {
+                                    return response.text();
+                                }).then(function (data) {
+                                    console.log(data);
+                                    if (data == "True") {
+                                        mdui.snackbar("发送成功！");
+                                        document.getElementById("ib").value = "";
+                                    } else {
+                                        mdui.snackbar("发送失败……");
+                                    }
+                                }).catch(function () {
+                                    mdui.snackbar("发送失败……");
+                                });
+                            }
+                            document.getElementById("ib").addEventListener("keyup", function (event) {
+                                // console.log(event);
+                                if (event.keyCode === 13) {
+                                    event.preventDefault();
+                                    send_benben();
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-12 mdui-col-md-6">
+                    <div class="mdui-panel" mdui-panel="{accordion: true}">
+                        <div class="mdui-panel-item">
+                            <div class="mdui-panel-item-header">
+                                <div class="mdui-panel-item-title">一起听</div>
+                                <div class="mdui-panel-item-summary">实时点歌</div>
+                                <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                            </div>
+                            <div class="mdui-panel-item-body" id="listen">
+                                
+                            </div>
+                        </div>
+                        <div class="mdui-panel-item" id="bili">
+                            <div class="mdui-panel-item-header">
+                                <div class="mdui-panel-item-title">放映厅</div>
+                                <div class="mdui-panel-item-summary">实时B站（仍在开发中）</div>
+                                <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                            </div>
+                            <div class="mdui-panel-item-body" id="bilibody">
+                                    <iframe scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" src="https://player.bilibili.com/player.html?bvid=BV1GJ411x7h7&amp;high_quality=1" style="position: sticky;top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                                    
+                                </div>
+                        </div>
+                        <script>
+                            // add listener opened.mdui.panel
+                            document.getElementById('bili').addEventListener('opened.mdui.panel', function () {
+                                // console.log('opened');
+                                document.getElementById("bili").style.height = "533px";
+                                document.getElementById("bilibody").style.height = "433px";
+                            });
+                            // add listener closed.mdui.panel
+                            document.getElementById('bili').addEventListener('closed.mdui.panel', function () {
+                                // console.log('closed');
+                                document.getElementById("bili").removeAttribute("style");
+                                document.getElementById("bilibody").removeAttribute("style");
+                                document.getElementById("bilibody").innerHTML='';
+                            });
+                        </script>
+                    </div>
+                </div>

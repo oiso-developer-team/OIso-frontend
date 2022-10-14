@@ -167,6 +167,10 @@
         body::-webkit-scrollbar {
             display: none;
         }
+        /*给card圆角*/
+        .mdui-card{
+            border-radius: 10px !important;
+        }
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
@@ -261,7 +265,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.5.1 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.6 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -666,26 +670,32 @@
     <div class="mdui-container">
         <div class="mdui-container" id="happy" hidden="hidden">
             <div class="mdui-row">
-                <div class="mdui-col-xs-12 mdui-col-md-6">
+                <!--左边画面，右边聊天-->
+                <div class="mdui-col-xs-12 mdui-col-md-8">
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <div class="mdui-card-media-content">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title">直播间</div>
+                                    <div class="mdui-card-primary-subtitle">还在开发中！</div>
+                                </div>
+                            </div>
+                            <img src="https://via.placeholder.com/1920x1080" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mdui-col-xs-12 mdui-col-md-4">
                     <div class="mdui-card">
 
-                        <!-- 卡片的标题和副标题 -->
-                        <div class="mdui-card-primary">
-                            <div class="mdui-card-primary-title">犇犇区</div>
-                            <div class="mdui-card-primary-subtitle">尽情摸鱼～</div>
-                        </div>
-
-                        <!-- 卡片的内容 -->
-                        <div class="mdui-card-content" id="benben">
-                            <div class="mdui-spinner mdui-spinner-colorful"></div>
-                        </div>
-
-                        <!-- 卡片的按钮 -->
-                        <div class="mdui-card-actions">
+                        <div class="mdui-card-content">
                             <div class="mdui-textfield">
                                 <input class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" />
                             </div>
+                            <div class="mdui-card-content" id="benben">
+                                <div class="mdui-spinner mdui-spinner-colorful"></div>
+                            </div>
                         </div>
+
                         <script>
                             function send_benben() {
                                 var text = document.getElementById("ib").value;
@@ -723,6 +733,7 @@
             <br><br><br>
             <br><br><br>
             <br><br><br>
+            <!-- <iframe scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" src="https://player.bilibili.com/player.html?bvid=BV1GJ411x7h7&amp;high_quality=1" style="position: absolute;top: 0; left: 0; width: 100%; height: 100%;"></iframe>   -->
         </div>
     </div>
 
@@ -764,10 +775,7 @@
                     var txt = `<div class="mdui-typo">`;
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
-                    txt += ` <blockquote>
-                        <p>`+ msg.msg + `</p>
-                        <footer><a href="`+ lgurl + `">@` + msg.user + `</a> 于 ` + timeChinese + `</footer>
-                    </blockquote>`;
+                    txt += `<a href="` + lgurl + `" mdui-tooltip="{content: '发表于 ` + timeChinese + `', delay: 0}">@` + msg.user + `</a>：` + msg.msg + ``;
                     txt += `</div>`;
                     document.querySelector("#benben").innerHTML += txt;
                 }
@@ -778,13 +786,55 @@
     </script>
 
     <script>
+        function get_music() {
+            fetch("https://api.oiso.cf:8443/getsong", {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                console.log(data);
+                if (data == "False") {
+                    document.querySelector("#listen").innerHTML = "";
+                    document.querySelector("#listen").innerHTML = `<div class="mdui-typo">
+                    <blockquote>
+                        <p>暂无点歌</p>
+                    </blockquote>
+                </div>`;
+                } else {
+                    ;
+                }
+                j = JSON.parse(data);
+                document.querySelector("#listen").innerHTML = "";
+                // 按时间排序
+                j.sort(function (a, b) {
+                    return b.time - a.time;
+                });
+                for (i in j) {
+                    var msg = j[i];
+                    // 防止注入
+                    msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    var txt = `<div class="mdui-typo">`;
+                    var timeChinese = new Date(msg.time * 1000).toLocaleString();
+                    var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+                    txt += ` <blockquote>
+                        <p>`+ msg.msg + `</p>
+                        <footer><a href="`+ lgurl + `">@` + msg.user + `</a> 于 ` + timeChinese + `</footer>
+                    </blockquote>`;
+                    txt += `</div>`;
+                    document.querySelector("#listen").innerHTML += txt;
+                }
+            }).catch(function () {
+                mdui.snackbar("获取犇犇失败……");
+            });
+        }
         fetch("https://api.oiso.cf:8443/profile", {
             credentials: 'include'
         }).then(function (response) {
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) {
+            if (data != `False`) {
                 mdui.snackbar("请点击右上角登录");
             } else {
                 document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
@@ -796,6 +846,7 @@
                 }
                 document.getElementById("happy").removeAttribute("hidden");
                 get_benben();
+                // get_music();
             }
         }).catch(function () {
             // mdui.snackbar("服务器错误：" + data);
