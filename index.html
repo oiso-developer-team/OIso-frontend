@@ -267,7 +267,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6.8 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6.8.114 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -860,15 +860,15 @@
                 } else {
                     j = JSON.parse(data);
                     console.log(j);
-                    window['musicUrls'] = [j['url']];
-                    // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
+                    // window['musicUrls'] = [j['url']];
+                    window['musicUrls'] = ['/musicPlayer/music1.mp3'];
                     window['artistNameData'] = [j['artist']];
                     window['musicNameData'] = [j['title']];
                     originimg=j['img'];
                     // origin:https://p1.music.126.net/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
                     // proxy:https://163pic.oiso.cf/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
                     // proxyimg=originimg.replace("https://p1.music.126.net/","https://163pic.oiso.cf/");
-                    window['musicImgsData'] = [originimg];
+                    window['musicImgsData'] = ['/musicPlayer/others/img16.gif'];
                     try {
                         document.getElementById("liveimg").remove();
                     } catch (e) { }
