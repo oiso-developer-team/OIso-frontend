@@ -677,8 +677,7 @@
             <p>在网易云音乐中找到一首歌曲。其链接应该形如<code>https://music.163.com/#/song?id=1966373892</code>。</p>
             <p>然后请将链接中的<code>id</code>（对于上面的链接，其<code>id</code>是<code>1966373892</code>）粘贴到下面：</p>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text"
-                    placeholder="形如：1966373892" />
+                <input class="mdui-textfield-input" type="text" placeholder="形如：1966373892" />
             </div>
             <p>完成后，请点击下方确认按钮。</p>
             <p>注意，如果您<b>在2分钟内已经点过歌了</b>，或<b>这首歌已经被点过了且排在播放队列中</b>，您的请求会被拒绝。</p>
@@ -724,7 +723,8 @@
                                 <div class="mdui-card-primary">
                                     <div class="mdui-card-primary-title">云听歌</div>
                                     <div class="mdui-card-primary-subtitle" id="sub">正在加载中……</div>
-                                    <div class="mdui-card-primary-subtitle"><b>重要提示：浏览器会禁用自动播放，所以在第一次播放时请手动点击播放按钮</b></div>
+                                    <div class="mdui-card-primary-subtitle"><b>重要提示：浏览器会禁用自动播放，所以在第一次播放时请手动点击播放按钮</b>
+                                    </div>
                                 </div>
                             </div>
                             <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
@@ -849,15 +849,19 @@
             }).then(function (data) {
                 // console.log(data);
                 if (data == "false") {
-                    window['music'] = "none";
-                    try {
-                        document.getElementById("liveimg").remove();
-                    } catch (e) { }
-                    try {
-                        document.getElementById("live").remove();
-                    } catch (e) { }
-                    document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
-                    document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
+                    if (window['music'] == 'none') {
+                        document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+                        document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
+                    } else {
+                        window['music'] = "none";
+                        try {
+                            document.getElementById("liveimg").remove();
+                        } catch (e) { }
+                        try {
+                            document.getElementById("live").remove();
+                        } catch (e) { }
+                    }
+
                 } else {
                     j = JSON.parse(data);
                     console.log(j);
@@ -865,7 +869,7 @@
                     // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
                     window['artistNameData'] = [j['artist']];
                     window['musicNameData'] = [j['title']];
-                    originimg=j['img'].replace("http://", "https://");
+                    originimg = j['img'].replace("http://", "https://");
                     // origin:https://p1.music.126.net/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
                     // proxy:https://163pic.oiso.cf/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
                     // proxyimg=originimg.replace("https://p1.music.126.net/","https://163pic.oiso.cf/");
