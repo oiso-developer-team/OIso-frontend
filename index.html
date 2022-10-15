@@ -885,7 +885,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data != `False`) {
+            if (data == `False`) {
                 mdui.snackbar("请点击右上角登录");
             } else {
                 document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
