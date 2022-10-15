@@ -856,7 +856,7 @@
                     try {
                         document.getElementById("live").remove();
                     } catch (e) { }
-                    document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"></iframe>`;
+                    document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                     document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
                 } else {
                     j = JSON.parse(data);
