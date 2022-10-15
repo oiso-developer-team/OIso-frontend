@@ -250,7 +250,7 @@ $(function(){
 		audio.loop = false;   // 取消歌曲的循环播放功能
 		
         playPauseBtn.on('click',playPause); // 点击播放/暂停 按钮，触发playPause函数
-        playPause();                         // 初始化时，自动播放第一首歌曲
+        
 		// 进度条 移入/移出/点击 动作触发相应函数
 		sArea.mousemove(function(event){ showHover(event); }); 
         sArea.mouseout(hideHover);
@@ -262,6 +262,10 @@ $(function(){
         // 上下首切换
         playPrevBtn.on('click',function(){ selectTrack(-1);} );
         playNextBtn.on('click',function(){ selectTrack(1);});
+
+        setTimeout(function () {
+            playPause();
+        }, 1000);
     }
 
     // 调用初始化函数
