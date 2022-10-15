@@ -267,7 +267,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6.9 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6.10 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -856,8 +856,8 @@
                     try {
                         document.getElementById("live").remove();
                     } catch (e) { }
-                    document.getElementById("media").innerHTML += `<img id="liveimg" src="https://via.placeholder.com/1920x1080" />`;
-                    document.getElementById("sub").innerText = "暂无歌曲";
+                    document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"></iframe>`;
+                    document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
                 } else {
                     j = JSON.parse(data);
                     console.log(j);
