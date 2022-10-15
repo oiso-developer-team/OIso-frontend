@@ -858,7 +858,7 @@
                         } catch (e) { }
                         document.getElementById("media").innerHTML += `<iframe id="livebot" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                         document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
-                        document.getElementById("liveimg").style.height = getWindowHeight() * 0.5 + "px";
+                        document.getElementById("livebot").style.height = getWindowHeight() * 0.5 + "px";
                         window['music']='none';
                     } else {
                         window['music'] = "none";
