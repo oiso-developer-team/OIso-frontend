@@ -880,7 +880,7 @@
                     setTimeout(function () {
                         document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                         document.getElementById("live").style.height = getWindowHeight() * 0.5 + "px";
-                    }, 1000);
+                    }, 10);
                 }
             }).catch(function () {
                 mdui.snackbar("获取音乐直播失败……");
