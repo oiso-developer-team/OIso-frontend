@@ -850,7 +850,13 @@
                 // console.log(data);
                 if (data == "false") {
                     if (window['music'] != 'none') {
-                        document.getElementById("media").innerHTML += `<iframe id="liveimg" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+                        try {
+                            document.getElementById("liveimg").remove();
+                        } catch (e) { }
+                        try {
+                            document.getElementById("live").remove();
+                        } catch (e) { }
+                        document.getElementById("media").innerHTML += `<iframe id="livebot" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                         document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
                         document.getElementById("liveimg").style.height = getWindowHeight() * 0.5 + "px";
                         window['music']='none';
@@ -881,6 +887,9 @@
                     } catch (e) { }
                     try {
                         document.getElementById("live").remove();
+                    } catch (e) { }
+                    try {
+                        document.getElementById("livebot").remove();
                     } catch (e) { }
                     window['music'] = 'true';
                     document.getElementById("sub").innerText = "正在播放：" + j['title'] + " - " + j['artist'];
