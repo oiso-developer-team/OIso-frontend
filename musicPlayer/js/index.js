@@ -264,7 +264,7 @@ $(function(){
         playNextBtn.on('click',function(){ selectTrack(1);});
 
         setTimeout(function () {
-            playPause();
+            playPauseBtn.click();
         }, 1000);
     }
 
