@@ -167,8 +167,9 @@
         body::-webkit-scrollbar {
             display: none;
         }
+
         /*给card圆角*/
-        .mdui-card{
+        .mdui-card {
             border-radius: 10px !important;
         }
     </style>
@@ -265,7 +266,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.6 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -631,6 +632,7 @@
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();">确认</button>
         </div>
         <script>
+            window['test'] = "ok!";
             function get_key() {
                 fetch("https://api.oiso.cf:8443/key_request", {
                     credentials: 'include'
@@ -667,20 +669,71 @@
         </script>
     </div>
 
+    <div class="mdui-dialog" id="dialog-csong">
+        <div class="mdui-dialog-title">云点歌</div>
+        <div class="mdui-dialog-content mdui-typo">
+
+            <p>在网易云音乐中找到一首歌曲。其链接应该形如<code>https://music.163.com/#/song?id=1966373892</code>。</p>
+            <p>然后请将链接中的<code>id</code>（对于上面的链接，其<code>id</code>是<code>1966373892</code>）粘贴到下面：</p>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text"
+                    placeholder="形如：1966373892" />
+            </div>
+            <p>完成后，请点击下方确认按钮。</p>
+            <p>注意，如果您<b>在2分钟内已经点过歌了</b>，或<b>这首歌已经被点过了且排在播放队列中</b>，您的请求会被拒绝。</p>
+
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gocsong();">确认</button>
+        </div>
+        <script>
+            function gocsong() {
+                var url = document.querySelector("#dialog-csong input").value;
+                if (isNaN(url)) {
+                    mdui.snackbar("请输入正确的歌曲ID");
+                    return;
+                }
+                fetch("https://api.oiso.cf:8443/song?song=" + url, {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if (data == "True") {
+                        mdui.snackbar("点歌成功！已排入点歌队列！");
+                    } else {
+                        mdui.snackbar("点歌失败……");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("点歌失败……");
+                });
+            }
+        </script>
+    </div>
+
     <div class="mdui-container">
         <div class="mdui-container" id="happy" hidden="hidden">
             <div class="mdui-row">
                 <!--左边画面，右边聊天-->
                 <div class="mdui-col-xs-12 mdui-col-md-8">
                     <div class="mdui-card">
-                        <div class="mdui-card-media">
+                        <div class="mdui-card-media" id="media">
                             <div class="mdui-card-media-content">
                                 <div class="mdui-card-primary">
-                                    <div class="mdui-card-primary-title">直播间</div>
-                                    <div class="mdui-card-primary-subtitle">还在开发中！</div>
+                                    <div class="mdui-card-primary-title">云听歌</div>
+                                    <div class="mdui-card-primary-subtitle" id="sub">正在加载中……</div>
                                 </div>
                             </div>
-                            <img src="https://via.placeholder.com/1920x1080" />
+                            <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
+                            <!-- <iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
+                        </div>
+                        <!-- 卡片的按钮 -->
+                        <div class="mdui-card-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">点歌</button>
+                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
+                                <i class="mdui-icon material-icons">expand_more</i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -753,7 +806,6 @@
         document.getElementById("happy").style.position = "absolute";
         document.getElementById("happy").style.top = getWindowHeight() + "px";
 
-
         function get_benben() {
             fetch("https://api.oiso.cf:8443/getmsg", {
                 credentials: 'include'
@@ -762,11 +814,11 @@
             }).then(function (data) {
                 console.log(data);
                 j = JSON.parse(data);
-                document.querySelector("#benben").innerHTML = "";
                 // 按时间排序
                 j.sort(function (a, b) {
                     return b.time - a.time;
                 });
+                var tmptxt = '';
                 for (i in j) {
                     var msg = j[i];
                     // 防止注入
@@ -777,8 +829,9 @@
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
                     txt += `<a href="` + lgurl + `" mdui-tooltip="{content: '发表于 ` + timeChinese + `', delay: 0}">@` + msg.user + `</a>：` + msg.msg + ``;
                     txt += `</div>`;
-                    document.querySelector("#benben").innerHTML += txt;
+                    tmptxt += txt;
                 }
+                document.querySelector("#benben").innerHTML = tmptxt;
             }).catch(function () {
                 mdui.snackbar("获取犇犇失败……");
             });
@@ -792,40 +845,38 @@
             }).then(function (response) {
                 return response.text();
             }).then(function (data) {
-                console.log(data);
-                if (data == "False") {
-                    document.querySelector("#listen").innerHTML = "";
-                    document.querySelector("#listen").innerHTML = `<div class="mdui-typo">
-                    <blockquote>
-                        <p>暂无点歌</p>
-                    </blockquote>
-                </div>`;
+                // console.log(data);
+                if (data == "false") {
+                    window['music'] = "none";
+                    try {
+                        document.getElementById("liveimg").remove();
+                    } catch (e) { }
+                    try {
+                        document.getElementById("live").remove();
+                    } catch (e) { }
+                    document.getElementById("media").innerHTML += `<img id="liveimg" src="https://via.placeholder.com/1920x1080" />`;
+                    document.getElementById("sub").innerText = "暂无歌曲";
                 } else {
-                    ;
-                }
-                j = JSON.parse(data);
-                document.querySelector("#listen").innerHTML = "";
-                // 按时间排序
-                j.sort(function (a, b) {
-                    return b.time - a.time;
-                });
-                for (i in j) {
-                    var msg = j[i];
-                    // 防止注入
-                    msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    var txt = `<div class="mdui-typo">`;
-                    var timeChinese = new Date(msg.time * 1000).toLocaleString();
-                    var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
-                    txt += ` <blockquote>
-                        <p>`+ msg.msg + `</p>
-                        <footer><a href="`+ lgurl + `">@` + msg.user + `</a> 于 ` + timeChinese + `</footer>
-                    </blockquote>`;
-                    txt += `</div>`;
-                    document.querySelector("#listen").innerHTML += txt;
+                    j = JSON.parse(data);
+                    console.log(j);
+                    window['musicUrls'] = [j['url']];
+                    window['artistNameData'] = [j['artist']];
+                    window['musicNameData'] = [j['title']];
+                    window['musicImgsData'] = [j['img']];
+                    try {
+                        document.getElementById("liveimg").remove();
+                    } catch (e) { }
+                    try {
+                        document.getElementById("live").remove();
+                    } catch (e) { }
+                    document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+                    document.getElementById("live").style.height = getWindowHeight() * 0.5 + "px";
+                    window['music'] = 'true';
+                    document.getElementById("sub").innerText = "正在播放：" + j['title'] + " - " + j['artist'];
                 }
             }).catch(function () {
-                mdui.snackbar("获取犇犇失败……");
+                mdui.snackbar("获取音乐直播失败……");
+                window['music'] = 'failed';
             });
         }
         fetch("https://api.oiso.cf:8443/profile", {
@@ -834,7 +885,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) {
+            if (data != `False`) {
                 mdui.snackbar("请点击右上角登录");
             } else {
                 document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
@@ -846,7 +897,25 @@
                 }
                 document.getElementById("happy").removeAttribute("hidden");
                 get_benben();
-                // get_music();
+                get_music();
+                console.log("getmusic0");
+                setInterval(function () { //每10秒刷新一次
+                    get_benben();
+                }, 10000);
+                setInterval(function () { //每1秒刷新一次
+                    if (window['playDone'] == true) {
+                        get_music();
+                        console.log("getmusic2");
+                        window['playDone'] = false;
+                    }
+                }, 1000);
+                setInterval(function () { //每5秒刷新一次
+                    if (window['music'] != "true") {
+                        get_music();
+                        console.log("getmusic1");
+                        window['playDone'] = false;
+                    }
+                }, 5000);
             }
         }).catch(function () {
             // mdui.snackbar("服务器错误：" + data);
