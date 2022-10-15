@@ -49,7 +49,7 @@ $(function(){
             checkBuffering(); // 检测是否需要缓冲
             try{
                 audio.play(); // 播放音频
-            }catch{
+            }catch(e){
                 window.parent.mdui.snackbar({
                     message: '浏览器禁用了自动播放，请手动点击播放按钮',
                     position: 'top'
