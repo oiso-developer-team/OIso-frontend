@@ -9,6 +9,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
+        #lbt {
+            margin: 0%;
+        }
+        .name {
+            /* margin: 0 8px !important; */
+            font-size: 20px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 0 12px !important;
+            transform: translateY(10px);
+        }
+
+        img.avatar {
+            align-self: center;
+        }
+
+        img.avatar {
+            line-height: normal;
+        }
         .box {
             display: flex;
             z-index: 3;
@@ -175,7 +197,7 @@
         }
     </style>
     <!-- MDUI CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
     <title>🍋OIso🔍 - 一款为OIer和开发者而生的搜索引擎</title>
     <link rel="shortcut icon" href="img/favicon.svg">
 </head>
@@ -194,7 +216,7 @@
         <div class="mdui-toolbar-spacer"></div>
         <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}"
             onclick="get_key();">
-            登录
+            Logging
         </button>
     </div>
 
@@ -206,7 +228,7 @@
         <center>
             <div id="container" class="box mdui-hoverable" style="transform: translateY(425%);">
                 <div class="left"></div>
-                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 当你登录后，下滑解锁新世界"
+                <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 登录后下滑解锁新世界"
                     onkeypress="getKey();" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
@@ -227,7 +249,7 @@
         }
     </script>
     <!-- MDUI JavaScript -->
-    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
     <script>
         function go() {
             var value = document.getElementById("inputBox").value;
@@ -251,8 +273,9 @@
             if (data != `OIso 2022. All rights reserved.`) {
                 mdui.snackbar("服务器错误：" + data);
             }
-        }).catch(function () {
-            mdui.snackbar("服务器炸了QWQ...");
+        }).catch((error) => {
+            mdui.snackbar("服务器错误：" + error);
+            console.error('Server Error: ', error);
         });
     </script>
     <!-- <div id="footer" style="position: absolute; bottom: 0; left: 50%; transform: translate(-50%, -50%);">
@@ -793,6 +816,9 @@
     </div>
 
     <script>
+        function parseElement(htmlString){
+            return new DOMParser().parseFromString(htmlString,'text/html').body.childNodes[0]
+        }
         function getWindowHeight() {
             var windowHeight = 0;
             if (document.compatMode == "CSS1Compat") {
@@ -910,15 +936,27 @@
         }).then(function (data) {
             console.log(data);
             if (data == `False`) {
+                document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
-                document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
-                document.getElementById("lbt").setAttribute("onclick", "");
+                // try {
+                //     document.getElementById("lbt").innerHTML = JSON.parse(data).name;
+                // } catch {
+                //     document.getElementById("lbt").innerHTML = "登出";
+                // }
+                // update: avatar
+
                 try {
-                    document.getElementById("lbt").innerHTML = JSON.parse(data).name;
+                    var fa = document.getElementById("lbt").parentNode;
+                    console.log(fa);
+                    fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))
+                    document.getElementById("lbt").remove();
                 } catch {
                     document.getElementById("lbt").innerHTML = "登出";
                 }
+                document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
+                document.getElementById("lbt").setAttribute("onclick", "");
+
                 document.getElementById("happy").removeAttribute("hidden");
                 get_benben();
                 get_music();
@@ -943,6 +981,7 @@
             }
         }).catch(function () {
             // mdui.snackbar("服务器错误：" + data);
+            document.getElementById("lbt").innerHTML = "未登录";
         });
     </script>
 
