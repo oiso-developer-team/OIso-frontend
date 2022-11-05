@@ -198,7 +198,7 @@
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
-    <title>🍋OIso🔍 - 一款为OIer和开发者而生的搜索引擎</title>
+    <title>🍋OIso🔍 - 一款为 OIer 和开发者而生的搜索引擎</title>
     <link rel="shortcut icon" href="img/favicon.svg">
 </head>
 
@@ -251,10 +251,11 @@
     <!-- MDUI JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
     <script>
+        let zy = ["小黑子，露出鸡脚了吧~", "只因", "你太美"]
         function go() {
             var value = document.getElementById("inputBox").value;
             if (value == '') {
-                mdui.snackbar("小黑子，露出鸡脚了吧~");
+                mdui.snackbar(zy[Math.floor(Math.random() * 3)]);
             } else {
                 location.href = "search?q=" + value;
             }
@@ -290,8 +291,8 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.6.10 测试版 | Developed
-            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> | <a
+                href="/">OIso.cf</a>&nbsp;| v0.6.10 测试版 | Developed
+            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> & <a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net" target="_blank">Lotuses</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
         </div>
