@@ -291,7 +291,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.6.10 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v0.7 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> & <a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net" target="_blank">Lotuses</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -694,6 +694,71 @@
         </script>
     </div>
 
+    <div class="mdui-dialog" id="dialog-spider">
+        <div class="mdui-dialog-title">爬虫请求</div>
+        <div class="mdui-dialog-content mdui-typo">
+
+            <p>由于种种原因，我们无法及时爬取您的博客。所以您可以在这里手动请求爬取您的博客。</p>
+            <p>博客爬取有以下几种形式：</p>
+            <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。</p>
+            <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。</p>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" placeholder="形如：100544 或 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri" />
+            </div>
+            <p>完成后，请点击下方确认按钮。</p>
+            <p>注意，不管您选择哪种方式，<b>一天最多爬15次</b>。</p>
+
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gospider();">确认</button>
+        </div>
+        <script>
+            function gospider() {
+                var url = document.querySelector("#dialog-spider input").value;
+                if (isNaN(url)) {
+                    // 说明是链接
+                    if (url.indexOf("https://www.luogu.com.cn/blog/") != 0) {
+                        mdui.snackbar("请输入正确的链接");
+                        return;
+                    }
+                    fetch("https://api.oiso.cf:8443/spider/request?type=lgblog_single_passage&id=" + url, {
+                        credentials: 'include'
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (data) {
+                        console.log(data);
+                        if (data == "True") {
+                            mdui.snackbar("请求成功！已排入爬虫队列！");
+                        } else {
+                            mdui.snackbar("请求失败……");
+                        }
+                    }).catch(function () {
+                        mdui.snackbar("请求失败……");
+                    });
+                    return;
+                }else{
+                    // 说明是uid
+                    fetch("https://api.oiso.cf:8443/spider/request?type=lgblog_user&id=" + url, {
+                        credentials: 'include'
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (data) {
+                        console.log(data);
+                        if (data == "True") {
+                            mdui.snackbar("请求成功！已排入爬虫队列！");
+                        } else {
+                            mdui.snackbar("请求失败……");
+                        }
+                    }).catch(function () {
+                        mdui.snackbar("请求失败……");
+                    });
+                    return;
+                }
+            }
+        </script>
+    </div>
+
     <div class="mdui-dialog" id="dialog-csong">
         <div class="mdui-dialog-title">云点歌</div>
         <div class="mdui-dialog-content mdui-typo">
@@ -757,6 +822,41 @@
                         <!-- 卡片的按钮 -->
                         <div class="mdui-card-actions">
                             <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">点歌</button>
+                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
+                                <i class="mdui-icon material-icons">expand_more</i>
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="mdui-card">
+                        <div class="mdui-card-media">
+                            <div class="mdui-card-media-content">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title">爬虫状态</div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="mdui-card-content" id="spider-status">获取中……</div>
+                        <script>
+                            function getspiderstatus() {
+                                fetch("https://api.oiso.cf:8443/spider/status", {
+                                    credentials: 'include'
+                                }).then(function (response) {
+                                    return response.text();
+                                }).then(function (data) {
+                                    document.querySelector("#spider-status").innerHTML = data +`<div class="mdui-progress">
+  <div class="mdui-progress-indeterminate"></div>
+</div>`;
+                                }).catch(function () {
+                                    document.querySelector("#spider-status").innerHTML = "获取失败……";
+                                });
+                            }
+                            getspiderstatus();
+                            setInterval(getspiderstatus, 5000);
+                        </script>
+                        <!-- 卡片的按钮 -->
+                        <div class="mdui-card-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">请求爬虫</button>
                             <button class="mdui-btn mdui-btn-icon mdui-float-right">
                                 <i class="mdui-icon material-icons">expand_more</i>
                             </button>
