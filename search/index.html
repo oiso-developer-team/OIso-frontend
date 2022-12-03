@@ -260,6 +260,7 @@
             <a id="aproblem" class="mdui-ripple mdui-ripple-white">题目</a>
             <a id="abbs" class="mdui-ripple mdui-ripple-white">讨论</a>
             <a id="aarticle" class="mdui-ripple mdui-ripple-white">文章</a>
+            <a id="apages" class="mdui-ripple mdui-ripple-white">用户&amp;团队</a>
         </div>
     </div>
 
@@ -355,6 +356,7 @@
             setTimeout(() => document.getElementById("aproblem").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=problem');"), 100);
             setTimeout(() => document.getElementById("abbs").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=bbs');"), 100);
             setTimeout(() => document.getElementById("aarticle").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=article');"), 100);
+            setTimeout(() => document.getElementById("apages").setAttribute("onclick", "changeurl('/search?q='+getq()+'&type=pages');"), 100);
         </script>
         <script type="text/javascript">
             //获得文本框元素
@@ -400,7 +402,7 @@
         </script>
         <script>
             function timestampToTime(timestamp) {
-                var now = new Date(timestamp * 1000), // js和python关于时间戳的精确度不一样QWQ...
+                var now = new Date(timestamp * 1000), // js和python关于时间戳的精度不一样QWQ...
                     y = now.getFullYear(),
                     m = now.getMonth() + 1,
                     d = now.getDate();
@@ -421,10 +423,16 @@
                 CHART2 = {
                     "luogu": "洛谷博客"
                 }
+                CHART3 = {
+                    "luoguUser": "洛谷用户",
+                    "luoguTeam": "洛谷团队"
+                }
+                if (index['_index'] == "pages"){
+                    return CHART3[index['_source']['type']];
+                }
                 if (index['_index'] == "articles") {
                     return CHART2[index['_source']['platform']];
-                }
-                else if (index['_index'] == "problems") {
+                }else if (index['_index'] == "problems") {
                     return CHART[index['_source']['oj']];
                 } else if (index['_index'] in CHART) {
                     return CHART[index['_index']];
@@ -602,6 +610,24 @@
                     }).catch(function () {
                         mdui.snackbar("服务器炸了QWQ...是不是请求太多了……");
                     });
+                } else if (type == "apages") {
+                    document.getElementById("apages").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
+                    mdui.mutation();
+                    fetch(BASEURL + "/apages?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                        return response.json();
+                    }).then(function (data) {
+                        console.log(data);
+                        document.getElementById("allContent").innerHTML = '';
+                        tot = Math.ceil(data['hits']['total']['value'] / 20);
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        hits = data['hits']['hits'];
+                        for (i in hits) {
+                            allWrite(makeHTML(hits[i]));
+                        }
+                        makePageButton(String(data['hits']['total']['value']));
+                    }).catch(function () {
+                        mdui.snackbar("服务器炸了QWQ...是不是请求太多了……");
+                    });
                 }
                 mdui.mutation();
             }
@@ -615,7 +641,7 @@
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
                         alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.5.6 测试版 | Developed
+                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.7.1 测试版 | Developed
                 by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
                     target="_blank">diyanqi</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
                     href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
