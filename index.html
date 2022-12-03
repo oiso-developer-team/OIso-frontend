@@ -196,6 +196,17 @@
             border-radius: 10px !important;
         }
     </style>
+    <style>
+        .am-comment-main{
+            /*圆角*/
+            border-radius: 10px !important;
+            border: #dfe1e5 1px solid;
+            /* 内边距 */
+            padding: 10px;
+            /* 下边距 */
+            margin-bottom: 10px;
+        }
+    </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
     <title>🍋OIso🔍 - 一款为 OIer 和开发者而生的搜索引擎</title>
@@ -873,6 +884,18 @@
                             <div class="mdui-card-content" id="benben">
                                 <div class="mdui-spinner mdui-spinner-colorful"></div>
                             </div>
+                            <script>
+                                function getWindowHeight2() {
+                                    var windowHeight = 0;
+                                    if (document.compatMode == "CSS1Compat") {
+                                        windowHeight = document.documentElement.clientHeight;
+                                    } else {
+                                        windowHeight = document.body.clientHeight;
+                                    }
+                                    return windowHeight;
+                                }
+                                document.getElementById("benben").setAttribute("style","max-height:"+String(getWindowHeight2()*0.75)+"px;overflow:scroll;")
+                            </script>
                         </div>
 
                         <script>
@@ -953,12 +976,30 @@
                     // 防止注入
                     msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    var txt = `<div class="mdui-typo">`;
+
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
-                    txt += `<a href="` + lgurl + `" mdui-tooltip="{content: '发表于 ` + timeChinese + `', delay: 0}">@` + msg.user + `</a>：` + msg.msg + ``;
-                    txt += `</div>`;
+                    txt = `<div class="am-comment-main">
+                        <header class="am-comment-hd">
+                            <div class="am-comment-meta">
+                                <span class="feed-username">
+                                    @ <a href="`+lgurl+`" target="_blank">`+msg.user+`</a>
+                                </span> 
+                                `+timeChinese+`
+                            </div>
+                        </header>
+                        <div class="am-comment-bd">
+                            `+msg.msg+`
+                        </div>
+                    </div>`
                     tmptxt += txt;
+
+                    // var txt = `<div class="mdui-typo">`;
+                    // var timeChinese = new Date(msg.time * 1000).toLocaleString();
+                    // var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+                    // txt += `<a href="` + lgurl + `" mdui-tooltip="{content: '发表于 ` + timeChinese + `', delay: 0}">@` + msg.user + `</a>：` + msg.msg + ``;
+                    // txt += `</div>`;
+                    // tmptxt += txt;
                 }
                 document.querySelector("#benben").innerHTML = tmptxt;
             }).catch(function () {
@@ -1036,7 +1077,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) {
+            if (data == `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
