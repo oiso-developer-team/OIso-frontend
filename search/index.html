@@ -610,10 +610,10 @@
                     }).catch(function () {
                         mdui.snackbar("服务器炸了QWQ...是不是请求太多了……");
                     });
-                } else if (type == "apages") {
+                } else if (type == "pages") {
                     document.getElementById("apages").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/apages?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
+                    fetch(BASEURL + "/pages?q=" + getQueryVariable("q") + "&page=" + String(page)).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
