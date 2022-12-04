@@ -863,7 +863,7 @@
                                 });
                             }
                             getspiderstatus();
-                            setInterval(getspiderstatus, 5000);
+                            setInterval(getspiderstatus, 15000);
                         </script>
                         <!-- 卡片的按钮 -->
                         <div class="mdui-card-actions">
@@ -879,7 +879,7 @@
 
                         <div class="mdui-card-content">
                             <div class="mdui-textfield">
-                                <input class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" />
+                                <input class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" style="cursor:text"/>
                             </div>
                             <div class="mdui-card-content" id="benben">
                                 <div class="mdui-spinner mdui-spinner-colorful"></div>
@@ -900,6 +900,7 @@
 
                         <script>
                             function send_benben() {
+                                document.getElementById("ib").setAttribute("disabled", "disabled");
                                 var text = document.getElementById("ib").value;
                                 if (text == "") {
                                     mdui.snackbar("请输入内容");
@@ -913,7 +914,9 @@
                                     console.log(data);
                                     if (data == "True") {
                                         mdui.snackbar("发送成功！");
+                                        get_benben();
                                         document.getElementById("ib").value = "";
+                                        document.getElementById("ib").removeAttribute("disabled");
                                     } else {
                                         mdui.snackbar("发送失败……");
                                     }
@@ -982,17 +985,21 @@
                     msg.msg = msg.msg.replace(/__(.*?)__/g, "<u>$1</u>");
                     msg.msg = msg.msg.replace(/~~(.*?)~~/g, "<del>$1</del>");
                     msg.msg = msg.msg.replace(/`(.*?)`/g, "<code>$1</code>");
-                    // 超链接
-                    msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
                     // 图片 限制宽度长度
                     msg.msg = msg.msg.replace(/!\[(.*?)\]\((.*?)\)/g, "<img src='$2' alt='$1' style='max-width:100%;max-height:100%;' />");
-
+                    // 超链接
+                    msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+                    
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
                     txt = `<div class="mdui-typo">
                         <div class="am-comment-main">
                             <header class="am-comment-hd">
                                 <div class="am-comment-meta">
+                                    <!-- 头像 圆的 -->
+                                    <a href="` + lgurl + `" target="_blank" class="am-comment-author" style="display: inline-block;">
+                                        <img src="https://cdn.luogu.com.cn/upload/usericon/` + msg.uid + `.png" alt="" style="border-radius:100%; overflow:hidden;" class="am-comment-avatar" width="30" height="30">
+                                    </a>
                                     <span class="feed-username">
                                         @ <a href="`+lgurl+`" target="_blank">`+msg.user+`</a>
                                     </span> 
@@ -1089,7 +1096,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
@@ -1131,7 +1138,7 @@
                         console.log("getmusic1");
                         window['playDone'] = false;
                     }
-                }, 5000);
+                }, 10000);
             }
         }).catch(function () {
             // mdui.snackbar("服务器错误：" + data);
