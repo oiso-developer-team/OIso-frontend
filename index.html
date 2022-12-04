@@ -1096,7 +1096,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data != `False`) { // !!!!!!!!!!!!!!
+            if (data == `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
