@@ -990,11 +990,12 @@
                     // 超链接
                     msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
                     // 添加 latex 支持
+                    msg.msg = msg.msg.replace(/\$\$(.*?)\$\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
                     msg.msg = msg.msg.replace(/\$(.*?)\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
                     // 引用
                     msg.msg = msg.msg.replace(/&gt;(.*)/g, "<blockquote>$1</blockquote>");
-                    // 表情：如 \kk\ 换成图片地址： https://xn--9zr.tk/kk
-                    msg.msg = msg.msg.replace(/\\(.*?)\\/g, "<img src='https://xn--9zr.tk/$1' />");
+                    // 表情：如 :kk: 换成图片地址： https://xn--9zr.tk/kk
+                    msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
 
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
