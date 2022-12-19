@@ -1,3 +1,54 @@
 {
-    "1":1
+    "code": 200,
+    "list": [
+        {
+            "subscribers": [],
+            "subscribed": null,
+            "creator": null,
+            "artists": null,
+            "tracks": null,
+            "updateFrequency": "每天更新",
+            "backgroundCoverId": 0,
+            "backgroundCoverUrl": null,
+            "titleImage": 0,
+            "titleImageUrl": null,
+            "englishTitle": null,
+            "opRecommend": false,
+            "recommendInfo": null,
+            "subscribedCount": 3994950,
+            "cloudTrackCount": 0,
+            "userId": 1,
+            "createTime": 1404115136883,
+            "highQuality": false,
+            "specialType": 10,
+            "anonimous": false,
+            "updateTime": 1671325690604,
+            "newImported": false,
+            "coverImgId": 109951166952713760,
+            "trackUpdateTime": 1671383830392,
+            "trackCount": 100,
+            "coverImgUrl": "https://p1.music.126.net/pcYHpMkdC69VVvWiynNklA==/109951166952713766.jpg",
+            "commentThreadId": "A_PL_0_19723756",
+            "totalDuration": 0,
+            "privacy": 0,
+            "trackNumberUpdateTime": 1671325690512,
+            "playCount": 5303800832,
+            "adType": 0,
+            "description": "云音乐中每天热度上升最快的100首单曲，每日更新。",
+            "ordered": true,
+            "tags": [],
+            "status": 0,
+            "name": "飙升榜",
+            "id": 19723756,
+            "coverImgId_str": "109951166952713766",
+            "ToplistType": "S"
+        }
+    ],
+    "artistToplist": {
+        "coverUrl": "https://p1.music.126.net/MJdmNzZwTCz0b4IpHJV6Wg==/109951162865487429.jpg",
+        "name": "云音乐歌手榜",
+        "upateFrequency": "每天更新",
+        "position": 5,
+        "updateFrequency": "每天更新"
+    }
 }
