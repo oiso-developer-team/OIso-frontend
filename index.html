@@ -302,7 +302,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.8 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v0.8.1 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> & <a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net" target="_blank">Lotuses</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -960,6 +960,23 @@
         document.getElementById("happy").style.position = "absolute";
         document.getElementById("happy").style.top = getWindowHeight() + "px";
 
+        function replyto(content){
+            document.getElementById("ib").value = " > " + content;
+            document.getElementById("ib").focus();
+            // 把光标移到文本框最前面
+            var input = document.getElementById("ib");
+            if (input.setSelectionRange) {
+                input.focus();
+                input.setSelectionRange(0, 0);
+            } else if (input.createTextRange) {
+                var range = input.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', 0);
+                range.moveStart('character', 0);
+                range.select();
+            }
+        }
+
         function get_benben() {
             fetch("https://api.oiso.cf:8443/getmsg", {
                 credentials: 'include'
@@ -979,6 +996,7 @@
                     msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     
+                    var originMsg = msg.msg
                     // msg markdown 转为 html 用正则
                     msg.msg = msg.msg.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
                     msg.msg = msg.msg.replace(/\*(.*?)\*/g, "<i>$1</i>");
@@ -1008,9 +1026,11 @@
                                         <img src="https://cdn.luogu.com.cn/upload/usericon/` + msg.uid + `.png" alt="" style="border-radius:100%; overflow:hidden;" class="am-comment-avatar" width="30" height="30">
                                     </a>
                                     <span class="feed-username">
-                                        @ <a href="`+lgurl+`" target="_blank">`+msg.user+`</a>
+                                        <a href="`+lgurl+`" target="_blank">@`+msg.user+`</a>
                                     </span> 
                                     `+timeChinese+`
+                                    <!-- 回复按钮 -->
+                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+msg.user+` ：`+originMsg+`')">回复</a>
                                 </div>
                             </header>
                             <div class="am-comment-bd">
