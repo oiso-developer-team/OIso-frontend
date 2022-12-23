@@ -302,7 +302,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.7.1 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v0.8 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> & <a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net" target="_blank">Lotuses</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -655,7 +655,7 @@
                     onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
 
             <p class="mdui-typo-title">STEP 2</p>
-            <p>发布后，请将这个云剪贴板的链接粘贴到下面：</p>
+            <p>发布后，请将这个云剪贴板的链接粘贴到下面（要<b>完整</b>的链接！）：</p>
             <div class="mdui-textfield">
                 <input class="mdui-textfield-input" type="text"
                     placeholder="形如：https://www.luogu.com.cn/paste/ler564eo" />
@@ -995,7 +995,7 @@
                     // 引用
                     msg.msg = msg.msg.replace(/&gt;(.*)/g, "<blockquote>$1</blockquote>");
                     // 表情：如 :kk: 换成图片地址： https://xn--9zr.tk/kk
-                    msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
+                    // msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
 
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
