@@ -9,6 +9,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
+        .mdui-dialog, .mdui-dialog-open {
+            border-radius: 7px;
+        }
+        
         #lbt {
             margin: 0%;
         }
@@ -282,7 +286,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data != `OIso 2022. All rights reserved.`) {
+            if (data != `OIso 2023. All rights reserved.`) {
                 mdui.snackbar("服务器错误：" + data);
             }
         }).catch((error) => {
@@ -301,10 +305,10 @@
         bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
-                    alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
+                    alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
                 href="/">OIso.cf</a>&nbsp;| v0.8.1 测试版 | Developed
-            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top" target="_blank">diyanqi</a> & <a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net" target="_blank">Lotuses</a> | <a
-                class="icon-btn mr-2" title="评论需 Github 账号，实在不行洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
+            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
+                class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
@@ -601,7 +605,7 @@
         </div>
     </div>
 
-    <div class="mdui-dialog" id="dialog-logout">
+    <div class="mdui-dialog" id="dialog-logout" style="border-radius: 20px;">
         <div class="mdui-dialog-title">退出登录</div>
         <div class="mdui-dialog-content">确定要退出登录吗？</div>
         <div class="mdui-dialog-actions">
