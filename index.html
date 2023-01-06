@@ -268,7 +268,7 @@
             if (value == '') {
                 mdui.snackbar(zy[Math.floor(Math.random() * 3)]);
             } else {
-                location.href = "search?q=" + value;
+                location.href = encodeURIComponent("search?q=" + value);
             }
         }
         function getKey() {
