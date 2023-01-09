@@ -948,6 +948,7 @@
                         </div>
                         <div class="mdui-card-actions">
                             <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}">编辑 tag</button>
+                            <button class="mdui-btn mdui-ripple" id="onlinenumber">在线人数</button>
                             <button class="mdui-btn mdui-btn-icon mdui-float-right">
                                 <i class="mdui-icon material-icons">expand_more</i>
                             </button>
@@ -1050,8 +1051,11 @@
                 credentials: 'include'
             }).then(function (response) {
                 return response.text();
-            }).then(function (data) {
-                console.log(data);
+            }).then(function (odata) {
+                console.log(odata);
+                var data = odata.msg;
+                var onlineNum = odata.onlinenum;
+                document.getElementById("onlinenumber").innerText = "在线 "+String(onlineNum)+" 人";
                 j = JSON.parse(data);
                 // 按时间排序
                 j.sort(function (a, b) {
@@ -1070,6 +1074,7 @@
                         msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
                         msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
                         msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
+                        msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
                     }
 
                     var originMsg = msg.msg
