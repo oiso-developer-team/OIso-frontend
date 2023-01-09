@@ -1053,10 +1053,11 @@
                 return response.text();
             }).then(function (odata) {
                 console.log(odata);
-                var data = odata['msg'];
-                // var onlineNum = odata['onlinenum'];
-                // document.getElementById("onlinenumber").innerText = "在线 "+String(onlineNum)+" 人";
-                j = JSON.parse(data);
+                odata = JSON.parse(odata);
+                var data = odata.msg;
+                var onlineNum = odata.onlinenum;
+                document.getElementById("onlinenumber").innerText = "在线 "+String(onlineNum)+" 人";
+                j = (data);
                 // 按时间排序
                 j.sort(function (a, b) {
                     return b.time - a.time;
