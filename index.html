@@ -239,6 +239,7 @@
 
     <div class="mdui-toolbar mdui-color-theme">
         <div class="mdui-toolbar-spacer"></div>
+        
         <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}"
             onclick="get_key();">
             Logging
@@ -719,6 +720,65 @@
         </script>
     </div>
 
+    <div class="mdui-dialog" id="dialog-editTag">
+        <div class="mdui-dialog-title">编辑 tag</div>
+        <div class="mdui-dialog-content mdui-typo">
+
+            <p>目前可以免费自定义 tag ，如果以后要收费了，您仍持有 tag 修改权限。</p>
+            <h5>设置文字颜色</h5>
+            <div class="mdui-textfield">
+                <input type="color" id="textcolor"/>
+            </div>
+            <h5>设置背景颜色</h5>
+            <div class="mdui-textfield">
+                <input type="color" id="background"/>
+            </div>
+            <h5>设置显示文字（支持部分 Markdown 语法），<b>20个字符以内</b></h5>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" placeholder="可用下划线、删除线、加粗、倾斜等" id="content"/>
+            </div>
+            <p>完成后，请点击下方确认按钮。</p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();">确认</button>
+        </div>
+        <script>
+            function hex2rgb(a){
+                a=a.substring(1);
+                a=a.toLowerCase();
+                b=new Array();
+                for(x=0;x<3;x++){
+                    b[0]=a.substr(x*2,2);
+                    b[3]="0123456789abcdef";
+                    b[1]=b[0].substr(0,1);
+                    b[2]=b[0].substr(1,1);
+                    b[20+x]=b[3].indexOf(b[1])*16+b[3].indexOf(b[2]);
+                }
+                return b[20],b[21],b[22];
+            }
+            function goTag() {
+                var content = document.querySelector("#dialog-editTag input").value;
+                var fR,fG,fB = hex2rgb(document.getElementById("textcolor").value);
+                var bR,bG,bB = hex2rgb(document.getElementById("background").value);
+                fetch(`https://api.oiso.cf:8443/tag/edit?fR=${fR}&fG=${fG}&fB=${fB}&bR=${bR}&bG=${bG}&bB=${bB}&content=${content}`, {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if (data == "True") {
+                        mdui.snackbar("修改成功！");
+                    } else {
+                        mdui.snackbar("修改失败，请检查字数限制及颜色值合法性");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("服务器炸了……");
+                });
+            }
+        </script>
+    </div>
+
     <div class="mdui-dialog" id="dialog-spider">
         <div class="mdui-dialog-title">爬虫请求</div>
         <div class="mdui-dialog-content mdui-typo">
@@ -890,67 +950,71 @@
                 </div>
                 <div class="mdui-col-xs-12 mdui-col-md-4">
                     <div class="mdui-card">
-
-                        <div class="mdui-card-content">
+                        <div class="mdui-card-content" style="padding-bottom: 0;">
                             <div class="mdui-textfield">
                                 <textarea class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" style="cursor:text"></textarea>
                             </div>
                             <div class="mdui-card-content" id="benben">
                                 <div class="mdui-spinner mdui-spinner-colorful"></div>
                             </div>
-                            <script>
-                                function getWindowHeight2() {
-                                    var windowHeight = 0;
-                                    if (document.compatMode == "CSS1Compat") {
-                                        windowHeight = document.documentElement.clientHeight;
-                                    } else {
-                                        windowHeight = document.body.clientHeight;
-                                    }
-                                    return windowHeight;
-                                }
-                                document.getElementById("benben").setAttribute("style","max-height:"+String(getWindowHeight2()*0.75)+"px;overflow:scroll;")
-                            </script>
                         </div>
-
-                        <script>
-                            function send_benben() {
-                                document.getElementById("ib").setAttribute("disabled", "disabled");
-                                var text = document.getElementById("ib").value;
-                                if (text == "") {
-                                    mdui.snackbar("请输入内容");
-                                    return;
-                                }
-                                fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
-                                    credentials: 'include'
-                                }).then(function (response) {
-                                    return response.text();
-                                }).then(function (data) {
-                                    console.log(data);
-                                    if (data == "True") {
-                                        mdui.snackbar("发送成功！");
-                                        get_benben();
-                                        document.getElementById("ib").value = "";
-                                        document.getElementById("ib").removeAttribute("disabled");
-                                    } else {
-                                        mdui.snackbar("发送失败……");
-                                    }
-                                }).catch(function () {
-                                    mdui.snackbar("发送失败……");
-                                });
-                            }
-                            document.getElementById("ib").addEventListener("keyup", function (event) {
-                                // console.log(event);
-                                if (event.keyCode === 13) {
-                                    event.preventDefault();
-                                    // 把最后的换行去掉
-                                    document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
-                                    send_benben();
-                                }
-                            });
-                        </script>
+                        <div class="mdui-card-actions">
+                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}">编辑 tag</button>
+                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
+                                <i class="mdui-icon material-icons">expand_more</i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <script>
+                function getWindowHeight2() {
+                    var windowHeight = 0;
+                    if (document.compatMode == "CSS1Compat") {
+                        windowHeight = document.documentElement.clientHeight;
+                    } else {
+                        windowHeight = document.body.clientHeight;
+                    }
+                    return windowHeight;
+                }
+                document.getElementById("benben").setAttribute("style","max-height:"+String(getWindowHeight2()*0.75)+"px;overflow:scroll;")
+            </script>
+            <script>
+                function send_benben() {
+                    document.getElementById("ib").setAttribute("disabled", "disabled");
+                    var text = document.getElementById("ib").value;
+                    if (text == "") {
+                        mdui.snackbar("请输入内容");
+                        return;
+                    }
+                    fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
+                        credentials: 'include'
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (data) {
+                        console.log(data);
+                        if (data == "True") {
+                            mdui.snackbar("发送成功！");
+                            get_benben();
+                            document.getElementById("ib").value = "";
+                            document.getElementById("ib").removeAttribute("disabled");
+                        } else {
+                            mdui.snackbar("发送失败……");
+                        }
+                    }).catch(function () {
+                        mdui.snackbar("发送失败……");
+                    });
+                }
+                document.getElementById("ib").addEventListener("keyup", function (event) {
+                    // console.log(event);
+                    if (event.keyCode === 13) {
+                        event.preventDefault();
+                        // 把最后的换行去掉
+                        document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
+                        send_benben();
+                    }
+                });
+            </script>
             <br><br><br>
             <br><br><br>
             <br><br><br>
@@ -1011,7 +1075,15 @@
                     // 防止注入
                     msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    
+
+                    if("tag" in msg){
+                        msg.tag.content = msg.tag.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        msg.tag.content = msg.tag.content.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+                        msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
+                        msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
+                        msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
+                    }
+
                     var originMsg = msg.msg
                     // msg markdown 转为 html 用正则
                     msg.msg = msg.msg.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
@@ -1040,6 +1112,12 @@
                     }else{
                         iptag = ``
                     }
+                    var tag;
+                    if("tag" in msg){
+                        tag = `<span class="tag" style="color: `+msg.tag.fontcolor+`; background: `+msg.tag.background+`">`+msg.tag.content+`</span>`
+                    }else{
+                        tag = ``
+                    }
                     txt = `<div class="mdui-typo">
                         <div class="am-comment-main">
                             <header class="am-comment-hd">
@@ -1052,6 +1130,7 @@
                                         <a href="`+lgurl+`" target="_blank">@`+msg.user+`</a>
                                     </span> 
                                     `+iptag+`
+                                    `+tag+`
                                     `+timeChinese+`
                                     <!-- 回复按钮 -->
                                     <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+msg.user+` ：`+originMsg+`')">回复</a>
@@ -1147,7 +1226,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
