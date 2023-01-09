@@ -744,24 +744,11 @@
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();">确认</button>
         </div>
         <script>
-            function hex2rgb(a){
-                a=a.substring(1);
-                a=a.toLowerCase();
-                b=new Array();
-                for(x=0;x<3;x++){
-                    b[0]=a.substr(x*2,2);
-                    b[3]="0123456789abcdef";
-                    b[1]=b[0].substr(0,1);
-                    b[2]=b[0].substr(1,1);
-                    b[20+x]=b[3].indexOf(b[1])*16+b[3].indexOf(b[2]);
-                }
-                return b[20],b[21],b[22];
-            }
             function goTag() {
                 var content = document.querySelector("#dialog-editTag input").value;
-                var fR,fG,fB = hex2rgb(document.getElementById("textcolor").value);
-                var bR,bG,bB = hex2rgb(document.getElementById("background").value);
-                fetch(`https://api.oiso.cf:8443/tag/edit?fR=${fR}&fG=${fG}&fB=${fB}&bR=${bR}&bG=${bG}&bB=${bB}&content=${content}`, {
+                var f = (document.getElementById("textcolor").value);
+                var b = (document.getElementById("background").value);
+                fetch(`https://api.oiso.cf:8443/tag/edit?f=${f}&b=${b}&content=${content}`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
