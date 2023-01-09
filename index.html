@@ -745,7 +745,7 @@
         </div>
         <script>
             function goTag() {
-                var content = encodeURIComponent(document.querySelector("#dialog-editTag input").value);
+                var content = encodeURIComponent(document.getElementById("content").value);
                 var f = encodeURIComponent(document.getElementById("textcolor").value);
                 var b = encodeURIComponent(document.getElementById("background").value);
                 fetch(`https://api.oiso.cf:8443/tag/edit?f=${String(f)}&b=${String(b)}&content=${content}`, {
