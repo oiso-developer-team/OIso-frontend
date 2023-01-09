@@ -210,6 +210,16 @@
             /* 下边距 */
             margin-bottom: 10px;
         }
+        .tag {
+            display: inline-block;
+            padding: 0 3px;
+            box-sizing: border-box;
+            font-weight: 400;
+            line-height: 1.5;
+            border-radius: 2px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
     </style>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
@@ -306,7 +316,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.8.2 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v0.8.3 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
                 class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
                 target="_blank">👉食用指南&反馈👈</a>
@@ -1022,7 +1032,14 @@
                     // msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
 
                     var timeChinese = new Date(msg.time * 1000).toLocaleString();
+                    timeChinese = timeChinese.substr(5)
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+                    var iptag;
+                    if("geo" in msg){
+                        iptag = `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(255, 0, 128);">`+msg.geo+`</span>`
+                    }else{
+                        iptag = ``
+                    }
                     txt = `<div class="mdui-typo">
                         <div class="am-comment-main">
                             <header class="am-comment-hd">
@@ -1034,6 +1051,7 @@
                                     <span class="feed-username">
                                         <a href="`+lgurl+`" target="_blank">@`+msg.user+`</a>
                                     </span> 
+                                    `+iptag+`
                                     `+timeChinese+`
                                     <!-- 回复按钮 -->
                                     <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+msg.user+` ：`+originMsg+`')">回复</a>
@@ -1129,7 +1147,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
