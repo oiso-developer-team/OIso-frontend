@@ -1097,12 +1097,18 @@
                     msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+                    var hasLink = false;
+
                     if("tag" in msg){
                         msg.tag.content = msg.tag.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                         msg.tag.content = msg.tag.content.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
                         msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
                         msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
                         msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
+                        // 如果有超链接，记录为true
+                        if(/\[(.*?)\]\((.*?)\)/g.test(msg.tag.content)){
+                            hasLink = true;
+                        }
                         // msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
                         // 超链接 但是要window.open 不要用a标签
                         msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<span onclick='window.open(\"$2\")'>$1</span>");
@@ -1139,9 +1145,14 @@
                     var tag;
                     if("tag" in msg){
                         tag = `<span class="tag" style="color: `+msg.tag.fontcolor+`; background: `+msg.tag.background+`">`+msg.tag.content+`</span>`
+                        // 如果 hasLink 为 true，那么设置tag鼠标的样式为pointer
+                        if(hasLink){
+                            tag = `<span class="tag" style="color: `+msg.tag.fontcolor+`; background: `+msg.tag.background+`;cursor:pointer;" onclick="window.open('`+msg.tag.link+`')">`+msg.tag.content+`</span>`
+                        }
                     }else{
                         tag = ``
                     }
+                    
                     txt = `<div class="mdui-typo">
                         <div class="am-comment-main">
                             <header class="am-comment-hd">
