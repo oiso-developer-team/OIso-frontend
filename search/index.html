@@ -431,7 +431,11 @@
                     return CHART3[index['_source']['type']];
                 }
                 if (index['_index'] == "articles") {
-                    return CHART2[index['_source']['platform']];
+                    if(index['_source']['platform'] in CHART2){
+                        return CHART2[index['_source']['platform']];
+                    }else{
+                        return index['_source']['platform'];
+                    }
                 }else if (index['_index'] == "problems") {
                     return CHART[index['_source']['oj']];
                 } else if (index['_index'] in CHART) {
