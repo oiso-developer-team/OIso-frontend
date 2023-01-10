@@ -1103,7 +1103,7 @@
                         msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
                         msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
                         msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
-                        msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+                        msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
                     }
 
                     var originMsg = msg.msg
