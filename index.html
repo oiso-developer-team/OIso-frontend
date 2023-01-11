@@ -9,17 +9,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <style>
-        .mdui-dialog, .mdui-dialog-open {
+        .mdui-dialog,
+        .mdui-dialog-open {
             border-radius: 7px;
         }
-        
+
         #lbt {
             margin: 0%;
         }
+
         .name {
             /* margin: 0 8px !important; */
             font-size: 20px;
         }
+
         .avatar {
             width: 36px;
             height: 36px;
@@ -35,6 +38,7 @@
         img.avatar {
             line-height: normal;
         }
+
         .box {
             display: flex;
             z-index: 3;
@@ -201,7 +205,7 @@
         }
     </style>
     <style>
-        .am-comment-main{
+        .am-comment-main {
             /*圆角*/
             border-radius: 10px !important;
             border: #dfe1e5 1px solid;
@@ -210,6 +214,7 @@
             /* 下边距 */
             margin-bottom: 10px;
         }
+
         .tag {
             display: inline-block;
             padding: 0 3px;
@@ -219,6 +224,33 @@
             border-radius: 2px;
             font-size: 0.8em;
             margin-right: 5px;
+        }
+
+        #p-d .p-material_icons .icon-code {
+            -webkit-tap-highlight-color: transparent;
+            border-radius: 2px;
+            cursor: pointer;
+            height: 120px;
+            min-width: 108px;
+            text-align: center;
+        }
+
+        .mdui-col,
+        [class*=mdui-col-lg-],
+        [class*=mdui-col-md-],
+        [class*=mdui-col-sm-],
+        [class*=mdui-col-xl-],
+        [class*=mdui-col-xs-] {
+            position: relative;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            min-height: 1px;
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+        #p-d .p-material_icons .icons-wrapper {
+            margin-top: 40px;
         }
     </style>
     <!-- MDUI CSS -->
@@ -239,7 +271,7 @@
 
     <div class="mdui-toolbar mdui-color-theme">
         <div class="mdui-toolbar-spacer"></div>
-        
+
         <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}"
             onclick="get_key();">
             Logging
@@ -318,9 +350,9 @@
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
                 href="/">OIso.cf</a>&nbsp;| v0.8.3 测试版 | Developed
-            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
-                class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
-                target="_blank">👉食用指南&反馈👈</a>
+            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
+                target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
+                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
@@ -727,15 +759,15 @@
             <p>目前可以免费自定义 tag ，如果以后要收费了，您仍持有 tag 修改权限。</p>
             <h5>设置文字颜色</h5>
             <div class="mdui-textfield">
-                <input type="color" id="textcolor"/>
+                <input type="color" id="textcolor" />
             </div>
             <h5>设置背景颜色</h5>
             <div class="mdui-textfield">
-                <input type="color" id="background"/>
+                <input type="color" id="background" />
             </div>
             <h5>设置显示文字（支持部分 Markdown 语法），<b>50个字符以内</b></h5>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text" placeholder="可用下划线、删除线、加粗、倾斜等" id="content"/>
+                <input class="mdui-textfield-input" type="text" placeholder="可用下划线、删除线、加粗、倾斜等" id="content" />
             </div>
             <p>完成后，请点击下方确认按钮。</p>
         </div>
@@ -766,17 +798,17 @@
             }
         </script>
         <script>
-            function get_tag(){
+            function get_tag() {
                 // url: /tag/getmine
                 fetch(`https://api.oiso.cf:8443/tag/getmine`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    if(data=='False'){
+                    if (data == 'False') {
                         return;
                     }
-                    data=JSON.parse(data);
+                    data = JSON.parse(data);
                     console.log(data);
                     /*
                     {
@@ -785,9 +817,9 @@
                         "content": "114514"
                     }
                     */
-                    document.getElementById("textcolor").value=data["fontcolor"];
-                    document.getElementById("background").value=data["background"];
-                    document.getElementById("content").value=data["content"];
+                    document.getElementById("textcolor").value = data["fontcolor"];
+                    document.getElementById("background").value = data["background"];
+                    document.getElementById("content").value = data["content"];
                 }).catch(function () {
                     mdui.snackbar("服务器炸了……");
                 });
@@ -804,7 +836,8 @@
             <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。</p>
             <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。</p>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text" placeholder="形如：100544 或 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri" />
+                <input class="mdui-textfield-input" type="text"
+                    placeholder="形如：100544 或 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri" />
             </div>
             <p>完成后，请点击下方确认按钮。</p>
             <p>注意，不管您选择哪种方式，<b>一天最多爬15次</b>。</p>
@@ -838,7 +871,7 @@
                         mdui.snackbar("请求失败……");
                     });
                     return;
-                }else{
+                } else {
                     // 说明是uid
                     fetch("https://api.oiso.cf:8443/spider/request?type=lgblog_user&id=" + url, {
                         credentials: 'include'
@@ -859,6 +892,35 @@
             }
         </script>
     </div>
+
+    <div class="mdui-dialog" id="dialog-spider-status">
+        <div class="mdui-dialog-title">爬虫状态</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <div class="mdui-card-content" id="spider-status">获取中……</div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">完成</button>
+        </div>
+    </div>
+
+    <script>
+        function getspiderstatus() {
+            fetch("https://api.oiso.cf:8443/spider/status", {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                document.querySelector("#spider-status").innerHTML = data + `<div class="mdui-progress">
+<div class="mdui-progress-indeterminate"></div>
+</div>`;
+            }).catch(function () {
+                document.querySelector("#spider-status").innerHTML = "获取失败……";
+            });
+        }
+        getspiderstatus();
+        setInterval(getspiderstatus, 15000);
+    </script>
 
     <div class="mdui-dialog" id="dialog-csong">
         <div class="mdui-dialog-title">云点歌</div>
@@ -913,8 +975,6 @@
                                 <div class="mdui-card-primary">
                                     <div class="mdui-card-primary-title">云听歌</div>
                                     <div class="mdui-card-primary-subtitle" id="sub">正在加载中……</div>
-                                    <div class="mdui-card-primary-subtitle"><b>重要提示：浏览器会禁用自动播放，所以在第一次播放时请手动点击播放按钮</b>
-                                    </div>
                                 </div>
                             </div>
                             <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
@@ -922,10 +982,6 @@
                         </div>
                         <!-- 卡片的按钮 -->
                         <div class="mdui-card-actions">
-                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">点歌</button>
-                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
-                                <i class="mdui-icon material-icons">expand_more</i>
-                            </button>
                         </div>
                     </div>
                     <br>
@@ -933,34 +989,45 @@
                         <div class="mdui-card-media">
                             <div class="mdui-card-media-content">
                                 <div class="mdui-card-primary">
-                                    <div class="mdui-card-primary-title">爬虫状态</div>
-                                    </div>
+                                    <div class="mdui-card-primary-title">摆宝箱</div>
                                 </div>
                             </div>
-                        <div class="mdui-card-content" id="spider-status">获取中……</div>
-                        <script>
-                            function getspiderstatus() {
-                                fetch("https://api.oiso.cf:8443/spider/status", {
-                                    credentials: 'include'
-                                }).then(function (response) {
-                                    return response.text();
-                                }).then(function (data) {
-                                    document.querySelector("#spider-status").innerHTML = data +`<div class="mdui-progress">
-  <div class="mdui-progress-indeterminate"></div>
-</div>`;
-                                }).catch(function () {
-                                    document.querySelector("#spider-status").innerHTML = "获取失败……";
-                                });
-                            }
-                            getspiderstatus();
-                            setInterval(getspiderstatus, 15000);
-                        </script>
-                        <!-- 卡片的按钮 -->
-                        <div class="mdui-card-actions">
-                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">请求爬虫</button>
-                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
-                                <i class="mdui-icon material-icons">expand_more</i>
-                            </button>
+                        </div>
+                        <div class="mdui-card-content">
+                            <div class="icons-wrapper mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-6 mdui-row-lg-6">
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple" onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
+                                        <i class="mdui-icon mdui-icon-left material-icons">people</i>
+                                        在线人数
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">queue_music</i>
+                                        在线点歌
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-spider-status'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">web</i>
+                                        爬虫状态
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
+                                        请求爬虫
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}"
+                                        onclick="get_tag();">
+                                        <i class="mdui-icon mdui-icon-left material-icons">label</i>
+                                        编辑 tag
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -968,18 +1035,12 @@
                     <div class="mdui-card">
                         <div class="mdui-card-content" style="padding-bottom: 0;">
                             <div class="mdui-textfield">
-                                <textarea class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib" style="cursor:text"></textarea>
+                                <textarea class="mdui-textfield-input" type="text" placeholder="按回车键发送" id="ib"
+                                    style="cursor:text"></textarea>
                             </div>
                             <div class="mdui-card-content" id="benben">
                                 <div class="mdui-spinner mdui-spinner-colorful"></div>
                             </div>
-                        </div>
-                        <div class="mdui-card-actions">
-                            <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}" onclick="get_tag();">编辑 tag</button>
-                            <button class="mdui-btn mdui-ripple" id="onlinenumber">在线人数</button>
-                            <button class="mdui-btn mdui-btn-icon mdui-float-right">
-                                <i class="mdui-icon material-icons">expand_more</i>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -994,7 +1055,7 @@
                     }
                     return windowHeight;
                 }
-                document.getElementById("benben").setAttribute("style","max-height:"+String(getWindowHeight2()*0.7)+"px;overflow:scroll;")
+                document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.7) + "px;overflow:scroll;")
             </script>
             <script>
                 function send_benben() {
@@ -1039,8 +1100,8 @@
         </div>
     </div>
     <script>
-        function parseElement(htmlString){
-            return new DOMParser().parseFromString(htmlString,'text/html').body.childNodes[0]
+        function parseElement(htmlString) {
+            return new DOMParser().parseFromString(htmlString, 'text/html').body.childNodes[0]
         }
         function getWindowHeight() {
             var windowHeight = 0;
@@ -1057,7 +1118,7 @@
         document.getElementById("happy").style.position = "absolute";
         document.getElementById("happy").style.top = getWindowHeight() + "px";
 
-        function replyto(content){
+        function replyto(content) {
             document.getElementById("ib").value = " > " + content;
             document.getElementById("ib").focus();
             // 把光标移到文本框最前面
@@ -1084,7 +1145,7 @@
                 odata = JSON.parse(odata);
                 var data = odata.msg;
                 var onlineNum = odata.onlinenum;
-                document.getElementById("onlinenumber").innerText = "在线 "+String(onlineNum)+" 人";
+                document.getElementById("onlinenumber").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">people</i>` + "在线 " + String(onlineNum) + " 人";
                 j = (data);
                 // 按时间排序
                 j.sort(function (a, b) {
@@ -1099,14 +1160,14 @@
 
                     var hasLink = false;
 
-                    if("tag" in msg){
+                    if ("tag" in msg) {
                         msg.tag.content = msg.tag.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                         msg.tag.content = msg.tag.content.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
                         msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
                         msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
                         msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
                         // 如果有超链接，记录为true
-                        if(/\[(.*?)\]\((.*?)\)/g.test(msg.tag.content)){
+                        if (/\[(.*?)\]\((.*?)\)/g.test(msg.tag.content)) {
                             hasLink = true;
                         }
                         // msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
@@ -1137,22 +1198,22 @@
                     timeChinese = timeChinese.substr(5)
                     var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
                     var iptag;
-                    if("geo" in msg){
-                        iptag = `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(255, 0, 128);">`+msg.geo+`</span>`
-                    }else{
+                    if ("geo" in msg) {
+                        iptag = `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(255, 0, 128);">` + msg.geo + `</span>`
+                    } else {
                         iptag = ``
                     }
                     var tag;
-                    if("tag" in msg){
-                        tag = `<span class="tag" style="color: `+msg.tag.fontcolor+`; background: `+msg.tag.background+`">`+msg.tag.content+`</span>`
+                    if ("tag" in msg) {
+                        tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `">` + msg.tag.content + `</span>`
                         // 如果 hasLink 为 true，那么设置tag鼠标的样式为pointer
-                        if(hasLink){
-                            tag = `<span class="tag" style="color: `+msg.tag.fontcolor+`; background: `+msg.tag.background+`;cursor:pointer;" onclick="window.open('`+msg.tag.link+`')">`+msg.tag.content+`</span>`
+                        if (hasLink) {
+                            tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `;cursor:pointer;" onclick="window.open('` + msg.tag.link + `')">` + msg.tag.content + `</span>`
                         }
-                    }else{
+                    } else {
                         tag = ``
                     }
-                    
+
                     txt = `<div class="mdui-typo">
                         <div class="am-comment-main">
                             <header class="am-comment-hd">
@@ -1162,17 +1223,17 @@
                                         <img src="https://cdn.luogu.com.cn/upload/usericon/` + msg.uid + `.png" alt="" style="border-radius:100%; overflow:hidden;" class="am-comment-avatar" width="30" height="30">
                                     </a>
                                     <span class="feed-username">
-                                        <a href="`+lgurl+`" target="_blank">@`+msg.user+`</a>
+                                        <a href="`+ lgurl + `" target="_blank">@` + msg.user + `</a>
                                     </span> 
-                                    `+iptag+`
-                                    `+tag+`
-                                    `+timeChinese+`
+                                    `+ iptag + `
+                                    `+ tag + `
+                                    `+ timeChinese + `
                                     <!-- 回复按钮 -->
-                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+msg.user+` ：`+originMsg+`')">回复</a>
+                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg + `')">回复</a>
                                 </div>
                             </header>
                             <div class="am-comment-bd">
-                                `+msg.msg+`
+                                `+ msg.msg + `
                             </div>
                         </div>
                     </div>`
@@ -1211,7 +1272,7 @@
                         document.getElementById("media").innerHTML += `<iframe id="livebot" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                         document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
                         document.getElementById("livebot").style.height = getWindowHeight() * 0.5 + "px";
-                        window['music']='none';
+                        window['music'] = 'none';
                     } else {
                         window['music'] = "none";
                         try {
