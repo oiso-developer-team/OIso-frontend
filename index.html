@@ -780,7 +780,7 @@
     </div>
 
     <script>
-        document.addEventListener('click', e => {
+        // document.addEventListener('click', e => {
             setTimeout(function () {
                 var radio = document.getElementsByTagName("input");
                 for (i = 0; i < radio.length; i++) {
@@ -796,8 +796,8 @@
                         window.localStorage.setItem(radio[i].name, radio[i].value);
                     }
                 }
-            }, 50);
-        })
+            }, 100);
+        // })
     </script>
     <script>
         var radio = document.getElementsByTagName("input");
