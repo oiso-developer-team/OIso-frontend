@@ -1193,22 +1193,31 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="mdui-card" style="top: 20px">
+                    <div class="mdui-card" style="top: 20px">
                         <div class="mdui-card-content">
                             <div class="mdui-card-content">
                                 <div class="mdui-typo">
-                                    <a herf="ksadf" class="bg-info">加载中...</a>
+                                    <a herf="ksadf" class="bg-info" id="detail" target="_blank">加载中...</a>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
-            <!-- <script>
-                $.ajax({url: "https://bing.xenns.com/api?type=json", dataType: 'jsonp', success: (data) => {
+            <script>
+                $.ajax({url: "https://api.oiso.cf:8443/bingimg/detail", success: (data) => {
                     console.log(data);
+                    // 先解析成json对象
+                    var json = JSON.parse(data);
+                    // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
+                    var copyright = json.images[0].copyright;
+                    var title = json.images[0].title;
+                    var copyrightlink = json.images[0].copyrightlink;
+                    $("#detail").html(title + " - " + copyright);
+                    $("#detail").attr("href", copyrightlink);
+                    // copilot 就是好用，我不会写也能给我写上（（（
                 }});
-            </script> -->
+            </script>
             <script>
                 function getWindowHeight2() {
                     var windowHeight = 0;
@@ -1489,7 +1498,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
