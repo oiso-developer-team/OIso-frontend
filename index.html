@@ -8,6 +8,7 @@
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
     <style>
         .mdui-dialog,
         .mdui-dialog-open {
@@ -29,6 +30,23 @@
             border-radius: 50%;
             margin: 0 12px !important;
             transform: translateY(10px);
+        }
+
+        .infoBoard {
+            opacity: 0.85;
+        }
+
+        .cover {
+            z-index: -1;
+            opacity: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(rgba(0,0,0,0) 0,rgba(0,0,0,.5) 100%),
+            radial-gradient(rgba(0,0,0,0) 33%,rgba(0,0,0,.3) 166%);
+            transition: .25s
         }
 
         img.avatar {
@@ -189,6 +207,7 @@
         }
 
         body {
+            background-image: url(https://api.oneneko.com/v1/bing_today);
             height: 100%;
             width: 100%;
             -ms-overflow-style: none;
@@ -253,6 +272,8 @@
             margin-top: 40px;
         }
     </style>
+    <!-- 借用 Luogu cdn -->
+    <script src="https://cdn.luogu.com.cn/js/jquery-2.1.1.min.js"></script>
     <!-- MDUI CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css" />
     <title>🍋OIso🔍 - 一款为 OIer 和开发者而生的搜索引擎</title>
@@ -260,6 +281,7 @@
 </head>
 
 <body class="mdui-theme-layout-auto">
+    <div class="cover" id="cover" style="opacity: 1;"></div>
     <!-- <div class="mdui-toolbar mdui-color-theme">
         <div class="mdui-toolbar-spacer"></div>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-light-blue"
@@ -337,6 +359,7 @@
             console.error('Server Error: ', error);
         });
     </script>
+
     <!-- <div id="footer" style="position: absolute; bottom: 0; left: 50%; transform: translate(-50%, -50%);">
         <div style="height: 23px;">
             <center>
@@ -344,7 +367,7 @@
             </center>
         </div>
     </div> -->
-    <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
+    <div class="infoBoard dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
         bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
@@ -352,7 +375,7 @@
                 href="/">OIso.cf</a>&nbsp;| v0.8.3 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
                 target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
-                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
+                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background" href="https://bing.com" target="_blank">Bing Wallpaper</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
