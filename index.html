@@ -386,10 +386,115 @@
                 <div i-ri-information-line=""></div>
             </a></div>
     </div>
-    <div class="mdui-dialog" id="dialog-docs-theme">
-        <div class="mdui-dialog-title">设置文档主题</div>
-        <div class="mdui-dialog-content">
 
+    <div class="mdui-dialog" id="dialog-logout" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">退出登录</div>
+        <div class="mdui-dialog-content">确定要退出登录吗？</div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();" style="border-radius: 15px;">确定</button>
+        </div>
+        <script>
+            function gologout() {
+                fetch("https://api.oiso.cf:8443/logout", {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if (data == 'True') {
+                        mdui.snackbar("登出成功；请刷新页面");
+                    } else {
+                        mdui.snackbar("登出失败");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("服务器开小差了……");
+                });
+            }
+        </script>
+    </div>
+
+    <div class="mdui-dialog" id="dialog-login" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">通过洛谷登录</div>
+        <div class="mdui-dialog-content mdui-typo">
+
+            <p class="mdui-typo-title">STEP 1</p>
+            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为
+                    10 分钟）</b>。</p>
+            <pre>加载中，请稍后……</pre>
+            <script>
+                function copy_key() {
+                    var key = document.querySelector("#dialog-login pre").innerText;
+                    var input = document.createElement("input");
+                    input.value = key;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(input);
+                    mdui.snackbar({
+                        message: "已复制密钥",
+                        position: "right-top"
+                    });
+                }
+            </script>
+            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense"
+                    onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
+
+            <p class="mdui-typo-title">STEP 2</p>
+            <p>发布后，请将这个云剪贴板的链接粘贴到下面（要<b>完整</b>的链接！）：</p>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text"
+                    placeholder="形如：https://www.luogu.com.cn/paste/ler564eo" />
+            </div>
+            <p>完成后，请点击下方确认按钮进行校验。</p>
+
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();" style="border-radius: 15px;">确认</button>
+        </div>
+        <script>
+            window['test'] = "ok!";
+            function get_key() {
+                fetch("https://api.oiso.cf:8443/key_request", {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    document.querySelector("#dialog-login pre").innerText = data;
+                }).catch(function () {
+                    mdui.snackbar("获取密钥失败……一天最多15个o(╥﹏╥)o");
+                });
+            }
+            function gologin() {
+                var url = document.querySelector("#dialog-login input").value;
+                if (url == "") {
+                    mdui.snackbar("请输入云剪贴板的链接");
+                    return;
+                }
+                fetch("https://api.oiso.cf:8443/key_check?url=" + url, {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    console.log(data);
+                    if (data != "False") {
+                        mdui.snackbar("登录成功！请刷新页面！");
+                    } else {
+                        mdui.snackbar("登录失败……");
+                    }
+                }).catch(function () {
+                    mdui.snackbar("登录失败……");
+                });
+            }
+        </script>
+    </div>
+    <div class="mdui-dialog" id="dialog-docs-theme" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">主题色设置</div>
+        <div id="colorset" class="mdui-p-a-2 mdui-dialog-content">
+            <small>*提示：当前配色只会在当前浏览器中保存！</small>
             <p class="mdui-typo-title">主题色</p>
             <div class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
                 <div class="mdui-col">
@@ -414,7 +519,7 @@
                     </label>
                 </div>
             </div>
-
+        
             <p class="mdui-typo-title mdui-text-color-theme">主色</p>
             <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
                 <div class="mdui-col mdui-text-color-amber">
@@ -551,7 +656,7 @@
                     </label>
                 </div>
             </form>
-
+        
             <p class="mdui-typo-title mdui-text-color-theme-accent">强调色</p>
             <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
                 <div class="mdui-col mdui-text-color-amber">
@@ -667,119 +772,47 @@
                     </label>
                 </div>
             </form>
-
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple mdui-float-left" mdui-dialog-cancel="">恢复默认主题</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">ok</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成（自动保存）</button>
         </div>
     </div>
 
-    <div class="mdui-dialog" id="dialog-logout" style="border-radius: 20px;">
-        <div class="mdui-dialog-title">退出登录</div>
-        <div class="mdui-dialog-content">确定要退出登录吗？</div>
-        <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();" style="border-radius: 15px;">确定</button>
-        </div>
-        <script>
-            function gologout() {
-                fetch("https://api.oiso.cf:8443/logout", {
-                    credentials: 'include'
-                }).then(function (response) {
-                    return response.text();
-                }).then(function (data) {
-                    console.log(data);
-                    if (data == 'True') {
-                        mdui.snackbar("登出成功；请刷新页面");
-                    } else {
-                        mdui.snackbar("登出失败");
+    <script>
+        document.addEventListener('click', e => {
+            setTimeout(function () {
+                var radio = document.getElementsByTagName("input");
+                for (i = 0; i < radio.length; i++) {
+                    if (radio[i].checked) {
+                        console.log(radio[i]);
+                        c = document.getElementsByTagName("body")[0].className.split(" ");
+                        for (j in c) {
+                            if (c[j].indexOf(radio[i].name) != -1) {
+                                document.getElementsByTagName("body")[0].classList.remove(c[j]);
+                            }
+                        }
+                        document.getElementsByTagName("body")[0].classList.add("mdui-" + radio[i].name + "-" + radio[i].value);
+                        window.localStorage.setItem(radio[i].name, radio[i].value);
                     }
-                }).catch(function () {
-                    mdui.snackbar("服务器开小差了……");
-                });
-            }
-        </script>
-    </div>
-
-    <div class="mdui-dialog" id="dialog-login" style="border-radius: 20px;">
-        <div class="mdui-dialog-title">通过洛谷登录</div>
-        <div class="mdui-dialog-content mdui-typo">
-
-            <p class="mdui-typo-title">STEP 1</p>
-            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为
-                    10 分钟）</b>。</p>
-            <pre>加载中，请稍后……</pre>
-            <script>
-                function copy_key() {
-                    var key = document.querySelector("#dialog-login pre").innerText;
-                    var input = document.createElement("input");
-                    input.value = key;
-                    document.body.appendChild(input);
-                    input.select();
-                    document.execCommand("copy");
-                    document.body.removeChild(input);
-                    mdui.snackbar({
-                        message: "已复制密钥",
-                        position: "right-top"
-                    });
                 }
-            </script>
-            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense"
-                    onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
-
-            <p class="mdui-typo-title">STEP 2</p>
-            <p>发布后，请将这个云剪贴板的链接粘贴到下面（要<b>完整</b>的链接！）：</p>
-            <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text"
-                    placeholder="形如：https://www.luogu.com.cn/paste/ler564eo" />
-            </div>
-            <p>完成后，请点击下方确认按钮进行校验。</p>
-
-        </div>
-        <div class="mdui-divider"></div>
-        <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();" style="border-radius: 15px;">确认</button>
-        </div>
-        <script>
-            window['test'] = "ok!";
-            function get_key() {
-                fetch("https://api.oiso.cf:8443/key_request", {
-                    credentials: 'include'
-                }).then(function (response) {
-                    return response.text();
-                }).then(function (data) {
-                    console.log(data);
-                    document.querySelector("#dialog-login pre").innerText = data;
-                }).catch(function () {
-                    mdui.snackbar("获取密钥失败……一天最多15个o(╥﹏╥)o");
-                });
-            }
-            function gologin() {
-                var url = document.querySelector("#dialog-login input").value;
-                if (url == "") {
-                    mdui.snackbar("请输入云剪贴板的链接");
-                    return;
+            }, 50);
+        })
+    </script>
+    <script>
+        var radio = document.getElementsByTagName("input");
+        for (i = 0; i < radio.length; i++) {
+            if (radio[i].checked) {
+                if (window.localStorage.getItem(radio[i].name) != radio[i].value) {
+                    radio[i].removeAttribute("checked");
                 }
-                fetch("https://api.oiso.cf:8443/key_check?url=" + url, {
-                    credentials: 'include'
-                }).then(function (response) {
-                    return response.text();
-                }).then(function (data) {
-                    console.log(data);
-                    if (data != "False") {
-                        mdui.snackbar("登录成功！请刷新页面！");
-                    } else {
-                        mdui.snackbar("登录失败……");
-                    }
-                }).catch(function () {
-                    mdui.snackbar("登录失败……");
-                });
+            } else {
+                if (window.localStorage.getItem(radio[i].name) == radio[i].value) {
+                    radio[i].setAttribute("checked", "checked");
+                }
             }
-        </script>
-    </div>
+        }
+    </script>
 
     <div class="mdui-dialog" id="dialog-editTag" style="border-radius: 20px;">
         <div class="mdui-dialog-title">编辑 tag</div>
@@ -1091,6 +1124,12 @@
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="window.open('https://stats.uptimerobot.com/JRlkxCB95r')">
                                         <i class="mdui-icon mdui-icon-left material-icons">panorama_fish_eye</i>
                                         宕机监控
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-docs-theme'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">color_lens</i>
+                                        主题颜色
                                     </button>
                                 </div>
                             </div>
