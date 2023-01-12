@@ -39,6 +39,7 @@
         .cover {
             z-index: -1;
             opacity: 0;
+            backdrop-filter: blur(3px);
             position: fixed;
             left: 0;
             top: 0;
@@ -272,6 +273,9 @@
         #p-d .p-material_icons .icons-wrapper {
             margin-top: 40px;
         }
+        #lbt {
+            color:rgb(225, 225, 225)
+        }
     </style>
     <!-- 借用 Luogu cdn -->
     <script src="https://cdn.luogu.com.cn/js/jquery-2.1.1.min.js"></script>
@@ -373,7 +377,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.8.3 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v0.8.5 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
                 target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
                 href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background" href="https://bing.com" target="_blank">Bing Wallpaper</a>
@@ -699,7 +703,7 @@
         </script>
     </div>
 
-    <div class="mdui-dialog" id="dialog-login">
+    <div class="mdui-dialog" id="dialog-login" style="border-radius: 20px;">
         <div class="mdui-dialog-title">通过洛谷登录</div>
         <div class="mdui-dialog-content mdui-typo">
 
@@ -776,7 +780,7 @@
         </script>
     </div>
 
-    <div class="mdui-dialog" id="dialog-editTag">
+    <div class="mdui-dialog" id="dialog-editTag" style="border-radius: 20px;">
         <div class="mdui-dialog-title">编辑 tag</div>
         <div class="mdui-dialog-content mdui-typo">
 
@@ -851,11 +855,12 @@
         </script>
     </div>
 
-    <div class="mdui-dialog" id="dialog-spider">
+    <div class="mdui-dialog" id="dialog-spider" style="border-radius: 20px;">
         <div class="mdui-dialog-title">爬虫请求</div>
         <div class="mdui-dialog-content mdui-typo">
 
-            <p>由于种种原因，我们无法及时爬取您的博客。所以您可以在这里手动请求爬取您的博客。</p>
+            <p>由于种种原因，我们无法及时爬取您的洛谷博客。所以您可以在这里手动请求爬取您的博客。</p>
+            <p><b>仅能爬取洛谷博客，第三方博客（如自搭建博客，CSDN，cnBlogs）请移步“第三方博客爬取”！</b></p>
             <p>博客爬取有以下几种形式：</p>
             <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。</p>
             <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。</p>
@@ -917,7 +922,29 @@
         </script>
     </div>
 
-    <div class="mdui-dialog" id="dialog-spider-status">
+    <div class="mdui-dialog" id="dialog-third-party-blog" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">第三方博客爬取</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <p>请填充下列内容，然后通过邮件发送给 <a id="email"></a> 或通过洛谷<a href="https://www.luogu.com.cn/chat?uid=222419" target="_blank">私信我</a></p>
+            <pre>第三方博客爬取：
+博客地址：【如 https://www.amzcd.top 】
+博客名称：【如 diyanqi's Blog! 】
+</pre>
+            <p>暂时先这样吧，感觉全自动化有点麻烦。</p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">完成</button>
+        </div>
+    </div>
+    <script>
+        let at = "@";
+        let email_address = "diyanqi" + at + "qq.com";
+        document.getElementById("email").setAttribute("href","mailto:" + email_address);
+        document.getElementById("email").innerText = email_address;
+    </script>
+
+    <div class="mdui-dialog" id="dialog-spider-status" style="border-radius: 20px;">
         <div class="mdui-dialog-title">爬虫状态</div>
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-card-content" id="spider-status">获取中……</div>
@@ -946,7 +973,7 @@
         setInterval(getspiderstatus, 15000);
     </script>
 
-    <div class="mdui-dialog" id="dialog-csong">
+    <div class="mdui-dialog" id="dialog-csong" style="border-radius: 20px;">
         <div class="mdui-dialog-title">云点歌</div>
         <div class="mdui-dialog-content mdui-typo">
 
@@ -1035,6 +1062,12 @@
                                     <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
                                         请求爬虫
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">description</i>
+                                        第三方博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
@@ -1355,7 +1388,7 @@
             return response.text();
         }).then(function (data) {
             console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请点击右上角登录");
             } else {
