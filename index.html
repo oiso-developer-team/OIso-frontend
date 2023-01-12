@@ -680,8 +680,8 @@
         <div class="mdui-dialog-title">退出登录</div>
         <div class="mdui-dialog-content">确定要退出登录吗？</div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();">确定</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();" style="border-radius: 15px;">确定</button>
         </div>
         <script>
             function gologout() {
@@ -740,7 +740,8 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();" style="border-radius: 15px;">确认</button>
         </div>
         <script>
             window['test'] = "ok!";
@@ -801,7 +802,8 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();" style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function goTag() {
@@ -874,7 +876,8 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gospider();">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gospider();" style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function gospider() {
@@ -934,7 +937,7 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">完成</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
         </div>
     </div>
     <script>
@@ -951,7 +954,7 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="">完成</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
         </div>
     </div>
 
@@ -988,7 +991,8 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gocsong();">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gocsong();" style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function gocsong() {
@@ -1040,51 +1044,51 @@
                         <div class="mdui-card-content">
                             <div class="icons-wrapper mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-6 mdui-row-lg-6">
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
                                         <i class="mdui-icon mdui-icon-left material-icons">people</i>
                                         在线人数
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">queue_music</i>
                                         在线点歌
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple"
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
                                         mdui-dialog="{target: '#dialog-spider-status'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">web</i>
                                         爬虫状态
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
                                         请求爬虫
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">description</i>
                                         第三方博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}"
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}"
                                         onclick="get_tag();">
                                         <i class="mdui-icon mdui-icon-left material-icons">label</i>
                                         编辑 tag
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-logout'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-logout'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">exit_to_app</i>
                                         退出登录
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button class="mdui-btn mdui-ripple" onclick="window.open('https://stats.uptimerobot.com/JRlkxCB95r')">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="window.open('https://stats.uptimerobot.com/JRlkxCB95r')">
                                         <i class="mdui-icon mdui-icon-left material-icons">panorama_fish_eye</i>
                                         宕机监控
                                     </button>
