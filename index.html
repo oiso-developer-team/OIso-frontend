@@ -1035,6 +1035,19 @@
         </div>
     </div>
 
+    <div class="mdui-dialog" id="dialog-bingimg-detail" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">必应壁纸信息</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <div class="mdui-typo">
+                <a herf="ksadf" class="bg-info" id="detail" target="_blank">加载中...</a>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+
     <script>
         function getspiderstatus() {
             fetch("https://api.oiso.cf:8443/spider/status", {
@@ -1176,6 +1189,12 @@
                                         主题颜色
                                     </button>
                                 </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-bingimg-detail'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">color_lens</i>
+                                        壁纸信息
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1190,15 +1209,6 @@
                             </div>
                             <div class="mdui-card-content" id="benben">
                                 <div class="mdui-spinner mdui-spinner-colorful"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mdui-card" style="top: 20px">
-                        <div class="mdui-card-content">
-                            <div class="mdui-card-content">
-                                <div class="mdui-typo">
-                                    <a herf="ksadf" class="bg-info" id="detail" target="_blank">加载中...</a>
-                                </div>
                             </div>
                         </div>
                     </div>
