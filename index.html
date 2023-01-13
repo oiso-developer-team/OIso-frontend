@@ -201,20 +201,6 @@
             overflow: auto;
         }
 
-        .bg {
-            z-index: -999;
-            position: fixed;
-            background: url(https://bing.xenns.com/api/?blur=15);
-            height:600px;
-            text-align: center;
-            line-height: 600px;
-            /* background-image: url(https://api.oneneko.com/v1/bing_today); */
-            background-attachment: fixed;
-            height: 100%;
-            width: 100%;
-            -ms-overflow-style: none;
-            overflow: auto;
-        }
         .bg-blur {
             float: left;
             width: 100%;
@@ -251,7 +237,28 @@
         .mdui-card {
             border-radius: 10px !important;
         }
+        .bg {
+            z-index: -999;
+            position: fixed;
+            /* background: url(https://www.wxiou.cn/api/?blur=15&random=1234); */
+            height:600px;
+            text-align: center;
+            line-height: 600px;
+            /* background-image: url(https://api.oneneko.com/v1/bing_today); */
+            background-attachment: fixed;
+            height: 100%;
+            width: 100%;
+            -ms-overflow-style: none;
+            overflow: auto;
+        }
     </style>
+    <script>
+        // 编辑 .bg 中 background 的 URL 中的 random 参数以防止缓存
+        // 例如：https://www.wxiou.cn/api/?blur=15&random=1234
+        random = Math.random().toString(36).substring(2);
+        url = "https://www.wxiou.cn/api/?blur=15&random=" + random;
+        document.querySelector(".bg").style.background = "url(" + url + ")";
+    </script>
     <style>
         .am-comment-main {
             /*圆角*/
