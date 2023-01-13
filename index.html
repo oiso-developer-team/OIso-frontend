@@ -258,14 +258,6 @@
             overflow: auto;
         }
     </style>
-    <script>
-        // 编辑 .bg 中 background 的 URL 中的 random 参数以防止缓存
-        // 例如：https://www.wxiou.cn/api/?blur=15&random=1234
-        random = Math.random().toString(36).substring(2);
-        url = "https://www.wxiou.cn/api/?blur=15&random=" + random;
-        // make it important!
-        document.querySelector(".bg").style.background = "url(" + url + ") !important";
-    </script>
     <style>
         .am-comment-main {
             /*圆角*/
@@ -363,6 +355,14 @@
             </div>
         </center>
     </div>
+    <script>
+        // 编辑 .bg 中 background 的 URL 中的 random 参数以防止缓存
+        // 例如：https://www.wxiou.cn/api/?blur=15&random=1234
+        random = Math.random().toString(36).substring(2);
+        url = "https://www.wxiou.cn/api/?blur=15&random=" + random;
+        // make it important!
+        document.querySelector(".bg").style.background = "url(" + url + ") !important";
+    </script>
     <script type="text/javascript">
         //获得文本框元素
         var txtSearch = document.getElementById('inputBox');
