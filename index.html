@@ -1258,12 +1258,12 @@
             <script>
                 function send_benben() {
                     document.getElementById("ib").setAttribute("disabled", "disabled");
+                    setTimeout(() => {
+                        document.getElementById("ib").removeAttribute("disabled");
+                    }, 5000);
                     var text = document.getElementById("ib").value;
                     if (text == "") {
                         mdui.snackbar("请输入内容");
-                        setTimeout(() => {
-                            document.getElementById("ib").removeAttribute("disabled");
-                        }, 5000);
                         return;
                     }
                     fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
@@ -1282,9 +1282,6 @@
                     }).catch(function () {
                         mdui.snackbar("发送失败……");
                     });
-                    setTimeout(() => {
-                        document.getElementById("ib").removeAttribute("disabled");
-                    }, 5000);
                 }
                 document.getElementById("ib").addEventListener("keyup", function (event) {
                     // console.log(event);
