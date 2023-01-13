@@ -1261,6 +1261,9 @@
                     var text = document.getElementById("ib").value;
                     if (text == "") {
                         mdui.snackbar("请输入内容");
+                        setTimeout(() => {
+                            document.getElementById("ib").removeAttribute("disabled");
+                        }, 5000);
                         return;
                     }
                     fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
@@ -1273,13 +1276,15 @@
                             mdui.snackbar("发送成功！");
                             get_benben();
                             document.getElementById("ib").value = "";
-                            document.getElementById("ib").removeAttribute("disabled");
                         } else {
                             mdui.snackbar("发送失败……");
                         }
                     }).catch(function () {
                         mdui.snackbar("发送失败……");
                     });
+                    setTimeout(() => {
+                        document.getElementById("ib").removeAttribute("disabled");
+                    }, 5000);
                 }
                 document.getElementById("ib").addEventListener("keyup", function (event) {
                     // console.log(event);
