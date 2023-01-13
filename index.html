@@ -891,6 +891,7 @@
                 <input class="mdui-textfield-input" type="text" placeholder="可用超链接、下划线、删除线、加粗、倾斜等" id="content" />
             </div>
             <p>完成后，请点击下方确认按钮。</p>
+            <p>注：请勿包含一些迷惑他人的内容。</p>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -912,7 +913,7 @@
                         mdui.snackbar("修改成功！");
                         get_benben();
                     } else {
-                        mdui.snackbar("修改失败，请检查字数限制及颜色值合法性");
+                        mdui.snackbar("修改失败，请检查字数限制及内容合法性");
                     }
                 }).catch(function () {
                     mdui.snackbar("服务器炸了……");
@@ -1258,8 +1259,11 @@
             <script>
                 function send_benben() {
                     document.getElementById("ib").setAttribute("disabled", "disabled");
+                    var time_is_up = false;
                     setTimeout(() => {
                         document.getElementById("ib").removeAttribute("disabled");
+                        document.getElementById("ib").value = "";
+                        time_is_up = true;
                     }, 5000);
                     var text = document.getElementById("ib").value;
                     if (text == "") {
@@ -1275,7 +1279,10 @@
                         if (data == "True") {
                             mdui.snackbar("发送成功！");
                             get_benben();
-                            document.getElementById("ib").value = "";
+                            document.getElementById("ib").value = "冷却中……";
+                            if(time_is_up){
+                                document.getElementById("ib").value = "";
+                            }
                         } else {
                             mdui.snackbar("发送失败……");
                         }
