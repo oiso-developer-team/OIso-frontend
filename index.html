@@ -391,7 +391,7 @@
             <div id="container" class="box mdui-hoverable" style="transform: translateY(200px);">
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 登录后下滑解锁新世界"
-                    onkeypress="getKey();" onkeyup="getSuggest();"" />
+                    onkeypress="getKey();" onkeyup="getSuggest();" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
@@ -416,12 +416,15 @@
         //文本框得到焦点事件 onfocus()
         txtSearch.onfocus = function () {
             document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-7");
+            // 如果不为空
+            if (txtSearch.value != '') {
+                // 显示搜索建议
+                getSuggest();
+            }
         }
         //文本框失去焦点事件 onblur()
         txtSearch.onblur = function () {
             document.getElementById("container").setAttribute("class", "box mdui-hoverable");
-            $("#suggestionContainer").empty();
-            lostfocus = true;
         }
     </script>
     <!-- MDUI JavaScript -->
@@ -451,10 +454,7 @@
                 let sel = $("#suggestionContainer");
                 for (const hit in hits) {
                     console.log(hits[hit]._id);
-                    sel.append(`<div id="${hits[hit]._source.name}">${hits[hit]._source.name}</div>`);
-                    $(`#${hits[hit]._source.name}`).click(() => {
-                        gosug(hits[hit]._source.name);
-                    });
+                    sel.append(`<div onclick="gosug('${hits[hit]._source.name}')">${hits[hit]._source.name}</div>`);
                 }
                 if (lostfocus) {
                     $("#suggestionContainer").empty();
@@ -919,6 +919,13 @@
 
     <script>
         document.addEventListener('click', e => {
+            // 如果点击的不是 suggestionContainer
+            var targ = e.target;
+            var myid = targ.id;
+            if(myid != 'suggestionContainer' && myid != 'inputBox'){
+                $("#suggestionContainer").empty();
+                lostfocus = true;
+            }
             setTimeout(function () {
                 var radio = document.getElementsByTagName("input");
                 for (i = 0; i < radio.length; i++) {
