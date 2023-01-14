@@ -1624,16 +1624,18 @@
             }
             return scrollTop;
         }
-        // 让 goto_top 在往下滑到半个屏幕高度的距离时动画显示
-        var halfScreenHeight = window.innerHeight / 2;
-        var gotoTop = document.getElementById("goto_top");
-        var nowPos = getScrollTop();
-        if(nowPos < halfScreenHeight - 150){
-            gotoTop.hidden = true;
-        }else if(nowPos > halfScreenHeight - 150){
-            gotoTop.hidden = false;
-            if(nowPos < halfScreenHeight + 150){
-                gotoTop.style.opacity = (nowPos - halfScreenHeight + 150) / 300;
+        window.onscroll = function () {
+            // 让 goto_top 在往下滑到半个屏幕高度的距离时动画显示
+            var halfScreenHeight = window.innerHeight / 2;
+            var gotoTop = document.getElementById("goto_top");
+            var nowPos = getScrollTop();
+            if (nowPos < halfScreenHeight - 150) {
+                gotoTop.hidden = true;
+            } else if (nowPos > halfScreenHeight - 150) {
+                gotoTop.hidden = false;
+                if (nowPos < halfScreenHeight + 150) {
+                    gotoTop.style.opacity = (nowPos - halfScreenHeight + 150) / 300;
+                }
             }
         }
     </script>
