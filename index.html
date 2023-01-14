@@ -410,19 +410,21 @@
         document.querySelector(".bg").style.background = "url(" + url + ") !important";
     </script>
     <script type="text/javascript">
-        window['now'] = ''
-        setInterval(function () { //每0.5秒刷新一次
-            var text = document.getElementById('inputBox').value;
-            if (text != window['now']) {
-                window['now'] = text;
-                getSuggest();
-            }
-        }, 500); 
+        // window['now'] = ''
+        // setInterval(function () { //每0.5秒刷新一次
+        //     var text = document.getElementById('inputBox').value;
+        //     if (text != window['now']) {
+        //         window['now'] = text;
+        //         getSuggest();
+        //     }
+        // }, 500); 
         //获得文本框元素
         var lostfocus = false;
         var txtSearch = document.getElementById('inputBox');
+        window['onfunction'] = false;
         //文本框得到焦点事件 onfocus()
         txtSearch.onfocus = function () {
+            window['onfunction'] = true;
             document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-7");
             // 如果不为空
             if (txtSearch.value != '') {
@@ -432,6 +434,7 @@
         }
         //文本框失去焦点事件 onblur()
         txtSearch.onblur = function () {
+            window['onfunction'] = false;
             document.getElementById("container").setAttribute("class", "box mdui-hoverable");
         }
     </script>
@@ -452,8 +455,10 @@
             if (sugStatus === true) {
                 return;
             }
+            var myurl = `https://api.oiso.cf:8443/suggestion?q=${$("#inputBox")[0].value}`;
+            console.log(myurl);
             sugStatus = true;
-            $.ajax({url: `https://api.oiso.cf:8443/suggestion?q=${$("#inputBox")[0].value}`, success: (data) => {
+            $.ajax({url: myurl, success: (data) => {
                 lostfocus = false;
                 data = $.parseJSON(data);
                 console.log(data);
@@ -474,6 +479,14 @@
                 sugStatus = false;
             }});
         }
+        // 当inputBox的内容发生变化
+        $("#inputBox").bind('input propertychange', function () {
+            if (window['onfunction'] === true) {
+                setTimeout(function(){
+                    getSuggest();
+                }, 200);
+            }
+        })
         function gosug(name) {
             console.log("gosug"+name)
             $("#inputBox")[0].value = name;
