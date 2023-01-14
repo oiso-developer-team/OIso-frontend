@@ -1615,6 +1615,15 @@
         });
     </script>
     <script>
+        function getScrollTop() {
+            var scrollTop = 0;
+            if (document.documentElement && document.documentElement.scrollTop) {
+                scrollTop = document.documentElement.scrollTop;
+            } else if (document.body) {
+                scrollTop = document.body.scrollTop;
+            }
+            return scrollTop;
+        }
         // 让 goto_top 在往下滑到半个屏幕高度的距离时动画显示
         var halfScreenHeight = window.innerHeight / 2;
         var gotoTop = document.getElementById("goto_top");
