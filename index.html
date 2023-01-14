@@ -451,7 +451,7 @@
                 let sel = $("#suggestionContainer");
                 for (const hit in hits) {
                     console.log(hits[hit]._id);
-                    sel.append(`<div>${hits[hit]._id}</div>`);
+                    sel.append(`<div onclick="gosug('{hits[hit]._source.name}');">${hits[hit]._source.name}</div>`);
                 }
                 if (lostfocus) {
                     $("#suggestionContainer").empty();
@@ -462,6 +462,10 @@
                 console.log("获取提示信息失败...");
                 sugStatus = false;
             }});
+        }
+        function gosug(name) {
+            $("#inputBox")[0].value = name;
+            go();
         }
         function getKey() {
             if (event.keyCode == 13) {
