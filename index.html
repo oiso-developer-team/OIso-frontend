@@ -378,7 +378,7 @@
     <!-- MDUI JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js"></script>
     <script>
-        let zy = ["小黑子，露出鸡脚了吧~", "只因", "你太美"]
+        let zy = ["小黑子，露出鸡脚了吧~", "Bebe~oh~", "🐔你太美"]
         function go() {
             var value = document.getElementById("inputBox").value;
             if (value == '') {
@@ -397,13 +397,19 @@
         fetch("https://api.oiso.cf:8443").then(function (response) {
             return response.text();
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             if (data != `OIso 2023. All rights reserved.`) {
-                mdui.snackbar("服务器错误：" + data);
+                mdui.snackbar("服务器消息：" + data);
             }
         }).catch((error) => {
-            mdui.snackbar("服务器错误：" + error);
-            console.error('Server Error: ', error);
+            mdui.snackbar({
+                message: '服务器炸了：'+error+'，快去轰炸管理员！',
+                buttonText: '查看宕机监测',
+                onButtonClick: function(){
+                    window.open('https://stats.uptimerobot.com/JRlkxCB95r')
+                }
+            });
+            // console.error('Server Error: ', error);
         });
     </script>
 
@@ -443,14 +449,17 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data == 'True') {
-                        mdui.snackbar("登出成功；请刷新页面");
+                        mdui.snackbar("登出成功；正在刷新页面");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
                     } else {
-                        mdui.snackbar("登出失败");
+                        mdui.snackbar("登出失败："+data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("服务器开小差了……");
+                    mdui.snackbar("服务器炸了："+error);
                 });
             }
         </script>
@@ -504,16 +513,16 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     document.querySelector("#dialog-login pre").innerText = data;
                 }).catch(function () {
-                    mdui.snackbar("获取密钥失败……一天最多15个o(╥﹏╥)o");
+                    mdui.snackbar("获取密钥失败："+error);
                 });
             }
             function gologin() {
                 var url = document.querySelector("#dialog-login input").value;
                 if (url == "") {
-                    mdui.snackbar("请输入云剪贴板的链接");
+                    mdui.snackbar("总不能什么都不输入吧QWQ");
                     return;
                 }
                 fetch("https://api.oiso.cf:8443/key_check?url=" + url, {
@@ -521,14 +530,17 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data != "False") {
-                        mdui.snackbar("登录成功！请刷新页面！");
+                        mdui.snackbar("登录成功！即将刷新页面！");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
                     } else {
-                        mdui.snackbar("登录失败……");
+                        mdui.snackbar("登录失败："+data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("登录失败……");
+                    mdui.snackbar("服务器开小差了："+error);
                 });
             }
         </script>
@@ -827,7 +839,7 @@
                 var radio = document.getElementsByTagName("input");
                 for (i = 0; i < radio.length; i++) {
                     if (radio[i].checked) {
-                        console.log(radio[i]);
+                        // console.log(radio[i]);
                         c = document.getElementsByTagName("body")[0].className.split(" ");
                         for (j in c) {
                             if (c[j].indexOf(radio[i].name) != -1) {
@@ -838,7 +850,7 @@
                         window.localStorage.setItem(radio[i].name, radio[i].value);
                     }
                 }
-                console.log("log!");
+                // console.log("log!");
             }, 50);
         })
     </script>
@@ -859,7 +871,7 @@
         var radio = document.getElementsByTagName("input");
         for (i = 0; i < radio.length; i++) {
             if (radio[i].checked) {
-                console.log(radio[i]);
+                // console.log(radio[i]);
                 c = document.getElementsByTagName("body")[0].className.split(" ");
                 for (j in c) {
                     if (c[j].indexOf(radio[i].name) != -1) {
@@ -870,7 +882,7 @@
                 window.localStorage.setItem(radio[i].name, radio[i].value);
             }
         }
-        console.log("log2!");
+        // console.log("log2!");
     </script>
 
     <div class="mdui-dialog" id="dialog-editTag" style="border-radius: 20px;">
@@ -908,15 +920,15 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data == "True") {
                         mdui.snackbar("修改成功！");
                         get_benben();
                     } else {
-                        mdui.snackbar("修改失败，请检查字数限制及内容合法性");
+                        mdui.snackbar("修改失败："+data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("服务器炸了……");
+                    mdui.snackbar("服务器寄了："+data);
                 });
             }
         </script>
@@ -932,7 +944,7 @@
                         return;
                     }
                     data = JSON.parse(data);
-                    console.log(data);
+                    // console.log(data);
                     /*
                     {
                         "fontcolor": "#000000",
@@ -944,7 +956,7 @@
                     document.getElementById("background").value = data["background"];
                     document.getElementById("content").value = data["content"];
                 }).catch(function () {
-                    mdui.snackbar("服务器炸了……");
+                    mdui.snackbar("出错了："+error);
                 });
             }
         </script>
@@ -986,14 +998,14 @@
                     }).then(function (response) {
                         return response.text();
                     }).then(function (data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data == "True") {
                             mdui.snackbar("请求成功！已排入爬虫队列！");
                         } else {
-                            mdui.snackbar("请求失败……");
+                            mdui.snackbar("出错了："+data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("请求失败……");
+                        mdui.snackbar("失败了："+error);
                     });
                     return;
                 } else {
@@ -1003,14 +1015,14 @@
                     }).then(function (response) {
                         return response.text();
                     }).then(function (data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data == "True") {
                             mdui.snackbar("请求成功！已排入爬虫队列！");
                         } else {
-                            mdui.snackbar("请求失败……");
+                            mdui.snackbar("出错了："+data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("请求失败……");
+                        mdui.snackbar("失败了："+error);
                     });
                     return;
                 }
@@ -1104,7 +1116,7 @@
             function gocsong() {
                 var url = document.querySelector("#dialog-csong input").value;
                 if (isNaN(url)) {
-                    mdui.snackbar("请输入正确的歌曲ID");
+                    mdui.snackbar("请输入正确的歌曲ID，是一串数字。");
                     return;
                 }
                 fetch("https://api.oiso.cf:8443/song?song=" + url, {
@@ -1112,14 +1124,14 @@
                 }).then(function (response) {
                     return response.text();
                 }).then(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     if (data == "True") {
                         mdui.snackbar("点歌成功！已排入点歌队列！");
                     } else {
-                        mdui.snackbar("点歌失败……");
+                        mdui.snackbar("点歌失败："+data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("点歌失败……");
+                    mdui.snackbar("点歌失败："+data);
                 });
             }
         </script>
@@ -1232,7 +1244,7 @@
             </div>
             <script>
                 $.ajax({url: "https://api.oiso.cf:8443/bingimg/detail", success: (data) => {
-                    console.log(data);
+                    // console.log(data);
                     // 先解析成json对象
                     var json = JSON.parse(data);
                     // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
@@ -1267,7 +1279,7 @@
                     }, 5000);
                     var text = document.getElementById("ib").value;
                     if (text == "") {
-                        mdui.snackbar("请输入内容");
+                        mdui.snackbar("总要说点什么吧？");
                         return;
                     }
                     fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
@@ -1275,7 +1287,7 @@
                     }).then(function (response) {
                         return response.text();
                     }).then(function (data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data == "True") {
                             mdui.snackbar("发送成功！");
                             get_benben();
@@ -1284,10 +1296,10 @@
                                 document.getElementById("ib").value = "";
                             }
                         } else {
-                            mdui.snackbar("发送失败……");
+                            mdui.snackbar("发送失败："+data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("发送失败……");
+                        mdui.snackbar("发送失败："+error);
                     });
                 }
                 document.getElementById("ib").addEventListener("keyup", function (event) {
@@ -1320,7 +1332,7 @@
             return windowHeight;
         }
 
-        console.log(getWindowHeight());
+        // console.log(getWindowHeight());
 
         document.getElementById("happy").style.position = "absolute";
         document.getElementById("happy").style.top = getWindowHeight() + "px";
@@ -1348,7 +1360,7 @@
             }).then(function (response) {
                 return response.text();
             }).then(function (odata) {
-                console.log(odata);
+                // console.log(odata);
                 odata = JSON.parse(odata);
                 var data = odata.msg;
                 var onlineNum = odata.onlinenum;
@@ -1455,7 +1467,7 @@
                 }
                 document.querySelector("#benben").innerHTML = tmptxt;
             }).catch(function () {
-                mdui.snackbar("获取犇犇失败……");
+                mdui.snackbar("更新犇犇失败："+error);
             });
         }
     </script>
@@ -1495,7 +1507,7 @@
 
                 } else {
                     j = JSON.parse(data);
-                    console.log(j);
+                    // console.log(j);
                     window['musicUrls'] = [j['url'].replace("http://", "https://")];
                     // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
                     window['artistNameData'] = [j['artist']];
@@ -1522,7 +1534,7 @@
                     }, 10);
                 }
             }).catch(function () {
-                mdui.snackbar("获取音乐直播失败……");
+                mdui.snackbar("获取音乐直播失败："+error);
                 window['music'] = 'failed';
             });
         }
@@ -1531,10 +1543,10 @@
         }).then(function (response) {
             return response.text();
         }).then(function (data) {
-            console.log(data);
+            // console.log(data);
             if (data == `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
-                mdui.snackbar("请点击右上角登录");
+                mdui.snackbar("请登录");
             } else {
                 // try {
                 //     document.getElementById("lbt").innerHTML = JSON.parse(data).name;
@@ -1545,7 +1557,7 @@
 
                 try {
                     var fa = document.getElementById("lbt").parentNode;
-                    console.log(fa);
+                    // console.log(fa);
                     fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))
                     document.getElementById("lbt").remove();
                 } catch {
@@ -1557,21 +1569,21 @@
                 document.getElementById("happy").removeAttribute("hidden");
                 get_benben();
                 get_music();
-                console.log("getmusic0");
+                // console.log("getmusic0");
                 setInterval(function () { //每10秒刷新一次
                     get_benben();
                 }, 10000);
                 setInterval(function () { //每1秒刷新一次
                     if (window['playDone'] == true) {
                         get_music();
-                        console.log("getmusic2");
+                        // console.log("getmusic2");
                         window['playDone'] = false;
                     }
                 }, 1000);
                 setInterval(function () { //每5秒刷新一次
                     if (window['music'] != "true") {
                         get_music();
-                        console.log("getmusic1");
+                        // console.log("getmusic1");
                         window['playDone'] = false;
                     }
                 }, 10000);
