@@ -10,6 +10,38 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     
     <style>
+        #suggestionContainer {
+            overflow: hidden;
+            z-index: 114514;
+            border-radius: 15px;
+            transition: .25s;
+            -webkit-backdrop-filter: blur(30px) saturate(1.25);
+            backdrop-filter: blur(30px) saturate(1.25);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+        }
+
+        #suggestionContainer div {
+            /* border-radius: 15px; */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            clear: both;
+            height: 30px;
+            padding-left: 20px;
+            line-height: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.09);
+            color: rgba(255,255,255,.8);
+            transition: .25s;
+        }
+
+        #suggestionContainer div:hover {
+            background:rgba(0, 0, 0, 0.27);
+            color: rgba(255,255,255,.8);
+            transition: .25s;
+        }
+
         .mdui-card {
             transition: all 0.75s;
             opacity: 0.75;
@@ -359,12 +391,15 @@
             <div id="container" class="box mdui-hoverable" style="transform: translateY(425%);">
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 登录后下滑解锁新世界"
-                    onkeypress="getKey();" />
+                    onkeypress="getKey();" onkeyup="getSuggest();"" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
             </div>
         </center>
+        <div id="suggestionContainer" style="height: auto; opacity: 1; display: block; position: relative; top: 205px;">
+
+        </div>
     </div>
     <script>
         // 编辑 .bg 中 background 的 URL 中的 random 参数以防止缓存
@@ -376,6 +411,7 @@
     </script>
     <script type="text/javascript">
         //获得文本框元素
+        var lostfocus = false;
         var txtSearch = document.getElementById('inputBox');
         //文本框得到焦点事件 onfocus()
         txtSearch.onfocus = function () {
@@ -384,6 +420,8 @@
         //文本框失去焦点事件 onblur()
         txtSearch.onblur = function () {
             document.getElementById("container").setAttribute("class", "box mdui-hoverable");
+            $("#suggestionContainer").empty();
+            lostfocus = true;
         }
     </script>
     <!-- MDUI JavaScript -->
@@ -397,6 +435,33 @@
             } else {
                 location.href = "/search?q=" + encodeURIComponent(document.getElementById("inputBox").value)
             }
+        }
+        let sugStatus = false;
+        function getSuggest() {
+            if (sugStatus === true) {
+                return;
+            }
+            sugStatus = true;
+            $.ajax({url: `https://api.oiso.cf:8443/suggestion?q=${$("#inputBox")[0].value}`, success: (data) => {
+                lostfocus = false;
+                data = $.parseJSON(data);
+                console.log(data);
+                let hits = data.hits.hits;
+                $("#suggestionContainer").empty();
+                let sel = $("#suggestionContainer");
+                for (const hit in hits) {
+                    console.log(hits[hit]._id);
+                    sel.append(`<div>${hits[hit]._id}</div>`);
+                }
+                if (lostfocus) {
+                    $("#suggestionContainer").empty();
+                    lostfocus = false;
+                }
+                sugStatus = false;
+            }, error: () => {
+                console.log("获取提示信息失败...");
+                sugStatus = false;
+            }});
         }
         function getKey() {
             if (event.keyCode == 13) {
