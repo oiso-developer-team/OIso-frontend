@@ -391,7 +391,7 @@
             <div id="container" class="box mdui-hoverable" style="transform: translateY(200px);">
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 登录后下滑解锁新世界"
-                    onkeypress="getKey();" onkeyup="getSuggest();" />
+                    onkeypress="getKey();"/>
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
@@ -410,6 +410,14 @@
         document.querySelector(".bg").style.background = "url(" + url + ") !important";
     </script>
     <script type="text/javascript">
+        window['now'] = ''
+        setInterval(function () { //每0.5秒刷新一次
+            var text = document.getElementById('inputBox').value;
+            if (text != window['now']) {
+                window['now'] = text;
+                getSuggest();
+            }
+        }, 500); 
         //获得文本框元素
         var lostfocus = false;
         var txtSearch = document.getElementById('inputBox');
