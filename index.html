@@ -1603,42 +1603,7 @@
             // mdui.snackbar("服务器错误：" + data);
             document.getElementById("lbt").innerHTML = "未登录";
         });
-    </script>
-    <button class="mdui-fab mdui-fab-fixed" hidden="hidden" id="goto_top"><i class="mdui-icon material-icons">keyboard_arrow_up</i></button>
-    <script>            
-        document.getElementById("goto_top").addEventListener("click", function () {
-            // 平滑滚动
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-    </script>
-    <script>
-        function getScrollTop() {
-            var scrollTop = 0;
-            if (document.documentElement && document.documentElement.scrollTop) {
-                scrollTop = document.documentElement.scrollTop;
-            } else if (document.body) {
-                scrollTop = document.body.scrollTop;
-            }
-            return scrollTop;
-        }
-        window.onscroll = function () {
-            // 让 goto_top 在往下滑到半个屏幕高度的距离时动画显示
-            var halfScreenHeight = window.innerHeight / 2;
-            var gotoTop = document.getElementById("goto_top");
-            var nowPos = getScrollTop();
-            if (nowPos < halfScreenHeight - 150) {
-                gotoTop.hidden = true;
-            } else if (nowPos > halfScreenHeight - 150) {
-                gotoTop.hidden = false;
-                if (nowPos < halfScreenHeight + 150) {
-                    gotoTop.style.opacity = (nowPos - halfScreenHeight + 150) / 300;
-                }
-            }
-        }
-    </script>
+    </script> 
 </body>
 
 </html>
