@@ -540,7 +540,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 } else if (type == "bbs") {
                     document.getElementById("abbs").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
@@ -558,7 +558,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 } else if (type == "problem") {
                     document.getElementById("aproblem").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
@@ -576,7 +576,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 } else if (type == "wiki") {
                     document.getElementById("awiki").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
@@ -594,7 +594,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 } else if (type == "article") {
                     document.getElementById("aarticle").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
@@ -612,7 +612,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 } else if (type == "pages") {
                     document.getElementById("apages").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
@@ -630,7 +630,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差了，刷新试试？");
+                        mdui.snackbar("服务器开小差力！"+error);
                     });
                 }
                 mdui.mutation();
@@ -644,10 +644,10 @@
             bg="gray-100" w="full" h="12" text="xs" id="foot" hidden="hidden">
             <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
-                        alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2022&nbsp;<a
-                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.8.5 测试版 | Developed
-                by&nbsp;<a class="icon-btn mr-2 aaa" title="Blog" href="https://www.amzcd.top"
-                    target="_blank">diyanqi</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
+                        alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
+                    class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.8.6 测试版 | Developed
+                    by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
+                        target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
                     href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
             </div>
             <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2"
