@@ -1079,7 +1079,7 @@
         <div class="mdui-dialog-content mdui-typo">
 
             <p>由于种种原因，我们无法及时爬取您的洛谷博客。所以您可以在这里手动请求爬取您的博客。</p>
-            <p><b>仅能爬取洛谷博客，第三方博客（如自搭建博客，CSDN，cnBlogs）请移步“第三方博客爬取”！</b></p>
+            <p><b>仅能爬取洛谷博客，第三方博客（如自搭建博客，CSDN，cnBlogs）请移步“其他博客”爬取！</b></p>
             <p>博客爬取有以下几种形式：</p>
             <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。</p>
             <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。</p>
@@ -1295,13 +1295,13 @@
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
-                                        请求爬虫
+                                        洛谷博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">description</i>
-                                        第三方博客
+                                        其他博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
@@ -1364,7 +1364,7 @@
                     var title = json.images[0].title;
                     var copyrightlink = json.images[0].copyrightlink;
                     $("#detail").html(title + " - " + copyright);
-                    $("#detail").attr("href", copyrightlink);
+                    $("#detail").attr("href", "https://cn.bing.com" + json.images[0].url);
                     // copilot 就是好用，我不会写也能给我写上（（（
                 }});
             </script>
