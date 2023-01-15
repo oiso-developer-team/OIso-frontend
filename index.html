@@ -9,6 +9,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function() {
+        OneSignal.init({
+          appId: "7ece0660-f9eb-4e71-b866-1241084211f7",
+        });
+      });
+    </script>
+
     <style>
         #suggestionContainer {
             overflow: hidden;
