@@ -465,7 +465,7 @@
             if (sugStatus === true) {
                 return;
             }
-            var myurl = `https://api.oiso.cf:8443/suggestion?q=${$("#inputBox")[0].value}`;
+            var myurl = `https://api.oiso.cf:2096/suggestion?q=${$("#inputBox")[0].value}`;
             console.log(myurl);
             sugStatus = true;
             $.ajax({url: myurl, success: (data) => {
@@ -509,7 +509,7 @@
         }
     </script>
     <script>
-        fetch("https://api.oiso.cf:8443").then(function (response) {
+        fetch("https://api.oiso.cf:2096").then(function (response) {
             return response.text();
         }).then(function (data) {
             // console.log(data);
@@ -559,7 +559,7 @@
         </div>
         <script>
             function gologout() {
-                fetch("https://api.oiso.cf:8443/logout", {
+                fetch("https://api.oiso.cf:2096/logout", {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -623,7 +623,7 @@
         <script>
             window['test'] = "ok!";
             function get_key() {
-                fetch("https://api.oiso.cf:8443/key_request", {
+                fetch("https://api.oiso.cf:2096/key_request", {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -640,7 +640,7 @@
                     mdui.snackbar("总不能什么都不输入吧QWQ");
                     return;
                 }
-                fetch("https://api.oiso.cf:8443/key_check?url=" + url, {
+                fetch("https://api.oiso.cf:2096/key_check?url=" + url, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1037,7 +1037,7 @@
                 var content = encodeURIComponent(document.getElementById("content").value);
                 var f = encodeURIComponent(document.getElementById("textcolor").value);
                 var b = encodeURIComponent(document.getElementById("background").value);
-                fetch(`https://api.oiso.cf:8443/tag/edit?f=${String(f)}&b=${String(b)}&content=${content}`, {
+                fetch(`https://api.oiso.cf:2096/tag/edit?f=${String(f)}&b=${String(b)}&content=${content}`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1057,7 +1057,7 @@
         <script>
             function get_tag() {
                 // url: /tag/getmine
-                fetch(`https://api.oiso.cf:8443/tag/getmine`, {
+                fetch(`https://api.oiso.cf:2096/tag/getmine`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1115,7 +1115,7 @@
                         mdui.snackbar("请输入正确的链接");
                         return;
                     }
-                    fetch("https://api.oiso.cf:8443/spider/request?type=lgblog_single_passage&id=" + url, {
+                    fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_single_passage&id=" + url, {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
@@ -1132,7 +1132,7 @@
                     return;
                 } else {
                     // 说明是uid
-                    fetch("https://api.oiso.cf:8443/spider/request?type=lgblog_user&id=" + url, {
+                    fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_user&id=" + url, {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
@@ -1200,7 +1200,7 @@
 
     <script>
         function getspiderstatus() {
-            fetch("https://api.oiso.cf:8443/spider/status", {
+            fetch("https://api.oiso.cf:2096/spider/status", {
                 credentials: 'include'
             }).then(function (response) {
                 return response.text();
@@ -1241,7 +1241,7 @@
                     mdui.snackbar("请输入正确的歌曲ID，是一串数字。");
                     return;
                 }
-                fetch("https://api.oiso.cf:8443/song?song=" + url, {
+                fetch("https://api.oiso.cf:2096/song?song=" + url, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1365,7 +1365,7 @@
                 </div>
             </div>
             <script>
-                $.ajax({url: "https://api.oiso.cf:8443/bingimg/detail", success: (data) => {
+                $.ajax({url: "https://api.oiso.cf:2096/bingimg/detail", success: (data) => {
                     // console.log(data);
                     // 先解析成json对象
                     var json = JSON.parse(data);
@@ -1404,7 +1404,7 @@
                         mdui.snackbar("总要说点什么吧？");
                         return;
                     }
-                    fetch("https://api.oiso.cf:8443/msg?msg=" + text, {
+                    fetch("https://api.oiso.cf:2096/msg?msg=" + text, {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
@@ -1477,7 +1477,7 @@
         }
 
         function get_benben() {
-            fetch("https://api.oiso.cf:8443/getmsg", {
+            fetch("https://api.oiso.cf:2096/getmsg", {
                 credentials: 'include'
             }).then(function (response) {
                 return response.text();
@@ -1596,7 +1596,7 @@
 
     <script>
         function get_music() {
-            fetch("https://api.oiso.cf:8443/getsong", {
+            fetch("https://api.oiso.cf:2096/getsong", {
                 credentials: 'include'
             }).then(function (response) {
                 return response.text();
@@ -1660,7 +1660,7 @@
                 window['music'] = 'failed';
             });
         }
-        fetch("https://api.oiso.cf:8443/profile", {
+        fetch("https://api.oiso.cf:2096/profile", {
             credentials: 'include'
         }).then(function (response) {
             return response.text();
