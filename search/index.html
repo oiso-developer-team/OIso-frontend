@@ -449,7 +449,11 @@
                         return index['_source']['platform'];
                     }
                 }else if (index['_index'] == "problems") {
-                    return CHART[index['_source']['oj']];
+                    if (index['_source']['oj'] in CHART) {
+                        return CHART[index['_source']['oj']];
+                    } else {
+                        return index['_source']['oj'];
+                    }
                 } else if (index['_index'] in CHART) {
                     return CHART[index['_index']];
                 } else {
