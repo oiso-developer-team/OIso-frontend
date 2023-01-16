@@ -8,15 +8,15 @@
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    
+
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
-      window.OneSignal = window.OneSignal || [];
-      OneSignal.push(function() {
-        OneSignal.init({
-          appId: "7ece0660-f9eb-4e71-b866-1241084211f7",
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "7ece0660-f9eb-4e71-b866-1241084211f7",
+            });
         });
-      });
     </script>
 
     <style>
@@ -42,13 +42,13 @@
             line-height: 30px;
             cursor: pointer;
             background: rgba(0, 0, 0, 0.09);
-            color: rgba(255,255,255,.8);
+            color: rgba(255, 255, 255, .8);
             transition: .25s;
         }
 
         #suggestionContainer div:hover {
-            background:rgba(0, 0, 0, 0.27);
-            color: rgba(255,255,255,.8);
+            background: rgba(0, 0, 0, 0.27);
+            color: rgba(255, 255, 255, .8);
             transition: .25s;
         }
 
@@ -56,11 +56,12 @@
             transition: all 0.75s;
             opacity: 0.83;
         }
+
         .mdui-card:hover {
             transition: all 0.75s;
             opacity: 0.95;
-            -webkit-box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12) !important;
-            box-shadow:0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12) !important
+            -webkit-box-shadow: 0 11px 15px -7px rgba(0, 0, 0, .2), 0 24px 38px 3px rgba(0, 0, 0, .14), 0 9px 46px 8px rgba(0, 0, 0, .12) !important;
+            box-shadow: 0 11px 15px -7px rgba(0, 0, 0, .2), 0 24px 38px 3px rgba(0, 0, 0, .14), 0 9px 46px 8px rgba(0, 0, 0, .12) !important
         }
 
         .mdui-dialog,
@@ -167,7 +168,8 @@
                 background-color: rgb(70, 70, 70) !important;
             }
         }
-        } */ /* 下几个版本没出问题就删 这是什么牛马名字 */
+        } */
+        /* 下几个版本没出问题就删 这是什么牛马名字 */
 
         .justify-center {
             justify-content: center;
@@ -277,8 +279,8 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(rgba(0,0,0,0) 0,rgba(0,0,0,.08) 100%),
-            radial-gradient(rgba(0,0,0,0) 33%,rgba(0,0,0,.3) 166%);
+            background-image: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .08) 100%),
+                radial-gradient(rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, .3) 166%);
             transition: .25s
         }
 
@@ -300,7 +302,7 @@
             z-index: -999;
             position: fixed;
             background: url(https://www.wxiou.cn/api/?blur=15&random=1145141919810);
-            height:600px;
+            height: 600px;
             text-align: center;
             line-height: 600px;
             /* background-image: url(https://api.oneneko.com/v1/bing_today); */
@@ -359,8 +361,9 @@
         #p-d .p-material_icons .icons-wrapper {
             margin-top: 40px;
         }
+
         #lbt {
-            color:rgb(225, 225, 225)
+            color: rgb(225, 225, 225)
         }
     </style>
     <!-- 借用 Luogu cdn -->
@@ -373,7 +376,7 @@
 
 <body class="mdui-theme-layout-auto">
     <div class="bg bg-blur"></div>
-    <div class="cover" id="cover" style="opacity: 1;"></div>
+    <div class="cover js-cursor-container" id="cover" style="opacity: 1;"></div>
     <!-- <div class="mdui-toolbar mdui-color-theme">
         <div class="mdui-toolbar-spacer"></div>
         <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-light-blue"
@@ -401,13 +404,14 @@
             <div id="container" class="box mdui-hoverable" style="transform: translateY(170px);">
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="你干嘛~唉哟~ | 登录后下滑解锁新世界"
-                    onkeypress="getKey();"/>
+                    onkeypress="getKey();" />
                 <div class="right">
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
             </div>
         </center>
-        <div id="suggestionContainer" style="height: auto; opacity: 1; display: block; position: absolute; top: 400px; left: 50%; transform: translateX(-50%); width: 584px;">
+        <div id="suggestionContainer"
+            style="height: auto; opacity: 1; display: block; position: absolute; top: 400px; left: 50%; transform: translateX(-50%); width: 584px;">
 
         </div>
     </div>
@@ -468,37 +472,39 @@
             var myurl = `https://api.oiso.cf:2096/suggestion?q=${$("#inputBox")[0].value}`;
             console.log(myurl);
             sugStatus = true;
-            $.ajax({url: myurl, success: (data) => {
-                lostfocus = false;
-                data = $.parseJSON(data);
-                console.log(data);
-                let hits = data.hits.hits;
-                $("#suggestionContainer").empty();
-                let sel = $("#suggestionContainer");
-                for (const hit in hits) {
-                    console.log(hits[hit]._id);
-                    sel.append(`<div onclick="gosug('${hits[hit]._source.name}')">${hits[hit]._source.name}</div>`);
-                }
-                if (lostfocus) {
-                    $("#suggestionContainer").empty();
+            $.ajax({
+                url: myurl, success: (data) => {
                     lostfocus = false;
+                    data = $.parseJSON(data);
+                    console.log(data);
+                    let hits = data.hits.hits;
+                    $("#suggestionContainer").empty();
+                    let sel = $("#suggestionContainer");
+                    for (const hit in hits) {
+                        console.log(hits[hit]._id);
+                        sel.append(`<div onclick="gosug('${hits[hit]._source.name}')">${hits[hit]._source.name}</div>`);
+                    }
+                    if (lostfocus) {
+                        $("#suggestionContainer").empty();
+                        lostfocus = false;
+                    }
+                    sugStatus = false;
+                }, error: () => {
+                    console.log("获取提示信息失败...");
+                    sugStatus = false;
                 }
-                sugStatus = false;
-            }, error: () => {
-                console.log("获取提示信息失败...");
-                sugStatus = false;
-            }});
+            });
         }
         // 当inputBox的内容发生变化
         $("#inputBox").bind('input propertychange', function () {
             if (window['onfunction'] === true) {
-                setTimeout(function(){
+                setTimeout(function () {
                     getSuggest();
                 }, 200);
             }
         })
         function gosug(name) {
-            console.log("gosug"+name)
+            console.log("gosug" + name)
             $("#inputBox")[0].value = name;
             go();
         }
@@ -518,9 +524,9 @@
             }
         }).catch((error) => {
             mdui.snackbar({
-                message: '服务器炸了：'+error+'，快去轰炸管理员！',
+                message: '服务器炸了：' + error + '，快去轰炸管理员！',
                 buttonText: '查看宕机监测',
-                onButtonClick: function(){
+                onButtonClick: function () {
                     window.open('https://stats.uptimerobot.com/JRlkxCB95r')
                 }
             });
@@ -535,15 +541,16 @@
             </center>
         </div>
     </div> -->
-    <div class="infoBoard bottom-nav mdui-card fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
-        bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
+    <div class="infoBoard bottom-nav mdui-card fixed left-0 right-0 bottom-0 flex justify-center items-center"
+        dark="bg-dark-700" bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
                 href="/">OIso.cf</a>&nbsp;| v0.8.7 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
                 target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
-                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background" href="https://bing.com" target="_blank">Bing Wallpaper</a>
+                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background"
+                href="https://bing.com" target="_blank">Bing Wallpaper</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
@@ -555,7 +562,8 @@
         <div class="mdui-dialog-content">确定要退出登录吗？</div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();" style="border-radius: 15px;">确定</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologout();"
+                style="border-radius: 15px;">确定</button>
         </div>
         <script>
             function gologout() {
@@ -571,10 +579,10 @@
                             location.reload();
                         }, 1000);
                     } else {
-                        mdui.snackbar("登出失败："+data);
+                        mdui.snackbar("登出失败：" + data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("服务器炸了："+error);
+                    mdui.snackbar("服务器炸了：" + error);
                 });
             }
         </script>
@@ -618,7 +626,8 @@
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();" style="border-radius: 15px;">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();"
+                style="border-radius: 15px;">确认</button>
         </div>
         <script>
             window['test'] = "ok!";
@@ -631,7 +640,7 @@
                     // console.log(data);
                     document.querySelector("#dialog-login pre").innerText = data;
                 }).catch(function () {
-                    mdui.snackbar("获取密钥失败："+error);
+                    mdui.snackbar("获取密钥失败：" + error);
                 });
             }
             function gologin() {
@@ -652,10 +661,10 @@
                             location.reload();
                         }, 1000);
                     } else {
-                        mdui.snackbar("登录失败："+data);
+                        mdui.snackbar("登录失败：" + data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("服务器开小差了："+error);
+                    mdui.snackbar("服务器开小差了：" + error);
                 });
             }
         </script>
@@ -688,7 +697,7 @@
                     </label>
                 </div>
             </div>
-        
+
             <p class="mdui-typo-title mdui-text-color-theme">主色</p>
             <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
                 <div class="mdui-col mdui-text-color-amber">
@@ -825,7 +834,7 @@
                     </label>
                 </div>
             </form>
-        
+
             <p class="mdui-typo-title mdui-text-color-theme-accent">强调色</p>
             <form class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3">
                 <div class="mdui-col mdui-text-color-amber">
@@ -953,7 +962,7 @@
             // 如果点击的不是 suggestionContainer
             var targ = e.target;
             var myid = targ.id;
-            if(myid != 'suggestionContainer' && myid != 'inputBox'){
+            if (myid != 'suggestionContainer' && myid != 'inputBox') {
                 $("#suggestionContainer").empty();
                 lostfocus = true;
             }
@@ -1030,7 +1039,8 @@
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();" style="border-radius: 15px;">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="goTag();"
+                style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function goTag() {
@@ -1047,10 +1057,10 @@
                         mdui.snackbar("修改成功！");
                         get_benben();
                     } else {
-                        mdui.snackbar("修改失败："+data);
+                        mdui.snackbar("修改失败：" + data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("服务器寄了："+data);
+                    mdui.snackbar("服务器寄了：" + data);
                 });
             }
         </script>
@@ -1078,7 +1088,7 @@
                     document.getElementById("background").value = data["background"];
                     document.getElementById("content").value = data["content"];
                 }).catch(function () {
-                    mdui.snackbar("出错了："+error);
+                    mdui.snackbar("出错了：" + error);
                 });
             }
         </script>
@@ -1104,7 +1114,8 @@
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gospider();" style="border-radius: 15px;">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gospider();"
+                style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function gospider() {
@@ -1124,10 +1135,10 @@
                         if (data == "True") {
                             mdui.snackbar("请求成功！已排入爬虫队列！");
                         } else {
-                            mdui.snackbar("出错了："+data);
+                            mdui.snackbar("出错了：" + data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("失败了："+error);
+                        mdui.snackbar("失败了：" + error);
                     });
                     return;
                 } else {
@@ -1141,10 +1152,10 @@
                         if (data == "True") {
                             mdui.snackbar("请求成功！已排入爬虫队列！");
                         } else {
-                            mdui.snackbar("出错了："+data);
+                            mdui.snackbar("出错了：" + data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("失败了："+error);
+                        mdui.snackbar("失败了：" + error);
                     });
                     return;
                 }
@@ -1155,7 +1166,8 @@
     <div class="mdui-dialog" id="dialog-third-party-blog" style="border-radius: 20px;">
         <div class="mdui-dialog-title">第三方博客爬取</div>
         <div class="mdui-dialog-content mdui-typo">
-            <p>请填充下列内容，然后通过邮件发送给 <a id="email"></a> 或通过洛谷<a href="https://www.luogu.com.cn/chat?uid=222419" target="_blank">私信我</a></p>
+            <p>请填充下列内容，然后通过邮件发送给 <a id="email"></a> 或通过洛谷<a href="https://www.luogu.com.cn/chat?uid=222419"
+                    target="_blank">私信我</a></p>
             <pre>第三方博客爬取：
 博客地址：【如 https://www.amzcd.top 】
 博客名称：【如 diyanqi's Blog! 】
@@ -1170,7 +1182,7 @@
     <script>
         let at = "@";
         let email_address = "diyanqi" + at + "qq.com";
-        document.getElementById("email").setAttribute("href","mailto:" + email_address);
+        document.getElementById("email").setAttribute("href", "mailto:" + email_address);
         document.getElementById("email").innerText = email_address;
     </script>
 
@@ -1232,7 +1244,8 @@
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gocsong();" style="border-radius: 15px;">确认</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gocsong();"
+                style="border-radius: 15px;">确认</button>
         </div>
         <script>
             function gocsong() {
@@ -1250,10 +1263,10 @@
                     if (data == "True") {
                         mdui.snackbar("点歌成功！已排入点歌队列！");
                     } else {
-                        mdui.snackbar("点歌失败："+data);
+                        mdui.snackbar("点歌失败：" + data);
                     }
                 }).catch(function () {
-                    mdui.snackbar("点歌失败："+data);
+                    mdui.snackbar("点歌失败：" + data);
                 });
             }
         </script>
@@ -1284,13 +1297,15 @@
                         <div class="mdui-card-content">
                             <div class="icons-wrapper mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-6 mdui-row-lg-6">
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
                                         <i class="mdui-icon mdui-icon-left material-icons">people</i>
                                         在线人数
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-csong'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-csong'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">queue_music</i>
                                         在线点歌
                                     </button>
@@ -1303,44 +1318,50 @@
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-spider'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-spider'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
                                         洛谷博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-third-party-blog'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">description</i>
                                         其他博客
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-editTag'}"
-                                        onclick="get_tag();">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-editTag'}" onclick="get_tag();">
                                         <i class="mdui-icon mdui-icon-left material-icons">label</i>
                                         编辑 tag
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-logout'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-logout'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">exit_to_app</i>
                                         退出登录
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="window.open('https://stats.uptimerobot.com/JRlkxCB95r')">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        onclick="window.open('https://stats.uptimerobot.com/JRlkxCB95r')">
                                         <i class="mdui-icon mdui-icon-left material-icons">panorama_fish_eye</i>
                                         宕机监控
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-docs-theme'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-docs-theme'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">color_lens</i>
                                         主题颜色
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-bingimg-detail'}">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-bingimg-detail'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">info</i>
                                         壁纸信息
                                     </button>
@@ -1365,18 +1386,20 @@
                 </div>
             </div>
             <script>
-                $.ajax({url: "https://api.oiso.cf:2096/bingimg/detail", success: (data) => {
-                    // console.log(data);
-                    // 先解析成json对象
-                    var json = JSON.parse(data);
-                    // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
-                    var copyright = json.images[0].copyright;
-                    var title = json.images[0].title;
-                    var copyrightlink = json.images[0].copyrightlink;
-                    $("#detail").html(title + " - " + copyright);
-                    $("#detail").attr("href", "https://cn.bing.com" + json.images[0].url);
-                    // copilot 就是好用，我不会写也能给我写上（（（
-                }});
+                $.ajax({
+                    url: "https://api.oiso.cf:2096/bingimg/detail", success: (data) => {
+                        // console.log(data);
+                        // 先解析成json对象
+                        var json = JSON.parse(data);
+                        // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
+                        var copyright = json.images[0].copyright;
+                        var title = json.images[0].title;
+                        var copyrightlink = json.images[0].copyrightlink;
+                        $("#detail").html(title + " - " + copyright);
+                        $("#detail").attr("href", "https://cn.bing.com" + json.images[0].url);
+                        // copilot 就是好用，我不会写也能给我写上（（（
+                    }
+                });
             </script>
             <script>
                 function getWindowHeight2() {
@@ -1414,14 +1437,14 @@
                             mdui.snackbar("发送成功！");
                             get_benben();
                             document.getElementById("ib").value = "冷却中……";
-                            if(time_is_up){
+                            if (time_is_up) {
                                 document.getElementById("ib").value = "";
                             }
                         } else {
-                            mdui.snackbar("发送失败："+data);
+                            mdui.snackbar("发送失败：" + data);
                         }
                     }).catch(function () {
-                        mdui.snackbar("发送失败："+error);
+                        mdui.snackbar("发送失败：" + error);
                     });
                 }
                 document.getElementById("ib").addEventListener("keyup", function (event) {
@@ -1589,7 +1612,7 @@
                 }
                 document.querySelector("#benben").innerHTML = tmptxt;
             }).catch(function () {
-                mdui.snackbar("更新犇犇失败："+error);
+                mdui.snackbar("更新犇犇失败：" + error);
             });
         }
     </script>
@@ -1610,7 +1633,7 @@
                         try {
                             document.getElementById("live").remove();
                         } catch (e) { }
-                        try{
+                        try {
                             document.getElementById("livebot").remove();
                         } catch (e) { }
                         document.getElementById("media").innerHTML += `<iframe id="livebot" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
@@ -1656,7 +1679,7 @@
                     }, 10);
                 }
             }).catch(function () {
-                mdui.snackbar("获取音乐直播失败："+error);
+                mdui.snackbar("获取音乐直播失败：" + error);
                 window['music'] = 'failed';
             });
         }
@@ -1714,7 +1737,270 @@
             // mdui.snackbar("服务器错误：" + data);
             document.getElementById("lbt").innerHTML = "未登录";
         });
-    </script> 
+    </script>
+    <script> // 鼠标点击特效
+        function clickEffect() {
+            let balls = [];
+            let longPressed = false;
+            let longPress;
+            let multiplier = 0;
+            let width, height;
+            let origin;
+            let normal;
+            let ctx;
+            const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
+            const canvas = document.createElement("canvas");
+            document.body.appendChild(canvas);
+            canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
+            const pointer = document.createElement("span");
+            pointer.classList.add("pointer");
+            document.body.appendChild(pointer);
+
+            if (canvas.getContext && window.addEventListener) {
+                ctx = canvas.getContext("2d");
+                updateSize();
+                window.addEventListener('resize', updateSize, false);
+                loop();
+                window.addEventListener("mousedown", function (e) {
+                    pushBalls(randBetween(10, 20), e.clientX, e.clientY);
+                    document.body.classList.add("is-pressed");
+                    longPress = setTimeout(function () {
+                        document.body.classList.add("is-longpress");
+                        longPressed = true;
+                    }, 500);
+                }, false);
+                window.addEventListener("mouseup", function (e) {
+                    clearInterval(longPress);
+                    if (longPressed == true) {
+                        document.body.classList.remove("is-longpress");
+                        pushBalls(randBetween(50 + Math.ceil(multiplier), 100 + Math.ceil(multiplier)), e.clientX, e.clientY);
+                        longPressed = false;
+                    }
+                    document.body.classList.remove("is-pressed");
+                }, false);
+                window.addEventListener("mousemove", function (e) {
+                    let x = e.clientX;
+                    let y = e.clientY;
+                    pointer.style.top = y + "px";
+                    pointer.style.left = x + "px";
+                }, false);
+            } else {
+                console.log("canvas or addEventListener is unsupported!");
+            }
+
+
+            function updateSize() {
+                canvas.width = window.innerWidth * 2;
+                canvas.height = window.innerHeight * 2;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+                ctx.scale(2, 2);
+                width = (canvas.width = window.innerWidth);
+                height = (canvas.height = window.innerHeight);
+                origin = {
+                    x: width / 2,
+                    y: height / 2
+                };
+                normal = {
+                    x: width / 2,
+                    y: height / 2
+                };
+            }
+            class Ball {
+                constructor(x = origin.x, y = origin.y) {
+                    this.x = x;
+                    this.y = y;
+                    this.angle = Math.PI * 2 * Math.random();
+                    if (longPressed == true) {
+                        this.multiplier = randBetween(14 + multiplier, 15 + multiplier);
+                    } else {
+                        this.multiplier = randBetween(6, 12);
+                    }
+                    this.vx = (this.multiplier + Math.random() * 0.5) * Math.cos(this.angle);
+                    this.vy = (this.multiplier + Math.random() * 0.5) * Math.sin(this.angle);
+                    this.r = randBetween(8, 12) + 3 * Math.random();
+                    this.color = colours[Math.floor(Math.random() * colours.length)];
+                }
+                update() {
+                    this.x += this.vx - normal.x;
+                    this.y += this.vy - normal.y;
+                    normal.x = -2 / window.innerWidth * Math.sin(this.angle);
+                    normal.y = -2 / window.innerHeight * Math.cos(this.angle);
+                    this.r -= 0.3;
+                    this.vx *= 0.9;
+                    this.vy *= 0.9;
+                }
+            }
+
+            function pushBalls(count = 1, x = origin.x, y = origin.y) {
+                for (let i = 0; i < count; i++) {
+                    balls.push(new Ball(x, y));
+                }
+            }
+
+            function randBetween(min, max) {
+                return Math.floor(Math.random() * max) + min;
+            }
+
+            function loop() {
+                ctx.fillStyle = "rgba(255, 255, 255, 0)";
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < balls.length; i++) {
+                    let b = balls[i];
+                    if (b.r < 0) continue;
+                    ctx.fillStyle = b.color;
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
+                    ctx.fill();
+                    b.update();
+                }
+                if (longPressed == true) {
+                    multiplier += 0.2;
+                } else if (!longPressed && multiplier >= 0) {
+                    multiplier -= 0.4;
+                }
+                removeBall();
+                requestAnimationFrame(loop);
+            }
+
+            function removeBall() {
+                for (let i = 0; i < balls.length; i++) {
+                    let b = balls[i];
+                    if (b.x + b.r < 0 || b.x - b.r > width || b.y + b.r < 0 || b.y - b.r > height || b.r < 0) {
+                        balls.splice(i, 1);
+                    }
+                }
+            }
+        }
+        clickEffect();//调用特效函数
+    </script>
+    <script> // 鼠标拖尾特效
+        (function fairyDustCursor() {
+
+            var possibleColors = ["#D61C59", "#E7D84B", "#1B8798"]
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var cursor = { x: width / 2, y: width / 2 };
+            var particles = [];
+
+            function init() {
+                bindEvents();
+                loop();
+            }
+
+            // Bind events that are needed
+            function bindEvents() {
+                document.addEventListener('mousemove', onMouseMove);
+                window.addEventListener('resize', onWindowResize);
+            }
+
+            function onWindowResize(e) {
+                width = window.innerWidth;
+                height = window.innerHeight;
+            }
+
+            function onMouseMove(e) {
+                cursor.x = e.clientX;
+                cursor.y = e.clientY;
+
+                addParticle(cursor.x, cursor.y, possibleColors[Math.floor(Math.random() * possibleColors.length)]);
+            }
+
+            function addParticle(x, y, color) {
+                var particle = new Particle();
+                particle.init(x, y, color);
+                particles.push(particle);
+            }
+
+            function updateParticles() {
+
+                // Updated
+                for (var i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                }
+
+                // Remove dead particles
+                for (var i = particles.length - 1; i >= 0; i--) {
+                    if (particles[i].lifeSpan < 0) {
+                        particles[i].die();
+                        particles.splice(i, 1);
+                    }
+                }
+
+            }
+
+            function loop() {
+                requestAnimationFrame(loop);
+                updateParticles();
+            }
+
+            /**
+             * Particles
+             */
+
+            function Particle() {
+
+                this.character = "*";
+                this.lifeSpan = 120; //ms
+                this.initialStyles = {
+                    "position": "fixed",
+                    "display": "inline-block",
+                    "top": "0px",
+                    "left": "0px",
+                    "pointerEvents": "none",
+                    "touch-action": "none",
+                    "z-index": "10000000",
+                    "fontSize": "25px",
+                    "will-change": "transform"
+                };
+
+                // Init, and set properties
+                this.init = function (x, y, color) {
+
+                    this.velocity = {
+                        x: (Math.random() < 0.5 ? -1 : 1) * (Math.random() / 2),
+                        y: 1
+                    };
+
+                    this.position = { x: x + 10, y: y + 10 };
+                    this.initialStyles.color = color;
+
+                    this.element = document.createElement('span');
+                    this.element.innerHTML = this.character;
+                    applyProperties(this.element, this.initialStyles);
+                    this.update();
+
+                    document.querySelector('.js-cursor-container').appendChild(this.element);
+                };
+
+                this.update = function () {
+                    this.position.x += this.velocity.x;
+                    this.position.y += this.velocity.y;
+                    this.lifeSpan--;
+
+                    this.element.style.transform = "translate3d(" + this.position.x + "px," + this.position.y + "px, 0) scale(" + (this.lifeSpan / 120) + ")";
+                }
+
+                this.die = function () {
+                    this.element.parentNode.removeChild(this.element);
+                }
+
+            }
+
+            /**
+             * Utils
+             */
+
+            // Applies css `properties` to an element.
+            function applyProperties(target, properties) {
+                for (var key in properties) {
+                    target.style[key] = properties[key];
+                }
+            }
+
+            if (!('ontouchstart' in window || navigator.msMaxTouchPoints)) init();
+        })();    
+    </script>
 </body>
 
 </html>
