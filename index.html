@@ -1672,7 +1672,7 @@
                         document.getElementById("livebot").remove();
                     } catch (e) { }
                     window['music'] = 'true';
-                    document.getElementById("sub").innerText = "正在播放：" + j['title'] + " - " + j['artist'];
+                    document.getElementById("sub").innerText = "正在播放：" + j['title'] + " - " + j['artist'] + "（ 由 " + j['username'] + " 点歌）";
                     setTimeout(function () {
                         document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
                         document.getElementById("live").style.height = getWindowHeight() * 0.5 + "px";
