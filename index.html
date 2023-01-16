@@ -1226,8 +1226,6 @@
     </div>
     <script>
         document.getElementById("subup").onclick = function () {
-            console.log("上传");
-            // https://api.oiso.cf:2096/img/upload
             let file = document.getElementById("file").files[0];
             let formData = new FormData();
             formData.append("file", file);
@@ -1238,10 +1236,11 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var data = JSON.parse(xhr.responseText);
+                    console.log(data);
                     if (data.code == 200) {
-                        $("url").innerText = data.data.url;
+                        document.getElementById('url').innerText = data.url;
                     } else {
-                        mdui.snackbar("出错了：" + data.data.msg);
+                        mdui.snackbar("出错了：" + data.msg);
                     }
                 }
             }
