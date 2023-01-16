@@ -1260,6 +1260,8 @@
             document.body.removeChild(aux);
         }
         document.getElementById("subup").onclick = function () {
+            document.getElementById("subup").disabled = true;
+            document.getElementById("subup").innerText = "上传中...";
             let file = document.getElementById("file").files[0];
             let formData = new FormData();
             formData.append("file", file);
@@ -1296,6 +1298,8 @@
                         mdui.snackbar("出错了：" + data.msg);
                     }
                 }
+                document.getElementById("subup").disabled = false;
+                document.getElementById("subup").innerText = "上传";
             }
             //进度条
             xhr.upload.onprogress = function (e) {
