@@ -1225,7 +1225,8 @@
         </div>
     </div>
     <script>
-        $("subup").onclick = function () {
+        document.getElementById("subup").onclick = function () {
+            console.log("上传");
             var file = $("file").files[0];
             var formdata = new FormData();
             formdata.append("file", file);
