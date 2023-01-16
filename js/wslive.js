@@ -1,13 +1,9 @@
 // 主页的聊天室什么的 使用 socket.io 进行更新
 
-// need cookie
-var io = require('socket.io-client')(https,{
-    cookie: document.cookie
-});
-
-var socket = io.connect('https://api.oiso.cf:2096/');
+var socket = io('https://api.oiso.cf:2096/');
 // 要带上cookie
 socket.request.headers.cookie = document.cookie;
+socket.connect();
 socket.on('connect', function() {
     console.log('Connected!');
 });
