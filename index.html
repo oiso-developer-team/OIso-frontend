@@ -1211,7 +1211,7 @@
     </div>
 
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
-        <div class="mdui-dialog-title">图片上传</div>
+        <div class="mdui-dialog-title">图片上传（使用编程猫社区 API ）</div>
         <div class="mdui-dialog-content mdui-typo mdui-container">
             <input type="file" name="file" id="file" class="mdui-btn mdui-ripple" style="border-radius: 15px;">
             <button class="mdui-btn mdui-ripple" style="border-radius: 15px;" id="subup">上传</button>
@@ -1299,6 +1299,7 @@
             }
             //进度条
             xhr.upload.onprogress = function (e) {
+                console.log(e.loaded, e.total);
                 if (e.lengthComputable) {
                     var percent = e.loaded / e.total * 100;
                     console.log("上传进度：" + percent + "%")
