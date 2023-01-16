@@ -1239,9 +1239,9 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var data = JSON.parse(xhr.responseText);
                     if (data.code == 200) {
-                        $("url").innerText = data.url;
+                        $("url").innerText = data.data.url;
                     } else {
-                        mdui.snackbar("出错了：" + data.msg);
+                        mdui.snackbar("出错了：" + data.data.msg);
                     }
                 }
             }
