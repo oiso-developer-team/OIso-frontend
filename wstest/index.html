@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>群聊</title>
+</head>
+<body>
+<p>
+    <input type="text" id="content">
+    <button onclick="send_msg()">发送</button> <!--给按钮绑定点击事件-->
+</p>
+
+<div id="chat_list">
+
+</div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>    
+<script type="application/javascript">
+  // 对应 192.168.0.10:2333 flask 部署的 socketio 服务
+    var socket = io.connect('https://api.oiso.cf:2096');
+    // 服务端连接成功后，触发 connect 事件
+    socket.on('connect', function() {
+        console.log('connect');
+    });
+</script>
+</html>
