@@ -1227,10 +1227,11 @@
     <script>
         document.getElementById("subup").onclick = function () {
             console.log("上传");
-            var file = $("file").files[0];
-            var formdata = new FormData();
-            formdata.append("file", file);
-            var xhr = new XMLHttpRequest();
+            // https://api.oiso.cf:2096/img/upload
+            let file = document.getElementById("file").files[0];
+            let formData = new FormData();
+            formData.append("file", file);
+            let xhr = new XMLHttpRequest();
             xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
             xhr.withCredentials = true;
             xhr.send(formdata);
