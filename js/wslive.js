@@ -1,7 +1,7 @@
 // 主页的聊天室什么的 使用 websocket 进行更新
 // 接口: /ws/live
 
-var ws = new WebSocket("ws://api.oiso.cf:2096/ws/live");
+var ws = new WebSocket("wss://api.oiso.cf:2096/ws/live");
 ws.onmessage = function (event) {
     // 每 1 秒更新一次
     // {"spider_status":spider_status,"chat_msg":chat_msg,"song_msg":song_msg,"online_num":online_num,"online_list":online_list}
