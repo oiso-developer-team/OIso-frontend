@@ -1210,6 +1210,42 @@
         </div>
     </div>
 
+    <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">图片上传</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <div class="mdui-typo">
+                <input type="file" name="file" id="file" class="mdui-btn mdui-ripple" style="border-radius: 15px;">
+                <input type="submit" value="上传" class="mdui-btn mdui-ripple" style="border-radius: 15px;" id="subup">
+            </div>
+            <pre id="url"></pre>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+    <script>
+        $("subup").onclick = function () {
+            var file = $("file").files[0];
+            var formdata = new FormData();
+            formdata.append("file", file);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
+            xhr.withCredentials = true;
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.code == 200) {
+                        $("url").innerText = data.url;
+                    } else {
+                        mdui.snackbar("出错了：" + data.msg);
+                    }
+                }
+            }
+        }
+    </script>
+
     <div class="mdui-dialog" id="dialog-online_show" style="border-radius: 20px;">
         <div class="mdui-dialog-title" id="show_number">在线人数</div>
         <div class="mdui-dialog-content mdui-typo">
@@ -1379,6 +1415,13 @@
                                         mdui-dialog="{target: '#dialog-bingimg-detail'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">info</i>
                                         壁纸信息
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-imgupload'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">image</i>
+                                        图片上传
                                     </button>
                                 </div>
                             </div>
