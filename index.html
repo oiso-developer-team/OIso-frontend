@@ -1212,7 +1212,7 @@
 
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
         <div class="mdui-dialog-title">图片上传</div>
-        <div class="mdui-dialog-content mdui-typo">
+        <div class="mdui-dialog-content mdui-typo mdui-container">
             <input type="file" name="file" id="file" class="mdui-btn mdui-ripple" style="border-radius: 15px;">
             <button class="mdui-btn mdui-ripple" style="border-radius: 15px;" id="subup">上传</button>
             <br/>
@@ -1220,24 +1220,30 @@
                 <div class="mdui-progress-indeterminate"></div>
             </div>
             <br/>
-            <ul class="mdui-list">
-                <li class="mdui-list-item mdui-ripple">
-                  <div class="mdui-list-item-content" id="url">Inbox</div>
-                  <i class="mdui-list-item-icon mdui-icon material-icons">content_copy</i>
-                </li>
-                <li class="mdui-list-item mdui-ripple">
-                  <div class="mdui-list-item-content" id="url-markdown">Outbox</div>
-                  <i class="mdui-list-item-icon mdui-icon material-icons">content_copy</i>
-                </li>
-                <li class="mdui-list-item mdui-ripple">
-                  <div class="mdui-list-item-content" id="url-html">Trash</div>
-                  <i class="mdui-list-item-icon mdui-icon material-icons">content_copy</i>
-                </li>
-                <li class="mdui-list-item mdui-ripple">
-                  <div class="mdui-list-item-content" id="url-bbcode">Spam</div>
-                  <i class="mdui-list-item-icon mdui-icon material-icons">content_copy</i>
-                </li>
-              </ul>
+            <div class="mdui-row">
+                <pre id="url" class="mdui-col-xs-10">直链</pre>
+                <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url">
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                </button>
+            </div>
+            <div class="mdui-row">
+                <pre id="url-markdown" class="mdui-col-xs-10">Markdown 格式</pre>
+                <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-markdown">
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                </button>
+            </div>
+            <div class="mdui-row">
+                <pre id="url-html" class="mdui-col-xs-10">HTML 格式</pre>
+                <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-html">
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                </button>
+            </div>
+            <div class="mdui-row">
+                <pre id="url-bbcode" class="mdui-col-xs-10">BBCode 格式</pre>
+                <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-bbcode">
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                </button>
+            </div>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -1259,20 +1265,24 @@
                     console.log(data);
                     if (data.code == 200) {
                         document.getElementById('url').innerText = data.url;
-                        document.getElementById('url').onclick = function () {
+                        document.getElementById('copy-url').onclick = function () {
                             copy(data.url);
+                            mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
-                        document.getElementById('url-markdown').onclick = function () {
+                        document.getElementById('copy-url-markdown').onclick = function () {
                             copy("![](" + data.url + ")");
+                            mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
-                        document.getElementById('url-html').onclick = function () {
+                        document.getElementById('copy-url-html').onclick = function () {
                             copy("<img src=\"" + data.url + "\"/>");
+                            mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
-                        document.getElementById('url-bbcode').onclick = function () {
+                        document.getElementById('copy-url-bbcode').onclick = function () {
                             copy("[img]" + data.url + "[/img]");
+                            mdui.snackbar("已复制到剪贴板");
                         }
                     } else {
                         mdui.snackbar("出错了：" + data.msg);
@@ -1797,7 +1807,7 @@
             return response.text();
         }).then(function (data) {
             // console.log(data);
-            if (data == `False`) { // !!!!!!!!!!!!!!
+            if (data != `False`) { // !!!!!!!!!!!!!!
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请登录");
             } else {
@@ -1980,7 +1990,7 @@
                 }
             }
         }
-        clickEffect();//调用特效函数
+        // clickEffect(); tnnd 卡爆了
     </script>
 </body>
 
