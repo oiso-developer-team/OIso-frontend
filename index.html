@@ -1210,6 +1210,21 @@
         </div>
     </div>
 
+    <div class="mdui-dialog" id="dialog-online_show" style="border-radius: 20px;">
+        <div class="mdui-dialog-title" id="show_number">在线人数</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <ul class="mdui-list" id="show_people">
+                <li class="mdui-list-item mdui-ripple">1</li>
+                <li class="mdui-list-item mdui-ripple">2</li>
+                <li class="mdui-list-item mdui-ripple">3</li>
+            </ul>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+
     <script>
         function getspiderstatus() {
             fetch("https://api.oiso.cf:2096/spider/status", {
@@ -1298,7 +1313,7 @@
                             <div class="icons-wrapper mdui-row-xs-3 mdui-row-sm-4 mdui-row-md-6 mdui-row-lg-6">
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        onclick="mdui.snackbar('你干嘛～嗨哎哟～');" id="onlinenumber">
+                                        mdui-dialog="{target: '#dialog-online_show'}" id="onlinenumber">
                                         <i class="mdui-icon mdui-icon-left material-icons">people</i>
                                         在线人数
                                     </button>
@@ -1509,7 +1524,13 @@
                 odata = JSON.parse(odata);
                 var data = odata.msg;
                 var onlineNum = odata.onlinenum;
+                var onlinePeople = odata.online;
                 document.getElementById("onlinenumber").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">people</i>` + "在线 " + String(onlineNum) + " 人";
+                document.getElementById("show_number").innerText = "有 " + String(onlineNum) + " 人正在👋🐟";
+                document.getElementById("show_people").innerHTML = "";
+                for (var i = 0; i < onlineNum; i++) {
+                    document.getElementById("show_people").innerHTML += `<li class="mdui-list-item mdui-ripple">${onlinePeople[i]}</li>`;
+                }
                 j = (data);
                 // 按时间排序
                 j.sort(function (a, b) {
