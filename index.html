@@ -1215,11 +1215,11 @@
         <div class="mdui-dialog-content mdui-typo mdui-container">
             <input type="file" name="file" id="file" class="mdui-btn mdui-ripple" style="border-radius: 15px;">
             <button class="mdui-btn mdui-ripple" style="border-radius: 15px;" id="subup">上传</button>
-            <br/>
-            <div class="mdui-progress" id="progress">
+            <br />
+            <div class="mdui-progress" id="upprogress">
                 <div class="mdui-progress-indeterminate"></div>
             </div>
-            <br/>
+            <br />
             <div class="mdui-row">
                 <pre id="url" class="mdui-col-xs-10">直链</pre>
                 <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url">
@@ -1251,6 +1251,14 @@
         </div>
     </div>
     <script>
+        function copyToClip(content) {
+            var aux = document.createElement("input");
+            aux.setAttribute("value", content);
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+        }
         document.getElementById("subup").onclick = function () {
             let file = document.getElementById("file").files[0];
             let formData = new FormData();
@@ -1262,26 +1270,26 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var data = JSON.parse(xhr.responseText);
-                    console.log(data);
                     if (data.code == 200) {
+                        mdui.snackbar(data.msg);
                         document.getElementById('url').innerText = data.url;
                         document.getElementById('copy-url').onclick = function () {
-                            copy(data.url);
+                            copyToClip(data.url);
                             mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
                         document.getElementById('copy-url-markdown').onclick = function () {
-                            copy("![](" + data.url + ")");
+                            copyToClip("![](" + data.url + ")");
                             mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
                         document.getElementById('copy-url-html').onclick = function () {
-                            copy("<img src=\"" + data.url + "\"/>");
+                            copyToClip("<img src=\"" + data.url + "\"/>");
                             mdui.snackbar("已复制到剪贴板");
                         }
                         document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
                         document.getElementById('copy-url-bbcode').onclick = function () {
-                            copy("[img]" + data.url + "[/img]");
+                            copyToClip("[img]" + data.url + "[/img]");
                             mdui.snackbar("已复制到剪贴板");
                         }
                     } else {
@@ -1293,8 +1301,9 @@
             xhr.upload.onprogress = function (e) {
                 if (e.lengthComputable) {
                     var percent = e.loaded / e.total * 100;
-                    document.getElementById("progress").style.display = "block";
-                    document.getElementById("progress").style.width = percent + "%";
+                    console.log("上传进度：" + percent + "%")
+                    document.getElementById("upprogress").style.display = "block";
+                    document.getElementById("upprogress").style.width = percent + "%";
                 }
             }
         }
