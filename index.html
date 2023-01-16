@@ -1234,7 +1234,7 @@
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
             xhr.withCredentials = true;
-            xhr.send(formdata);
+            xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var data = JSON.parse(xhr.responseText);
