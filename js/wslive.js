@@ -4,6 +4,7 @@
 var ws = new WebSocket("wss://api.oiso.cf:2096/ws/live");
 ws.onmessage = function (event) {
     // 每 1 秒更新一次
+    console.log("test");
     // {"spider_status":spider_status,"chat_msg":chat_msg,"song_msg":song_msg,"online_num":online_num,"online_list":online_list}
     // var data = JSON.parse(event.data);
     // // 更新在线人数
