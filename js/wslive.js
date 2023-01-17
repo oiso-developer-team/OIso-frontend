@@ -24,7 +24,7 @@ fetch("https://api.oiso.cf:2096/profile", {
             transportOptions: {
                 polling: {
                     extraHeaders: {
-                        cookie: window['ident']
+                        token: window['ident']
                     }
                 }
             }
