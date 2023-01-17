@@ -10,17 +10,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         mdui.snackbar("请登录");
     } else {
         window['ident'] = JSON.parse(data).cookie;
-
-        // const socket = io({
-        //     transportOptions: {
-        //         polling: {
-        //             extraHeaders: {
-        //                 cookie: window['ident']
-        //             }
-        //         }
-        //     }
-        // });
-        const socket = io('https://api.oiso.cf:2096', {
+        const socket = io('http://192.168.0.10:2333', {
             transportOptions: {
                 polling: {
                     extraHeaders: {
