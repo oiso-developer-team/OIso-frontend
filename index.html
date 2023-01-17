@@ -1214,7 +1214,16 @@
     <script>
         function start_live() {
             // 将云听歌换成 /live
-            document.getElementById("live").setAttribute("href", "/live/index.html");
+            try{
+                document.getElementById("live").setAttribute("src", "/live/index.html");
+            }catch(e){
+                console.log("云听歌不存在");
+            }
+            try{
+                document.getElementById("livebot").setAttribute("src", "/live/index.html");
+            }catch(e){
+                console.log("云听歌不存在");
+            }
         }
     </script>
 
