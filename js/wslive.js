@@ -21,8 +21,12 @@ fetch("https://api.oiso.cf:2096/profile", {
         //     }
         // });
         const socket = io('https://api.oiso.cf:2096', {
-            extraHeaders: {
-                cookie: window['ident']
+            transportOptions: {
+                polling: {
+                    extraHeaders: {
+                        cookie: window['ident']
+                    }
+                }
             }
         });
         socket.connect();
