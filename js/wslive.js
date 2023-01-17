@@ -10,25 +10,25 @@ fetch("https://api.oiso.cf:2096/profile", {
         mdui.snackbar("请登录");
     } else {
         window['ident'] = JSON.parse(data).cookie;
-        const socket = io('https://192.168.0.10:2096', {
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        token: window['ident']
-                    }
-                }
-            }
-        });
-        socket.connect();
-        socket.on('connect', function () {
-            console.log('Connected!');
-        });
-        socket.on('disconnect', function () {
-            console.log('Disconnected!');
-        });
-        socket.on('getmsg', function (data) {
-            console.log(data);
-        });
+        // const socket = io('https://192.168.0.10:2096', {
+        //     transportOptions: {
+        //         polling: {
+        //             extraHeaders: {
+        //                 token: window['ident']
+        //             }
+        //         }
+        //     }
+        // });
+        // socket.connect();
+        // socket.on('connect', function () {
+        //     console.log('Connected!');
+        // });
+        // socket.on('disconnect', function () {
+        //     console.log('Disconnected!');
+        // });
+        // socket.on('getmsg', function (data) {
+        //     console.log(data);
+        // });
 
         try {
             var fa = document.getElementById("lbt").parentNode;
