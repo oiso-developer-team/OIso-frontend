@@ -14,8 +14,11 @@ fetch("https://api.oiso.cf:2096/profile", {
         io.engine.on("initial_headers", (headers, request) => {
             headers.cookie = window['ident'];
         });
-        var socket = io('https://api.oiso.cf:2096/');
-        socket.connect();
+        var socket = io.connect('https://api.oiso.cf:2096', {
+            query: {
+                cookie: window['ident']
+            }
+        });
         socket.on('connect', function () {
             console.log('Connected!');
         });
