@@ -45,12 +45,12 @@
         <video id="videoElement" class="centeredVideo" controls width="1024" height="576">Your browser is too old which doesn't support HTML5 video.</video>
     </div>
     <br>
-    <div class="controls">
-        <button onclick="flv_start()">开始</button>
-        <button onclick="flv_pause()">暂停</button>
-        <button onclick="flv_destroy()">停止</button>
-        <input style="width:100px" type="text" name="seekpoint" />
-        <button onclick="flv_seekto()">跳转</button>
+    <div class="controls" hidden>
+        <button onclick="flv_start()" hidden>开始</button>
+        <button onclick="flv_pause()" hidden>暂停</button>
+        <button onclick="flv_destroy()" hidden>停止</button>
+        <input style="width:100px" type="text" name="seekpoint" hidden/>
+        <button onclick="flv_seekto()" hidden>跳转</button>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.js"></script>
     <script>
@@ -108,6 +108,10 @@
         function flv_seekto() {
             player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value)
         }
+        // 加载完成后自动播放
+        vElement.addEventListener('canplay', function () {
+            vElement.play()
+        })
         
     </script>
 </body>

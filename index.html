@@ -1211,6 +1211,13 @@
         </div>
     </div>
 
+    <script>
+        function start_live() {
+            // 将云听歌换成 /live
+            document.getElementById("live").setAttribute("href", "/live/index.html");
+        }
+    </script>
+
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
         <div class="mdui-dialog-title">图片上传（使用编程猫社区 API ）</div>
         <div class="mdui-dialog-content mdui-typo mdui-container">
@@ -1491,6 +1498,13 @@
                                         mdui-dialog="{target: '#dialog-imgupload'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">image</i>
                                         图片上传
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        onclick="start_live();">
+                                        <i class="mdui-icon mdui-icon-left material-icons">live_tv</i>
+                                        在线直播
                                     </button>
                                 </div>
                             </div>
