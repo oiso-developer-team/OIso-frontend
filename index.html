@@ -1825,13 +1825,7 @@
                 document.getElementById("lbt").innerHTML = "未登录";
                 mdui.snackbar("请登录");
             } else {
-                // try {
-                //     document.getElementById("lbt").innerHTML = JSON.parse(data).name;
-                // } catch {
-                //     document.getElementById("lbt").innerHTML = "登出";
-                // }
-                // update: avatar
-
+                window['ident'] = JSON.parse(data).cookie;
                 try {
                     var fa = document.getElementById("lbt").parentNode;
                     // console.log(fa);
@@ -1842,7 +1836,6 @@
                 }
                 document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
                 document.getElementById("lbt").setAttribute("onclick", "");
-
                 document.getElementById("happy").removeAttribute("hidden");
                 get_benben();
                 get_music();
