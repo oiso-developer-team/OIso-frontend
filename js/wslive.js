@@ -11,14 +11,12 @@ fetch("https://api.oiso.cf:2096/profile", {
     } else {
         window['ident'] = JSON.parse(data).cookie;
 
-        io.engine.on("initial_headers", (headers, request) => {
-            headers.cookie = window['ident'];
-        });
-        var socket = io.connect('https://api.oiso.cf:2096', {
-            query: {
-                cookie: window['ident']
-            }
-        });
+        var socket = io('https://api.oiso.cf:2096/');
+        // 等待 window['ident'] 被赋值
+        socket.io.opts.extraHeaders = {
+            cookie: window['ident']
+        }
+        socket.connect();
         socket.on('connect', function () {
             console.log('Connected!');
         });
