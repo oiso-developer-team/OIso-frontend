@@ -3,7 +3,7 @@ fetch("https://api.oiso.cf:2096/profile", {
 }).then(function (response) {
     return response.text();
 }).then(function (data) {
-    if (data != `False`) { // !!!!!!!!!!!!!!
+    if (data == `False`) { // !!!!!!!!!!!!!!
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
