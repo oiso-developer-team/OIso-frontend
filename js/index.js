@@ -3,7 +3,7 @@ fetch("https://api.oiso.cf:2096/profile", {
 }).then(function (response) {
     return response.text();
 }).then(function (data) {
-    if (data == `False`) { // !!!!!!!!!!!!!!
+    if (data != `False`) { // !!!!!!!!!!!!!!
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
@@ -77,12 +77,12 @@ function get_stream(){
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream='+j.name);
         }else{
             document.getElementById("stream_title").innerText = j.msg;
-            setup_stream('https://www.oiso.cf/img/fishing.flv');
+            setup_stream2('https://www.oiso.cf/img/fishing.mp4');
         }
     }).catch(function () {
         // mdui.snackbar("服务器错误：" + data);
         document.getElementById("stream_title").innerHTML = "获取直播失败";
-        setup_stream('https://www.oiso.cf/img/fishing.flv');
+        setup_stream2('https://www.oiso.cf/img/fishing.mp4');
     });
 }
 
@@ -93,6 +93,34 @@ window.onload = function () {
     console.log(width);
     vElement.style.height = '333px';
 };
+
+function setup_stream2(stream_url) {
+    var vElement = document.getElementById('videoElement');
+    // 等待视频加载完成
+    vElement.addEventListener('loadedmetadata', function () {
+        // 获取mediadiv的宽度
+        var width = document.getElementById('mediadiv').offsetWidth;
+        // 获取视频长宽比
+        var videoRatio = vElement.videoWidth / vElement.videoHeight;
+        // 高度为mediadiv的宽度按视频长宽比计算
+        vElement.style.height = width / videoRatio + 'px';
+    });
+    // 当窗口大小发生改变
+    window.onresize = function () {
+        // 获取mediadiv的宽度
+        var width = document.getElementById('mediadiv').offsetWidth;
+        // 获取视频长宽比
+        var videoRatio = vElement.videoWidth / vElement.videoHeight;
+        // 高度为mediadiv的宽度按视频长宽比计算
+        vElement.style.height = width / videoRatio + 'px';
+    };
+    // 设置视频地址
+    vElement.src = stream_url;
+    // 设置视频自动播放
+    vElement.autoplay = true;
+    // 设置视频循环播放
+    vElement.loop = true;
+}
 
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
@@ -162,6 +190,7 @@ function setup_stream(stream_url) {
     function flv_seekto() {
         player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value)
     }
+    vElement.autoplay = true;
     vElement.addEventListener('canplay', function () {
         vElement.play()
     })
