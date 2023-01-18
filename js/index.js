@@ -40,7 +40,13 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("happy").removeAttribute("hidden");
         get_benben();
         get_music();
+        window['stream'] = false;
         get_stream();
+        setInterval(function () { //每10秒刷新一次
+            if(!window['stream']){
+                get_stream();
+            }
+        }, 10000);
         setInterval(function () { //每10秒刷新一次
             get_benben();
         }, 10000);
@@ -75,6 +81,7 @@ function get_stream(){
         if (code == 200) {
             document.getElementById("stream_title").innerText = j.msg;
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream='+j.name);
+            window['stream'] = true;
         }else{
             document.getElementById("stream_title").innerText = j.msg;
             setup_stream2('https://www.oiso.cf/img/fishing.mp4');
