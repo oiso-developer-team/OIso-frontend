@@ -366,6 +366,40 @@
             color: rgb(225, 225, 225)
         }
     </style>
+    <style>
+        .mainContainer {
+            /* display: block; */
+            /* width: 1024px; */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .urlInput {
+            display: block;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .centeredVideo {
+            display: block;
+            width: 100%;
+            height: 576px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+        }
+
+        .controls {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <!-- 借用 Luogu cdn -->
     <script src="https://cdn.luogu.com.cn/js/jquery-2.1.1.min.js"></script>
     <!-- MDUI CSS -->
@@ -523,7 +557,6 @@
                 mdui.snackbar("服务器消息：" + data);
             }
         }).catch((error) => {
-            mdui.snackbar("服务器暂不可用，正在升级直播模块……")
             mdui.snackbar({
                 message: '服务器炸了：' + error + '，快去轰炸管理员！',
                 buttonText: '查看宕机监测',
@@ -1214,14 +1247,14 @@
     <script>
         function start_live() {
             // 将云听歌换成 /live
-            try{
+            try {
                 document.getElementById("live").setAttribute("src", "/live/index.html");
-            }catch(e){
+            } catch (e) {
                 console.log("云听歌不存在");
             }
-            try{
+            try {
                 document.getElementById("livebot").setAttribute("src", "/live/index.html");
-            }catch(e){
+            } catch (e) {
                 console.log("云听歌不存在");
             }
         }
@@ -1409,25 +1442,30 @@
     </div>
 
     <div class="mdui-container">
-        <div class="mdui-container" id="happy" hidden="hidden">
+        <div class="mdui-container" id="happy" hidden>
             <div class="mdui-row">
                 <!--左边画面，右边聊天-->
                 <div class="mdui-col-xs-12 mdui-col-md-8">
                     <div class="mdui-card mdui-shadow-20">
-                        <div class="mdui-card-media" id="media">
-                            <div class="mdui-card-media-content">
-                                <div class="mdui-card-primary">
-                                    <div class="mdui-card-primary-title">云听歌</div>
-                                    <div class="mdui-card-primary-subtitle" id="sub">正在加载中……</div>
-                                </div>
-                            </div>
-                            <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
-                            <!-- <iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
+                        <div class="mdui-card-primary mdui-typo">
+                            <div class="mdui-card-primary-title" id="stream_title">正在直播</div>
                         </div>
-                        <!-- 卡片的按钮 -->
-                        <div class="mdui-card-actions">
+                        <div class="mdui-card-media" id="mediadiv">
+                            <div class="mainContainer" id="mainContain">
+                                <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
+                                    support HTML5 video.</video>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="controls" hidden>
+                        <button onclick="flv_start()" hidden>开始</button>
+                        <button onclick="flv_pause()" hidden>暂停</button>
+                        <button onclick="flv_destroy()" hidden>停止</button>
+                        <input style="width:100px" type="text" name="seekpoint" hidden />
+                        <button onclick="flv_seekto()" hidden>跳转</button>
+                    </div>
+                    <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.js"></script>
                     <br>
                     <div class="mdui-card mdui-shadow-20">
                         <div class="mdui-card-content">
@@ -1509,19 +1547,31 @@
                                         图片上传
                                     </button>
                                 </div>
-                                <div class="mdui-col icon-code-wrap">
+                                <!-- <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
                                         onclick="start_live();">
                                         <i class="mdui-icon mdui-icon-left material-icons">live_tv</i>
                                         在线直播
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                     <br>
                 </div>
                 <div class="mdui-col-xs-12 mdui-col-md-4">
+                    <div class="mdui-card">
+                        <div id="media" class="mdui-card-media" style="border-radius: 20px;overflow: hidden;">
+                            <!-- <div class="mdui-card-media-content">
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-subtitle" id="sub">云听歌</div>
+                                </div>
+                            </div> -->
+                            <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
+                            <!-- <iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
+                        </div>
+                    </div>
+                    <br/>
                     <div class="mdui-card mdui-shadow-20">
                         <div class="mdui-card-content" style="padding-bottom: 0;">
                             <div class="mdui-textfield">
@@ -1561,7 +1611,7 @@
                     }
                     return windowHeight;
                 }
-                document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.7) + "px;overflow:scroll;")
+                document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.5) + "px;overflow:scroll;")
             </script>
             <script>
                 function send_benben() {
@@ -1792,9 +1842,9 @@
                         try {
                             document.getElementById("livebot").remove();
                         } catch (e) { }
-                        document.getElementById("media").innerHTML += `<iframe id="livebot" src="https://www.songzhiyong.com/html/music/"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
-                        document.getElementById("sub").innerText = "当前歌曲由bot自动点歌；您赶快点歌吧！";
-                        document.getElementById("livebot").style.height = getWindowHeight() * 0.5 + "px";
+                        document.getElementById("media").innerHTML += `<iframe id="livebot" src="/musicPlayer/index.html"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+                        // document.getElementById("sub").innerText = "云听歌 - 暂无歌曲";
+                        document.getElementById("livebot").style.height = getWindowHeight() * 0.23 + "px";
                         window['music'] = 'none';
                     } else {
                         window['music'] = "none";
@@ -1811,7 +1861,7 @@
                     // console.log(j);
                     window['musicUrls'] = [j['url'].replace("http://", "https://")];
                     // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
-                    window['artistNameData'] = [j['artist']];
+                    window['artistNameData'] = [j['artist'] + "（@" + j['username'] + "）"];
                     window['musicNameData'] = [j['title']];
                     originimg = j['img'].replace("http://", "https://");
                     // origin:https://p1.music.126.net/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
@@ -1828,10 +1878,9 @@
                         document.getElementById("livebot").remove();
                     } catch (e) { }
                     window['music'] = 'true';
-                    document.getElementById("sub").innerText = "正在播放：" + j['title'] + " - " + j['artist'] + "（ 由 " + j['username'] + " 点歌）";
                     setTimeout(function () {
-                        document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
-                        document.getElementById("live").style.height = getWindowHeight() * 0.5 + "px";
+                        document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+                        document.getElementById("live").style.height = getWindowHeight() * 0.23 + "px";
                     }, 10);
                 }
             }).catch(function () {
@@ -1977,6 +2026,7 @@
         // clickEffect(); tnnd 卡爆了
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
-    <script src="/js/wslive.js"></script>
+    <script src="/js/index.js"></script>
 </body>
+
 </html>
