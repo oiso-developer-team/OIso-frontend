@@ -43,7 +43,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         window['stream'] = false;
         get_stream();
         setInterval(function () { //每10秒刷新一次
-            if(!window['stream']){
+            if (!window['stream']) {
                 get_stream();
             }
         }, 10000);
@@ -69,7 +69,7 @@ fetch("https://api.oiso.cf:2096/profile", {
     document.getElementById("lbt").innerHTML = "未登录";
 });
 
-function get_stream(){
+function get_stream() {
     // url = https://api.oiso.cf:2096/getstream
     fetch("https://api.oiso.cf:2096/getstream", {
         credentials: 'include'
@@ -80,9 +80,9 @@ function get_stream(){
         var code = j.code;
         if (code == 200) {
             document.getElementById("stream_title").innerText = j.msg;
-            setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream='+j.name);
+            setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
             window['stream'] = true;
-        }else{
+        } else {
             document.getElementById("stream_title").innerText = j.msg;
             setup_stream2('https://www.oiso.cf/img/fishing.mp4');
         }
@@ -197,15 +197,18 @@ function setup_stream(stream_url) {
     }
     vElement.autoplay = true;
     vElement.addEventListener('canplay', function () {
-        try{
-            vElement.play();
-        }catch(e){
-            // 无法自动播放，设置静音
-            vElement.muted = true;
-            vElement.play();
-            mdui.snackbar({
-                message: '由于浏览器政策，直播已静音，请手动打开',
-                position: 'bottom'
+        var promise = vElement.play();
+        if (promise !== undefined) {
+            promise.catch(error => {
+                // 无法自动播放，设置静音
+                vElement.muted = true;
+                vElement.play();
+                mdui.snackbar({
+                    message: '由于浏览器政策，直播已静音，请手动打开',
+                    position: 'bottom'
+                });
+            }).then(() => {
+                // Auto-play started
             });
         }
     })
