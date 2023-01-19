@@ -129,12 +129,6 @@ function setup_stream2(stream_url) {
 
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
-    // 判断当前能否自动播放
-    var canPlay = vElement.canPlayType('video/mp4');
-    if (canPlay == '') {
-        vElement.muted = true;
-        mdui.snackbar("由于浏览器政策，直播已静音，请手动打开声音");
-    }
     // 等待视频加载完成
     vElement.addEventListener('loadedmetadata', function () {
         // 获取mediadiv的宽度
@@ -203,6 +197,16 @@ function setup_stream(stream_url) {
     }
     vElement.autoplay = true;
     vElement.addEventListener('canplay', function () {
-        vElement.play()
+        try{
+            vElement.play();
+        }catch(e){
+            // 无法自动播放，设置静音
+            vElement.muted = true;
+            vElement.play();
+            mdui.snackbar({
+                message: '由于浏览器政策，直播已静音，请手动打开',
+                position: 'bottom'
+            });
+        }
     })
 }
