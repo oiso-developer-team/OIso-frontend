@@ -1627,6 +1627,7 @@
                         mdui.snackbar("总要说点什么吧？");
                         return;
                     }
+                    text = encodeURIComponent(text);
                     fetch("https://api.oiso.cf:2096/msg?msg=" + text, {
                         credentials: 'include'
                     }).then(function (response) {
