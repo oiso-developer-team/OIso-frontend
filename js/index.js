@@ -129,6 +129,8 @@ function setup_stream2(stream_url) {
 
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
+    // 禁用进度条、暂停按钮
+    vElement.controls = false;
     // 等待视频加载完成
     vElement.addEventListener('loadedmetadata', function () {
         // 获取mediadiv的宽度
