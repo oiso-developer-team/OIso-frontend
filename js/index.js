@@ -27,7 +27,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         // socket.on('getmsg', function (data) {
         //     console.log(data);
         // });
-
+        document.getElementById("updown").removeAttribute("hidden");
         try {
             var fa = document.getElementById("lbt").parentNode;
             fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))

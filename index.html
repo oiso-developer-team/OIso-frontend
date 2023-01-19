@@ -591,6 +591,29 @@
             </a></div>
     </div>
 
+    <button class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"
+        style="bottom: 20px; right: 20px; z-index: 999;" onclick="switch_page();" hidden id="updown">
+        <i class="mdui-icon material-icons">keyboard_arrow_down</i>
+    </button>
+    <script>
+        window['nowpage'] = 0;
+        function switch_page(){
+            if(window['nowpage']==0){
+                window['nowpage']=1;
+                // 平滑地滑到页底
+                $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+                // 将箭头换个方向
+                $(".mdui-fab i").html("keyboard_arrow_up");
+            }else if(window['nowpage']==1){
+                window['nowpage']=0;
+                // 平滑地滑到页顶
+                $('html, body').animate({scrollTop:0}, 'slow');
+                // 将箭头换个方向
+                $(".mdui-fab i").html("keyboard_arrow_down");
+            }
+        }
+    </script>
+
     <div class="mdui-dialog" id="dialog-logout" style="border-radius: 20px;">
         <div class="mdui-dialog-title">退出登录</div>
         <div class="mdui-dialog-content">确定要退出登录吗？</div>
@@ -1658,8 +1681,6 @@
                     }
                 });
             </script>
-            <br><br><br>
-            <br><br><br>
             <br><br><br>
             <!-- <iframe scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" src="https://player.bilibili.com/player.html?bvid=BV1GJ411x7h7&amp;high_quality=1" style="position: absolute;top: 0; left: 0; width: 100%; height: 100%;"></iframe>   -->
         </div>
