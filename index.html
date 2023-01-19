@@ -597,17 +597,17 @@
     </button>
     <script>
         window['nowpage'] = 0;
-        function switch_page(){
-            if(window['nowpage']==0){
-                window['nowpage']=1;
+        function switch_page() {
+            if (window['nowpage'] == 0) {
+                window['nowpage'] = 1;
                 // 平滑地滑到页底
-                $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+                $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
                 // 将箭头换个方向
                 $(".mdui-fab i").html("keyboard_arrow_up");
-            }else if(window['nowpage']==1){
-                window['nowpage']=0;
+            } else if (window['nowpage'] == 1) {
+                window['nowpage'] = 0;
                 // 平滑地滑到页顶
-                $('html, body').animate({scrollTop:0}, 'slow');
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
                 // 将箭头换个方向
                 $(".mdui-fab i").html("keyboard_arrow_down");
             }
@@ -1152,17 +1152,19 @@
     </div>
 
     <div class="mdui-dialog" id="dialog-spider" style="border-radius: 20px;">
-        <div class="mdui-dialog-title">爬虫请求</div>
+        <div class="mdui-dialog-title">博客收录</div>
         <div class="mdui-dialog-content mdui-typo">
 
-            <p>由于种种原因，我们无法及时爬取您的洛谷博客。所以您可以在这里手动请求爬取您的博客。</p>
-            <p><b>仅能爬取洛谷博客，第三方博客（如自搭建博客，CSDN，cnBlogs）请移步“其他博客”爬取！</b></p>
+            <p>由于种种原因，我们无法及时爬取您的博客。所以您可以在这里手动请求爬取您的博客。</p>
+            <p><b>仅能爬取洛谷博客、CSDN 和 cnblogs 博客。其他博客请<button style="border-radius: 15px;" class="mdui-btn mdui-ripple" mdui-dialog="{target: '#dialog-third-party-blog'}">联系腐竹</button>。</b></p>
             <p>博客爬取有以下几种形式：</p>
-            <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。</p>
-            <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。</p>
+            <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。如 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri
+            </p>
+            <p>2. 您可以输入某一篇洛谷文章的链接，那么会爬取这一篇文章。如 100544</p>
+            <p>3. 您可以输入某个 CSDN 用户的主页。如 https://blog.csdn.net/Floatiy</p>
+            <p>4. 您可以输入某个 cnblogs 用户的主页。如 https://www.cnblogs.com/Jasper08</p>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text"
-                    placeholder="形如：100544 或 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri" />
+                <input class="mdui-textfield-input" type="text" placeholder="请按照上面的格式输入，系统会自动识别" />
             </div>
             <p>完成后，请点击下方确认按钮。</p>
             <p>注意，不管您选择哪种方式，<b>一天最多爬15次</b>。</p>
@@ -1179,25 +1181,58 @@
                 var url = document.querySelector("#dialog-spider input").value;
                 if (isNaN(url)) {
                     // 说明是链接
-                    if (url.indexOf("https://www.luogu.com.cn/blog/") != 0) {
-                        mdui.snackbar("请输入正确的链接");
+                    if (url.indexOf("https://www.luogu.com.cn/blog/") == 0) {
+                        fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_single_passage&id=" + url, {
+                            credentials: 'include'
+                        }).then(function (response) {
+                            return response.text();
+                        }).then(function (data) {
+                            // console.log(data);
+                            if (data == "True") {
+                                mdui.snackbar("请求成功！已排入爬虫队列！");
+                            } else {
+                                mdui.snackbar("出错了：" + data);
+                            }
+                        }).catch(function () {
+                            mdui.snackbar("失败了：" + error);
+                        });
+                        return;
+                    }else if(url.indexOf("https://www.cnblogs.com/") == 0){
+                        fetch("https://api.oiso.cf:2096/spider/request?type=cnblogs&id=" + url, {
+                            credentials: 'include'
+                        }).then(function (response) {
+                            return response.text();
+                        }).then(function (data) {
+                            // console.log(data);
+                            if (data == "True") {
+                                mdui.snackbar("请求成功！已排入爬虫队列！");
+                            } else {
+                                mdui.snackbar("出错了：" + data);
+                            }
+                        }).catch(function () {
+                            mdui.snackbar("失败了：" + error);
+                        });
+                        return;
+                    }else if(url.indexOf("https://blog.csdn.net/") == 0){
+                        fetch("https://api.oiso.cf:2096/spider/request?type=csdn&id=" + url, {
+                            credentials: 'include'
+                        }).then(function (response) {
+                            return response.text();
+                        }).then(function (data) {
+                            // console.log(data);
+                            if (data == "True") {
+                                mdui.snackbar("请求成功！已排入爬虫队列！");
+                            } else {
+                                mdui.snackbar("出错了：" + data);
+                            }
+                        }).catch(function () {
+                            mdui.snackbar("失败了：" + error);
+                        });
+                        return;
+                    }else{
+                        mdui.snackbar("无法识别您的链接QWQ");
                         return;
                     }
-                    fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_single_passage&id=" + url, {
-                        credentials: 'include'
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (data) {
-                        // console.log(data);
-                        if (data == "True") {
-                            mdui.snackbar("请求成功！已排入爬虫队列！");
-                        } else {
-                            mdui.snackbar("出错了：" + data);
-                        }
-                    }).catch(function () {
-                        mdui.snackbar("失败了：" + error);
-                    });
-                    return;
                 } else {
                     // 说明是uid
                     fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_user&id=" + url, {
@@ -1518,14 +1553,7 @@
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
                                         mdui-dialog="{target: '#dialog-spider'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">bug_report</i>
-                                        洛谷博客
-                                    </button>
-                                </div>
-                                <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-third-party-blog'}">
-                                        <i class="mdui-icon mdui-icon-left material-icons">description</i>
-                                        其他博客
+                                        博客收录
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
@@ -1594,7 +1622,7 @@
                             <!-- <iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
                         </div>
                     </div>
-                    <br/>
+                    <br />
                     <div class="mdui-card mdui-shadow-20">
                         <div class="mdui-card-content" style="padding-bottom: 0;">
                             <div class="mdui-textfield">
@@ -1822,7 +1850,7 @@
                                     `+ tag + `
                                     `+ timeChinese + `
                                     <!-- 回复按钮 -->
-                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n','') + `')">回复</a>
+                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
                                 </div>
                             </header>
                             <div class="am-comment-bd">
@@ -2050,7 +2078,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
     <script type="text/javascript">
-        document.write("<script src='/js/index.js?"+Math.random()+"'><\/script>");
+        document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
     </script>
 </body>
 
