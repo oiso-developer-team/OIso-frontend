@@ -1822,7 +1822,7 @@
                                     `+ tag + `
                                     `+ timeChinese + `
                                     <!-- 回复按钮 -->
-                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg + `')">回复</a>
+                                    <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n','') + `')">回复</a>
                                 </div>
                             </header>
                             <div class="am-comment-bd">

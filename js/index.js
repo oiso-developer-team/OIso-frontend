@@ -130,15 +130,15 @@ function setup_stream2(stream_url) {
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
     // 接管暂停按钮
-    vElement.addEventListener('pause', function () {
-        // 暂停视频
-        flv_pause();
-    });
-    // 接管播放按钮
-    vElement.addEventListener('play', function () {
-        // 播放视频
-        flv_play();
-    });
+    // vElement.addEventListener('pause', function () {
+    //     // 暂停视频
+    //     flv_pause();
+    // });
+    // // 接管播放按钮
+    // vElement.addEventListener('play', function () {
+    //     // 播放视频
+    //     flv_play();
+    // });
     // 等待视频加载完成
     vElement.addEventListener('loadedmetadata', function () {
         // 获取mediadiv的宽度
