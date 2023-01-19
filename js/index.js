@@ -125,12 +125,16 @@ function setup_stream2(stream_url) {
     vElement.src = stream_url;
     // 设置视频自动播放
     vElement.autoplay = true;
-    // 设置视频循环播放
-    vElement.loop = true;
 }
 
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
+    // 判断当前能否自动播放
+    var canPlay = vElement.canPlayType('video/mp4');
+    if (canPlay == '') {
+        vElement.muted = true;
+        mdui.snackbar("由于浏览器政策，直播已静音，请手动打开声音");
+    }
     // 等待视频加载完成
     vElement.addEventListener('loadedmetadata', function () {
         // 获取mediadiv的宽度
