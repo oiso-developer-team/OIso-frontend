@@ -51,6 +51,16 @@ fetch("https://api.oiso.cf:2096/profile", {
     document.getElementById("lbt").innerHTML = "未登录";
 });
 
+function check_playing(url){
+    setTimeout(function(){
+        vElement = document.getElementById('videoElement');
+        if(vElement.paused){
+            setup_stream(url);
+            check_playing(url);
+        }
+    }, 1000);
+}
+
 function parse_stream(data) {
     j = JSON.parse(data);
     var code = j.code;
@@ -63,10 +73,7 @@ function parse_stream(data) {
                     support HTML5 video.</video>
             </div>`;
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            // 过0.5秒后，再次播放
-            setTimeout(function () {
-                setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            }, 500);
+            check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
