@@ -69,7 +69,9 @@ function parse_stream(data) {
         if (window['stream'] == false || window['stream'] == undefined) {
             window['stream'] = true;
             document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
-                <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
+                <video id="videoElement" class="centeredVideo" controls 
+                style="height: 333px; width: 100%; object-fit: fill;"
+                >Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
             setTimeout(function () {
