@@ -66,7 +66,7 @@ function parse_stream(data) {
             // 过0.5秒后，再次播放
             setTimeout(function () {
                 setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            })
+            }, 500);
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
