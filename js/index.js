@@ -75,7 +75,9 @@ function parse_stream(data) {
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
         if(window['stream']==false || window['stream']==undefined){
+            console.log("setup_stream");
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            console.log("setup_stream2");
             window['stream'] = true;
         }
     } else {
@@ -123,16 +125,6 @@ function setup_stream2(stream_url) {
 
 function setup_stream(stream_url) {
     var vElement = document.getElementById('videoElement');
-    // 接管暂停按钮
-    // vElement.addEventListener('pause', function () {
-    //     // 暂停视频
-    //     flv_pause();
-    // });
-    // // 接管播放按钮
-    // vElement.addEventListener('play', function () {
-    //     // 播放视频
-    //     flv_play();
-    // });
     // 等待视频加载完成
     vElement.addEventListener('loadedmetadata', function () {
         // 获取mediadiv的宽度
