@@ -18,11 +18,11 @@ fetch("https://api.oiso.cf:2096/profile", {
             }
         });
         // 初始化完成后,发送一条消息
-        socket.emit("message",{"data":"hello lyshark"});
+        socket.emit("message", { "data": "hello lyshark" });
         // 收到数据后,执行输出
-        socket.on('response', function(recv) {
+        socket.on('response', function (recv) {
             var data = recv.Data;
-            window['shit']=recv;
+            window['shit'] = recv;
             console.log(recv);
             console.log(data);
             // update chat_msg
@@ -74,7 +74,7 @@ function parse_stream(data) {
     var code = j.code;
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
-        if(window['stream']==false || window['stream']==undefined){
+        if (window['stream'] == false || window['stream'] == undefined) {
             console.log("setup_stream");
             window['stream'] = true;
             document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
@@ -85,7 +85,7 @@ function parse_stream(data) {
             console.log("setup_stream2");
         }
     } else {
-        if(window['stream']==true || window['stream']==undefined){
+        if (window['stream'] == true || window['stream'] == undefined) {
             window['stream'] = false;
             document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
@@ -152,52 +152,14 @@ function setup_stream(stream_url) {
         vElement.style.height = width / videoRatio + 'px';
     };
     if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement');
         var flvPlayer = flvjs.createPlayer({
             type: 'flv',
-            enableWorker: true,     //浏览器端开启flv.js的worker,多进程运行flv.js
-            isLive: true,           //直播模式
-            hasAudio: true,        //关闭音频             
-            hasVideo: true,
-            stashInitialSize: 128,
-            enableStashBuffer: false, //播放flv时，设置是否启用播放缓存，只在直播起作用。
             url: stream_url
         });
-        flvPlayer.attachMediaElement(vElement)
-        flvPlayer.load() //加载
-    }
-    setInterval(function () {
-        vElement.playbackRate = 1
-        console.log("时延校正判断");
-        if (!vElement.buffered.length) {
-            return
-        }
-        var end = vElement.buffered.end(0)
-        var diff = end - vElement.currentTime
-        console.log(diff)
-        if (5 <= diff && diff <= 60) {
-            console.log("二倍速")
-            vElement.playbackRate = 2
-        }
-        if (diff > 60) {
-            console.log("跳帧")
-            vElement.currentTime = end
-        }
-    }, 2500)
-    function flv_start() {
-        flvPlayer.play()
-    }
-    function flv_pause() {
-        flvPlayer.pause()
-    }
-    function flv_destroy() {
-        flvPlayer.pause()
-        flvPlayer.unload()
-        flvPlayer.detachMediaElement()
-        flvPlayer.destroy()
-        flvPlayer = null
-    }
-    function flv_seekto() {
-        player.currentTime = parseFloat(document.getElementsByName('seekpoint')[0].value)
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
     }
     vElement.autoplay = true;
     vElement.addEventListener('canplay', function () {
@@ -323,7 +285,7 @@ function parse_benben(odata) {
         </div>`
         tmptxt += txt;
     }
-    if(document.querySelector("#benben").innerHTML != tmptxt){
+    if (document.querySelector("#benben").innerHTML != tmptxt) {
         document.querySelector("#benben").innerHTML = tmptxt;
     }
 }
@@ -385,7 +347,7 @@ function parse_music(data) {
 }
 
 function parse_spiderstatus(data) {
-        document.querySelector("#spider-status").innerHTML = data + `<div class="mdui-progress">
+    document.querySelector("#spider-status").innerHTML = data + `<div class="mdui-progress">
 <div class="mdui-progress-indeterminate"></div>
 </div>`;
 }
