@@ -217,7 +217,7 @@ function parse_benben(odata) {
     // console.log(odata);
     odata = (odata);
     var data = odata.msg;
-    var onlineNum = odata.onlinenum;
+    var onlineNum = odata.online_num;
     var onlinePeople = odata.online;
     document.getElementById("onlinenumber").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">people</i>` + "在线 " + String(onlineNum) + " 人";
     document.getElementById("show_number").innerText = "有 " + String(onlineNum) + " 人正在👋🐟";
