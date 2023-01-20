@@ -75,6 +75,22 @@ function parse_stream(data) {
             setTimeout(function () {
                 setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
             }, 1000);
+            setTimeout(function () {
+                if (document.getElementById("videoElement").paused) {
+                    check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+                }
+            }, 3000);
+            setTimeout(function () {
+                if (document.getElementById("videoElement").paused) {
+                    mdui.snackbar({
+                        message: '播放不通畅？试试刷新页面！',
+                        buttonText: '立即刷新',
+                        onButtonClick: function () {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }, 5000);
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
