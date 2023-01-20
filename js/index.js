@@ -70,7 +70,7 @@ fetch("https://api.oiso.cf:2096/profile", {
 });
 
 function parse_stream(data) {
-    j = (data);
+    j = JSON.parse(data);
     var code = j.code;
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
