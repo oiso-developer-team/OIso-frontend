@@ -143,31 +143,50 @@ function setup_stream(stream_url) {
     };
     if (flvjs.isSupported()) {
         var videoElement = document.getElementById('videoElement');
-        var flvPlayer = flvjs.createPlayer({
-            type: 'flv',
-            url: stream_url
+        this.flvPlayer = flvjs.createPlayer({
+            type: "flv",
+            isLive: true,
+            fluid: true,
+            stashInitialSize: 128,// 减少首桢显示等待时长
+            url: url
+        }, {
+            enableStashBuffer: false,
+            fixAudioTimestampGap: false,
+            isLive: true
         });
-        flvPlayer.attachMediaElement(videoElement);
-        flvPlayer.load();
-        // vElement.autoplay = true;
-        vElement.addEventListener('canplay', function () {
-            var promise = vElement.play();
-            if (promise !== undefined) {
-                promise.catch(error => {
-                    console.log(error);
-                    // 无法自动播放，设置静音
-                    vElement.muted = true;
-                    vElement.play();
-                    mdui.snackbar({
-                        message: '由于浏览器政策，直播已静音，请手动打开',
-                        position: 'bottom'
-                    });
-                }).then(() => {
-                    // Auto-play started
-                });
-            }
-        })
+        this.flvPlayer.attachMediaElement(videoElement);
+        this.flvPlayer.load();
+        this.flvPlayer.play();
     }
+
+    // if (flvjs.isSupported()) {
+    //     var videoElement = document.getElementById('videoElement');
+    //     var flvPlayer = flvjs.createPlayer({
+    //         type: 'flv',
+    //         url: stream_url
+    //     });
+    //     flvPlayer.attachMediaElement(videoElement);
+    //     flvPlayer.load();
+    //     // vElement.autoplay = true;
+    //     vElement.addEventListener('canplay', function () {
+    //         var promise = vElement.play();
+    //         if (promise !== undefined) {
+    //             promise.catch(error => {
+    //                 console.log(error);
+    //                 // 无法自动播放，设置静音
+    //                 vElement.muted = true;
+    //                 vElement.play();
+    //                 mdui.snackbar({
+    //                     message: '由于浏览器政策，直播已静音，请手动打开',
+    //                     position: 'bottom'
+    //                 });
+    //             }).then(() => {
+    //                 // Auto-play started
+    //             });
+    //         }
+    //     })
+    // }
+
 }
 
 function parse_benben(odata) {
