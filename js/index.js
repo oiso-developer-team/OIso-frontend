@@ -154,6 +154,7 @@ function setup_stream(stream_url) {
             var promise = vElement.play();
             if (promise !== undefined) {
                 promise.catch(error => {
+                    console.log(error);
                     // 无法自动播放，设置静音
                     vElement.muted = true;
                     vElement.play();
