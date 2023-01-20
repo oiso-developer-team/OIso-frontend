@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://cdn.lyshark.com/javascript/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
+</head>
+<body>
+<script type="text/javascript" charset="UTF-8">
+    $(document).ready(function() {
+        namespace = '/Socket';
+        var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace);
+
+        // 初始化完成后,发送一条消息
+        socket.emit("message",{"data":"hello lyshark"});
+
+        // 收到数据后,执行输出
+        socket.on('response', function(recv) {
+            console.log('hello lyshark ' + recv.Data)
+        });
+    });
+</script>
+</body>
+</html>

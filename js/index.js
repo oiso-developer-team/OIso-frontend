@@ -7,26 +7,24 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
-        // window['ident'] = JSON.parse(data).cookie;
-        // const socket = io('https://192.168.0.10:2096', {
-        //     transportOptions: {
-        //         polling: {
-        //             extraHeaders: {
-        //                 token: window['ident']
-        //             }
-        //         }
-        //     }
-        // });
-        // socket.connect();
-        // socket.on('connect', function () {
-        //     console.log('Connected!');
-        // });
-        // socket.on('disconnect', function () {
-        //     console.log('Disconnected!');
-        // });
-        // socket.on('getmsg', function (data) {
-        //     console.log(data);
-        // });
+        window['ident'] = JSON.parse(data).cookie;
+        namespace = '/Socket';
+        var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
+            transportOptions: {
+                polling: {
+                    extraHeaders: {
+                        token: window['ident']
+                    }
+                }
+            }
+        });
+        // 初始化完成后,发送一条消息
+        socket.emit("message",{"data":"hello lyshark"});
+        // 收到数据后,执行输出
+        socket.on('response', function(recv) {
+            console.log('hello lyshark ' + recv.Data)
+        });
+
         document.getElementById("updown").removeAttribute("hidden");
         try {
             var fa = document.getElementById("lbt").parentNode;
