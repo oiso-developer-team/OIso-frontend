@@ -22,6 +22,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         // 收到数据后,执行输出
         socket.on('response', function(recv) {
             var data = recv.Data;
+            window['shit']=recv;
             console.log(recv);
             console.log(data);
             // update chat_msg
