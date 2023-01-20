@@ -70,7 +70,7 @@ fetch("https://api.oiso.cf:2096/profile", {
 });
 
 function parse_stream(data) {
-    j = JSON.parse(data);
+    j = (data);
     var code = j.code;
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
@@ -215,7 +215,7 @@ function setup_stream(stream_url) {
 
 function parse_benben(odata) {
     // console.log(odata);
-    odata = JSON.parse(odata);
+    odata = (odata);
     var data = odata.msg;
     var onlineNum = odata.onlinenum;
     var onlinePeople = odata.online;
@@ -351,7 +351,7 @@ function parse_music(data) {
         }
 
     } else {
-        j = JSON.parse(data);
+        j = (data);
         // console.log(j);
         window['musicUrls'] = [j['url'].replace("http://", "https://")];
         // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
