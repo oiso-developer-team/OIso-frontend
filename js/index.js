@@ -145,23 +145,23 @@ function setup_stream(stream_url) {
         flvPlayer.load();
         flvPlayer.play();
     }
-    vElement.autoplay = true;
-    vElement.addEventListener('canplay', function () {
-        var promise = vElement.play();
-        if (promise !== undefined) {
-            promise.catch(error => {
-                // 无法自动播放，设置静音
-                vElement.muted = true;
-                vElement.play();
-                mdui.snackbar({
-                    message: '由于浏览器政策，直播已静音，请手动打开',
-                    position: 'bottom'
-                });
-            }).then(() => {
-                // Auto-play started
-            });
-        }
-    })
+    // vElement.autoplay = true;
+    // vElement.addEventListener('canplay', function () {
+    //     var promise = vElement.play();
+    //     if (promise !== undefined) {
+    //         promise.catch(error => {
+    //             // 无法自动播放，设置静音
+    //             vElement.muted = true;
+    //             vElement.play();
+    //             mdui.snackbar({
+    //                 message: '由于浏览器政策，直播已静音，请手动打开',
+    //                 position: 'bottom'
+    //             });
+    //         }).then(() => {
+    //             // Auto-play started
+    //         });
+    //     }
+    // })
 }
 
 function parse_benben(odata) {
