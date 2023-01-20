@@ -7,6 +7,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
+        get_benben();
         namespace = '/Socket';
         var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
             transportOptions: {
@@ -368,4 +369,127 @@ function parse_spiderstatus(data) {
     document.querySelector("#spider-status").innerHTML = data + `<div class="mdui-progress">
 <div class="mdui-progress-indeterminate"></div>
 </div>`;
+}
+
+function get_benben() {
+    fetch("https://api.oiso.cf:2096/getmsg", {
+        credentials: 'include'
+    }).then(function (response) {
+        return response.text();
+    }).then(function (odata) {
+        // console.log(odata);
+        odata = JSON.parse(odata);
+        var data = odata.msg;
+        var onlineNum = odata.onlinenum;
+        var onlinePeople = odata.online;
+        document.getElementById("onlinenumber").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">people</i>` + "在线 " + String(onlineNum) + " 人";
+        document.getElementById("show_number").innerText = "有 " + String(onlineNum) + " 人正在👋🐟";
+        document.getElementById("show_people").innerHTML = "";
+        for (var i = 0; i < onlineNum; i++) {
+            document.getElementById("show_people").innerHTML += `<li class="mdui-list-item mdui-ripple">${onlinePeople[i]}</li>`;
+        }
+        j = (data);
+        // 按时间排序
+        j.sort(function (a, b) {
+            return b.time - a.time;
+        });
+        var tmptxt = '';
+        for (i in j) {
+            var msg = j[i];
+            // 防止注入
+            msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            var hasLink = false;
+
+            if ("tag" in msg) {
+                msg.tag.content = msg.tag.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                msg.tag.content = msg.tag.content.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+                msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
+                msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
+                msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
+                // 如果有超链接，记录为true
+                if (/\[(.*?)\]\((.*?)\)/g.test(msg.tag.content)) {
+                    hasLink = true;
+                }
+                // msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+                // 超链接 但是要window.open 不要用a标签
+                msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<span onclick='window.open(\"$2\")'>$1</span>");
+            }
+
+            var originMsg = msg.msg
+            // msg markdown 转为 html 用正则
+            msg.msg = msg.msg.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+            msg.msg = msg.msg.replace(/\*(.*?)\*/g, "<i>$1</i>");
+            msg.msg = msg.msg.replace(/__(.*?)__/g, "<u>$1</u>");
+            msg.msg = msg.msg.replace(/~~(.*?)~~/g, "<del>$1</del>");
+            msg.msg = msg.msg.replace(/`(.*?)`/g, "<code>$1</code>");
+            // 图片 限制宽度长度
+            msg.msg = msg.msg.replace(/!\[(.*?)\]\((.*?)\)/g, "<img src='$2' alt='$1' style='max-width:100%;max-height:100%;' />");
+            // 超链接
+            msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+            // 添加 latex 支持
+            msg.msg = msg.msg.replace(/\$\$(.*?)\$\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
+            msg.msg = msg.msg.replace(/\$(.*?)\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
+            // 引用
+            msg.msg = msg.msg.replace(/&gt;(.*)/g, "<blockquote>$1</blockquote>");
+            // 表情：如 :kk: 换成图片地址： https://xn--9zr.tk/kk
+            // msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
+
+            var timeChinese = new Date(msg.time * 1000).toLocaleString();
+            timeChinese = timeChinese.substr(5)
+            var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+            var iptag;
+            if ("geo" in msg) {
+                iptag = `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(255, 0, 128);">` + msg.geo + `</span>`
+            } else {
+                iptag = ``
+            }
+            var tag;
+            if ("tag" in msg) {
+                tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `">` + msg.tag.content + `</span>`
+                // 如果 hasLink 为 true，那么设置tag鼠标的样式为pointer
+                if (hasLink) {
+                    tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `;cursor:pointer;" onclick="window.open('` + msg.tag.link + `')">` + msg.tag.content + `</span>`
+                }
+            } else {
+                tag = ``
+            }
+
+            txt = `<div class="mdui-typo">
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <div class="am-comment-meta">
+                            <!-- 头像 圆的 -->
+                            <a href="` + lgurl + `" target="_blank" class="am-comment-author" style="display: inline-block;">
+                                <img src="https://cdn.luogu.com.cn/upload/usericon/` + msg.uid + `.png" alt="" style="border-radius:100%; overflow:hidden;" class="am-comment-avatar" width="30" height="30">
+                            </a>
+                            <span class="feed-username">
+                                <a href="`+ lgurl + `" target="_blank">@` + msg.user + `</a>
+                            </span> 
+                            `+ iptag + `
+                            `+ tag + `
+                            `+ timeChinese + `
+                            <!-- 回复按钮 -->
+                            <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
+                        </div>
+                    </header>
+                    <div class="am-comment-bd">
+                        `+ msg.msg + `
+                    </div>
+                </div>
+            </div>`
+            tmptxt += txt;
+
+            // var txt = `<div class="mdui-typo">`;
+            // var timeChinese = new Date(msg.time * 1000).toLocaleString();
+            // var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+            // txt += `<a href="` + lgurl + `" mdui-tooltip="{content: '发表于 ` + timeChinese + `', delay: 0}">@` + msg.user + `</a>：` + msg.msg + ``;
+            // txt += `</div>`;
+            // tmptxt += txt;
+        }
+        document.querySelector("#benben").innerHTML = tmptxt;
+    }).catch(function () {
+        mdui.snackbar("更新犇犇失败：" + error);
+    });
 }
