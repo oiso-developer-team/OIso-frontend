@@ -51,10 +51,10 @@ fetch("https://api.oiso.cf:2096/profile", {
     document.getElementById("lbt").innerHTML = "未登录";
 });
 
-function check_playing(url){
-    setTimeout(function(){
+function check_playing(url) {
+    setTimeout(function () {
         vElement = document.getElementById('videoElement');
-        if(vElement.paused){
+        if (vElement.paused) {
             setup_stream(url);
             check_playing(url);
         }
@@ -72,11 +72,7 @@ function parse_stream(data) {
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
-            console.log("checkpoint1");
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            console.log("checkpoint2");
-            check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            console.log("checkpoint3");
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
@@ -153,25 +149,24 @@ function setup_stream(stream_url) {
         });
         flvPlayer.attachMediaElement(videoElement);
         flvPlayer.load();
-        // flvPlayer.play();
-    }
-    vElement.autoplay = true;
-    vElement.addEventListener('canplay', function () {
-        var promise = vElement.play();
-        if (promise !== undefined) {
-            promise.catch(error => {
-                // 无法自动播放，设置静音
-                vElement.muted = true;
-                vElement.play();
-                mdui.snackbar({
-                    message: '由于浏览器政策，直播已静音，请手动打开',
-                    position: 'bottom'
+        // vElement.autoplay = true;
+        vElement.addEventListener('canplay', function () {
+            var promise = vElement.play();
+            if (promise !== undefined) {
+                promise.catch(error => {
+                    // 无法自动播放，设置静音
+                    vElement.muted = true;
+                    vElement.play();
+                    mdui.snackbar({
+                        message: '由于浏览器政策，直播已静音，请手动打开',
+                        position: 'bottom'
+                    });
+                }).then(() => {
+                    // Auto-play started
                 });
-            }).then(() => {
-                // Auto-play started
-            });
-        }
-    })
+            }
+        })
+    }
 }
 
 function parse_benben(odata) {
@@ -312,10 +307,10 @@ function parse_music(data) {
             } catch (e) { }
         }
     } else {
-        if(window['isPlaying']){
+        if (window['isPlaying']) {
             return;
-        }else{
-            window['isPlaying']=true;
+        } else {
+            window['isPlaying'] = true;
         }
         j = (data);
         // console.log(j);
