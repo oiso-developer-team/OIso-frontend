@@ -171,30 +171,30 @@ function setup_stream(stream_url) {
             }
         });
         setInterval(() => {
-            if (this.player.buffered.length) {
-                let end = this.player.buffered.end(0);//获取当前buffered值
-                let diff = end - this.player.currentTime;//获取buffered与currentTime的差值
+            if (this.flvPlayer.buffered.length) {
+                let end = this.flvPlayer.buffered.end(0);//获取当前buffered值
+                let diff = end - this.flvPlayer.currentTime;//获取buffered与currentTime的差值
                 if (diff >= 0.5) {//如果差值大于等于0.5 手动跳帧 这里可根据自身需求来定
-                    this.player.currentTime = this.player.buffered.end(0);//手动跳帧
+                    this.flvPlayer.currentTime = this.flvPlayer.buffered.end(0);//手动跳帧
                 }
             }
         }, 2000); //2000毫秒执行一次  
-        this.player.on(flvjs.Events.ERROR, (errorType, errorDetail, errorInfo) => {
+        this.flvPlayer.on(flvjs.Events.ERROR, (errorType, errorDetail, errorInfo) => {
             console.log("errorType:", errorType);
             console.log("errorDetail:", errorDetail);
             console.log("errorInfo:", errorInfo);
             //视频出错后销毁重新创建
-            if (this.player) {
-                this.player.pause();
-                this.player.unload();
-                this.player.detachMediaElement();
-                this.player.destroy();
-                this.player = null;
+            if (this.flvPlayer) {
+                this.flvPlayer.pause();
+                this.flvPlayer.unload();
+                this.flvPlayer.detachMediaElement();
+                this.flvPlayer.destroy();
+                this.flvPlayer = null;
                 this.createPlayer(videoElement, this.url);
             }
         });
 
-        this.player.on("statistics_info", function (res) {
+        this.flvPlayer.on("statistics_info", function (res) {
             if (this.lastDecodedFrame == 0) {
                 this.lastDecodedFrame = res.decodedFrames;
                 return;
@@ -203,12 +203,12 @@ function setup_stream(stream_url) {
                 this.lastDecodedFrame = res.decodedFrames;
             } else {
                 this.lastDecodedFrame = 0;
-                if (this.player) {
-                    this.player.pause();
-                    this.player.unload();
-                    this.player.detachMediaElement();
-                    this.player.destroy();
-                    this.player = null;
+                if (this.flvPlayer) {
+                    this.flvPlayer.pause();
+                    this.flvPlayer.unload();
+                    this.flvPlayer.detachMediaElement();
+                    this.flvPlayer.destroy();
+                    this.flvPlayer = null;
                     this.createPlayer(videoElement, this.url);
                 }
             }
