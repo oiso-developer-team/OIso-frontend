@@ -7,13 +7,12 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
-        window['ident'] = JSON.parse(data).cookie;
         namespace = '/Socket';
         var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
             transportOptions: {
                 polling: {
                     extraHeaders: {
-                        token: window['ident']
+                        token: JSON.parse(data).cookie
                     }
                 }
             }
