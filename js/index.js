@@ -57,14 +57,16 @@ function parse_stream(data) {
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
         if (window['stream'] == false || window['stream'] == undefined) {
-            console.log("setup_stream");
             window['stream'] = true;
             document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            console.log("setup_stream2");
+            // 过0.5秒后，再次播放
+            setTimeout(function () {
+                setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            })
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
