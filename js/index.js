@@ -43,7 +43,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
         document.getElementById("lbt").setAttribute("onclick", "");
         document.getElementById("happy").removeAttribute("hidden");
-        window['stream'] = false;
+        window['stream'] = undefined;
         // get_stream();
         // setInterval(function () { //每10秒刷新一次
         //     if (!window['stream']) {
@@ -74,12 +74,12 @@ function parse_stream(data) {
     var code = j.code;
     if (code == 200) {
         document.getElementById("stream_title").innerText = j.msg;
-        if(!window['stream']){
+        if(window['stream']==false || window['stream']==undefined){
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
             window['stream'] = true;
         }
     } else {
-        if(window['stream']){
+        if(window['stream']==true || window['stream']==undefined){
             document.getElementById("stream_title").innerText = j.msg;
             setup_stream2('https://www.oiso.cf/img/fishing.mp4');
             window['stream'] = false;
