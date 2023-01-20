@@ -44,25 +44,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").setAttribute("onclick", "");
         document.getElementById("happy").removeAttribute("hidden");
         window['stream'] = undefined;
-        // get_stream();
-        // setInterval(function () { //每10秒刷新一次
-        //     if (!window['stream']) {
-        //         get_stream();
-        //     }
-        // }, 10000);
-        // setInterval(function () { //每1秒刷新一次
-        //     if (window['playDone'] == true) {
-        //         get_music();
-        //         // console.log("getmusic2");
-        //         window['playDone'] = false;
-        //     }
-        // }, 1000);
-        // setInterval(function () { //每5秒刷新一次
-        //     if (window['music'] != "true") {
-        //         get_music();
-        //         window['playDone'] = false;
-        //     }
-        // }, 10000);
+        window['isPlaying'] = false;
     }
 }).catch(function () {
     // mdui.snackbar("服务器错误：" + data);
@@ -293,6 +275,7 @@ function parse_benben(odata) {
 function parse_music(data) {
     // console.log(data);
     if (data == false) {
+        window['isPlaying'] = false;
         if (window['music'] != 'none') {
             try {
                 document.getElementById("liveimg").remove();
@@ -316,8 +299,12 @@ function parse_music(data) {
                 document.getElementById("live").remove();
             } catch (e) { }
         }
-
     } else {
+        if(window['isPlaying']){
+            return;
+        }else{
+            window['isPlaying']=true;
+        }
         j = (data);
         // console.log(j);
         window['musicUrls'] = [j['url'].replace("http://", "https://")];
