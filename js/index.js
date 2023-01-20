@@ -73,7 +73,7 @@ function parse_stream(data) {
                     support HTML5 video.</video>
             </div>`;
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            // check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
