@@ -21,7 +21,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         socket.emit("message",{"data":"hello lyshark"});
         // 收到数据后,执行输出
         socket.on('response', function(recv) {
-            var data = recv.Data[1];
+            var data = recv.Data;
             console.log(recv);
             // update chat_msg
             parse_benben(data.chat_msg);
