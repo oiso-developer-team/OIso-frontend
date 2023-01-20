@@ -72,8 +72,11 @@ function parse_stream(data) {
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
+            console.log("checkpoint1");
             setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            // check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            console.log("checkpoint2");
+            check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            console.log("checkpoint3");
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
