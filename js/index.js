@@ -325,7 +325,7 @@ function parse_benben(odata) {
 
 function parse_music(data) {
     // console.log(data);
-    if (data == "false") {
+    if (data == false) {
         if (window['music'] != 'none') {
             try {
                 document.getElementById("liveimg").remove();
