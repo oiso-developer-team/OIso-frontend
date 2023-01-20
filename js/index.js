@@ -72,7 +72,9 @@ function parse_stream(data) {
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
-            setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            setTimeout(function () {
+                setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+            }, 1000);
         }
     } else {
         if (window['stream'] == true || window['stream'] == undefined) {
@@ -140,52 +142,35 @@ function setup_stream(stream_url) {
         var videoRatio = vElement.videoWidth / vElement.videoHeight;
         // 高度为mediadiv的宽度按视频长宽比计算
         vElement.style.height = width / videoRatio + 'px';
-    };
-    if (flvjs.isSupported()) {
-        var videoElement = document.getElementById('videoElement');
-        this.flvPlayer = flvjs.createPlayer({
-            type: "flv",
-            isLive: true,
-            fluid: true,
-            stashInitialSize: 128,// 减少首桢显示等待时长
-            url: url
-        }, {
-            enableStashBuffer: false,
-            fixAudioTimestampGap: false,
-            isLive: true
-        });
-        this.flvPlayer.attachMediaElement(videoElement);
-        this.flvPlayer.load();
-        this.flvPlayer.play();
     }
 
-    // if (flvjs.isSupported()) {
-    //     var videoElement = document.getElementById('videoElement');
-    //     var flvPlayer = flvjs.createPlayer({
-    //         type: 'flv',
-    //         url: stream_url
-    //     });
-    //     flvPlayer.attachMediaElement(videoElement);
-    //     flvPlayer.load();
-    //     // vElement.autoplay = true;
-    //     vElement.addEventListener('canplay', function () {
-    //         var promise = vElement.play();
-    //         if (promise !== undefined) {
-    //             promise.catch(error => {
-    //                 console.log(error);
-    //                 // 无法自动播放，设置静音
-    //                 vElement.muted = true;
-    //                 vElement.play();
-    //                 mdui.snackbar({
-    //                     message: '由于浏览器政策，直播已静音，请手动打开',
-    //                     position: 'bottom'
-    //                 });
-    //             }).then(() => {
-    //                 // Auto-play started
-    //             });
-    //         }
-    //     })
-    // }
+    if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: stream_url
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        // vElement.autoplay = true;
+        vElement.addEventListener('canplay', function () {
+            var promise = vElement.play();
+            if (promise !== undefined) {
+                promise.catch(error => {
+                    console.log(error);
+                    // 无法自动播放，设置静音
+                    vElement.muted = true;
+                    vElement.play();
+                    mdui.snackbar({
+                        message: '由于浏览器政策，直播已静音，请手动打开',
+                        position: 'bottom'
+                    });
+                }).then(() => {
+                    // Auto-play started
+                });
+            }
+        })
+    }
 
 }
 
