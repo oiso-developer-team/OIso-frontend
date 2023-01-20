@@ -21,7 +21,13 @@ fetch("https://api.oiso.cf:2096/profile", {
         socket.emit("message",{"data":"hello lyshark"});
         // 收到数据后,执行输出
         socket.on('response', function(recv) {
-            console.log('hello lyshark ' + recv.Data)
+            var data = recv.Data[1].Data;
+            console.log('hello lyshark ' + data);
+            // update chat_msg
+            parse_benben(data.chat_msg);
+            parse_music(data.song_msg);
+            parse_spiderstatus(data.spider_status);
+            parse_stream(data.stream_name);
         });
 
         document.getElementById("updown").removeAttribute("hidden");
@@ -35,59 +41,43 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
         document.getElementById("lbt").setAttribute("onclick", "");
         document.getElementById("happy").removeAttribute("hidden");
-        get_benben();
-        get_music();
-        window['stream'] = false;
-        get_stream();
-        setInterval(function () { //每10秒刷新一次
-            if (!window['stream']) {
-                get_stream();
-            }
-        }, 10000);
-        setInterval(function () { //每10秒刷新一次
-            get_benben();
-        }, 10000);
-        setInterval(function () { //每1秒刷新一次
-            if (window['playDone'] == true) {
-                get_music();
-                // console.log("getmusic2");
-                window['playDone'] = false;
-            }
-        }, 1000);
-        setInterval(function () { //每5秒刷新一次
-            if (window['music'] != "true") {
-                get_music();
-                window['playDone'] = false;
-            }
-        }, 10000);
+        // window['stream'] = false;
+        // get_stream();
+        // setInterval(function () { //每10秒刷新一次
+        //     if (!window['stream']) {
+        //         get_stream();
+        //     }
+        // }, 10000);
+        // setInterval(function () { //每1秒刷新一次
+        //     if (window['playDone'] == true) {
+        //         get_music();
+        //         // console.log("getmusic2");
+        //         window['playDone'] = false;
+        //     }
+        // }, 1000);
+        // setInterval(function () { //每5秒刷新一次
+        //     if (window['music'] != "true") {
+        //         get_music();
+        //         window['playDone'] = false;
+        //     }
+        // }, 10000);
     }
 }).catch(function () {
     // mdui.snackbar("服务器错误：" + data);
     document.getElementById("lbt").innerHTML = "未登录";
 });
 
-function get_stream() {
-    // url = https://api.oiso.cf:2096/getstream
-    fetch("https://api.oiso.cf:2096/getstream", {
-        credentials: 'include'
-    }).then(function (response) {
-        return response.text();
-    }).then(function (data) {
-        j = JSON.parse(data);
-        var code = j.code;
-        if (code == 200) {
-            document.getElementById("stream_title").innerText = j.msg;
-            setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            window['stream'] = true;
-        } else {
-            document.getElementById("stream_title").innerText = j.msg;
-            setup_stream2('https://www.oiso.cf/img/fishing.mp4');
-        }
-    }).catch(function () {
-        // mdui.snackbar("服务器错误：" + data);
-        document.getElementById("stream_title").innerHTML = "获取直播失败";
+function parse_stream(data) {
+    j = JSON.parse(data);
+    var code = j.code;
+    if (code == 200) {
+        document.getElementById("stream_title").innerText = j.msg;
+        setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
+        window['stream'] = true;
+    } else {
+        document.getElementById("stream_title").innerText = j.msg;
         setup_stream2('https://www.oiso.cf/img/fishing.mp4');
-    });
+    }
 }
 
 // 等待页面渲染完成
@@ -219,4 +209,176 @@ function setup_stream(stream_url) {
             });
         }
     })
+}
+
+function parse_benben(odata) {
+    // console.log(odata);
+    odata = JSON.parse(odata);
+    var data = odata.msg;
+    var onlineNum = odata.onlinenum;
+    var onlinePeople = odata.online;
+    document.getElementById("onlinenumber").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">people</i>` + "在线 " + String(onlineNum) + " 人";
+    document.getElementById("show_number").innerText = "有 " + String(onlineNum) + " 人正在👋🐟";
+    document.getElementById("show_people").innerHTML = "";
+    for (var i = 0; i < onlineNum; i++) {
+        document.getElementById("show_people").innerHTML += `<li class="mdui-list-item mdui-ripple">${onlinePeople[i].username}</li>`;
+    }
+    j = (data);
+    // 按时间排序
+    j.sort(function (a, b) {
+        return b.time - a.time;
+    });
+    var tmptxt = '';
+    for (i in j) {
+        var msg = j[i];
+        // 防止注入
+        msg.user = msg.user.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        msg.msg = msg.msg.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        var hasLink = false;
+
+        if ("tag" in msg) {
+            msg.tag.content = msg.tag.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            msg.tag.content = msg.tag.content.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+            msg.tag.content = msg.tag.content.replace(/\*(.*?)\*/g, "<i>$1</i>");
+            msg.tag.content = msg.tag.content.replace(/__(.*?)__/g, "<u>$1</u>");
+            msg.tag.content = msg.tag.content.replace(/~~(.*?)~~/g, "<del>$1</del>");
+            // 如果有超链接，记录为true
+            if (/\[(.*?)\]\((.*?)\)/g.test(msg.tag.content)) {
+                hasLink = true;
+            }
+            // msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+            // 超链接 但是要window.open 不要用a标签
+            msg.tag.content = msg.tag.content.replace(/\[(.*?)\]\((.*?)\)/g, "<span onclick='window.open(\"$2\")'>$1</span>");
+        }
+
+        var originMsg = msg.msg
+        // msg markdown 转为 html 用正则
+        msg.msg = msg.msg.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+        msg.msg = msg.msg.replace(/\*(.*?)\*/g, "<i>$1</i>");
+        msg.msg = msg.msg.replace(/__(.*?)__/g, "<u>$1</u>");
+        msg.msg = msg.msg.replace(/~~(.*?)~~/g, "<del>$1</del>");
+        msg.msg = msg.msg.replace(/`(.*?)`/g, "<code>$1</code>");
+        // 图片 限制宽度长度
+        msg.msg = msg.msg.replace(/!\[(.*?)\]\((.*?)\)/g, "<img src='$2' alt='$1' style='max-width:100%;max-height:100%;' />");
+        // 超链接
+        msg.msg = msg.msg.replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' target='_blank'>$1</a>");
+        // 添加 latex 支持
+        msg.msg = msg.msg.replace(/\$\$(.*?)\$\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
+        msg.msg = msg.msg.replace(/\$(.*?)\$/g, "<img src='https://latex.codecogs.com/svg.latex?$1'>");
+        // 引用
+        msg.msg = msg.msg.replace(/&gt;(.*)/g, "<blockquote>$1</blockquote>");
+        // 表情：如 :kk: 换成图片地址： https://xn--9zr.tk/kk
+        // msg.msg = msg.msg.replace(/:(.*?):/g, "<img src='https://xn--9zr.tk/$1' alt='$1' style='max-width:100%;max-height:100%;' />");
+
+        var timeChinese = new Date(msg.time * 1000).toLocaleString();
+        timeChinese = timeChinese.substr(5);
+        var lgurl = "https://www.luogu.com.cn/user/" + msg.uid;
+        var iptag;
+        if ("geo" in msg) {
+            iptag = `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(255, 0, 128);">` + msg.geo + `</span>`
+        } else {
+            iptag = ``
+        }
+        var tag;
+        if ("tag" in msg) {
+            tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `">` + msg.tag.content + `</span>`
+            // 如果 hasLink 为 true，那么设置tag鼠标的样式为pointer
+            if (hasLink) {
+                tag = `<span class="tag" style="color: ` + msg.tag.fontcolor + `; background: ` + msg.tag.background + `;cursor:pointer;" onclick="window.open('` + msg.tag.link + `')">` + msg.tag.content + `</span>`
+            }
+        } else {
+            tag = ``
+        }
+
+        txt = `<div class="mdui-typo">
+            <div class="am-comment-main">
+                <header class="am-comment-hd">
+                    <div class="am-comment-meta">
+                        <!-- 头像 圆的 -->
+                        <a href="` + lgurl + `" target="_blank" class="am-comment-author" style="display: inline-block;">
+                            <img src="https://cdn.luogu.com.cn/upload/usericon/` + msg.uid + `.png" alt="" style="border-radius:100%; overflow:hidden;" class="am-comment-avatar" width="30" height="30">
+                        </a>
+                        <span class="feed-username">
+                            <a href="`+ lgurl + `" target="_blank">@` + msg.user + `</a>
+                        </span> 
+                        `+ iptag + `
+                        `+ tag + `
+                        `+ timeChinese + `
+                        <!-- 回复按钮 -->
+                        <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
+                    </div>
+                </header>
+                <div class="am-comment-bd">
+                    `+ msg.msg + `
+                </div>
+            </div>
+        </div>`
+        tmptxt += txt;
+    }
+    if(document.querySelector("#benben").innerHTML != tmptxt){
+        document.querySelector("#benben").innerHTML = tmptxt;
+    }
+}
+
+function parse_music(data) {
+    // console.log(data);
+    if (data == "false") {
+        if (window['music'] != 'none') {
+            try {
+                document.getElementById("liveimg").remove();
+            } catch (e) { }
+            try {
+                document.getElementById("live").remove();
+            } catch (e) { }
+            try {
+                document.getElementById("livebot").remove();
+            } catch (e) { }
+            document.getElementById("media").innerHTML += `<iframe id="livebot" src="/musicPlayer/index.html"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+            // document.getElementById("sub").innerText = "云听歌 - 暂无歌曲";
+            document.getElementById("livebot").style.height = getWindowHeight() * 0.23 + "px";
+            window['music'] = 'none';
+        } else {
+            window['music'] = "none";
+            try {
+                document.getElementById("liveimg").remove();
+            } catch (e) { }
+            try {
+                document.getElementById("live").remove();
+            } catch (e) { }
+        }
+
+    } else {
+        j = JSON.parse(data);
+        // console.log(j);
+        window['musicUrls'] = [j['url'].replace("http://", "https://")];
+        // window['musicUrls'] = ['/musicPlayer/music1.mp3'];
+        window['artistNameData'] = [j['artist'] + "（@" + j['username'] + "）"];
+        window['musicNameData'] = [j['title']];
+        originimg = j['img'].replace("http://", "https://");
+        // origin:https://p1.music.126.net/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
+        // proxy:https://163pic.oiso.cf/0eBConsur4ghIhTfNLU3MA==/109951167611318783.jpg
+        // proxyimg=originimg.replace("https://p1.music.126.net/","https://163pic.oiso.cf/");
+        window['musicImgsData'] = [originimg];
+        try {
+            document.getElementById("liveimg").remove();
+        } catch (e) { }
+        try {
+            document.getElementById("live").remove();
+        } catch (e) { }
+        try {
+            document.getElementById("livebot").remove();
+        } catch (e) { }
+        window['music'] = 'true';
+        setTimeout(function () {
+            document.getElementById("media").innerHTML += `<iframe id="live" src="/musicPlayer/index.html"  width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>`;
+            document.getElementById("live").style.height = getWindowHeight() * 0.23 + "px";
+        }, 10);
+    }
+}
+
+function parse_spiderstatus(data) {
+        document.querySelector("#spider-status").innerHTML = data + `<div class="mdui-progress">
+<div class="mdui-progress-indeterminate"></div>
+</div>`;
 }
