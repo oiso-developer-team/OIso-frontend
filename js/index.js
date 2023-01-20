@@ -23,6 +23,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         socket.on('response', function(recv) {
             var data = recv.Data;
             console.log(recv);
+            console.log(data);
             // update chat_msg
             parse_benben(data.chat_msg);
             parse_music(data.song_msg);
