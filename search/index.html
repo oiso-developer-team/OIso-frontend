@@ -30,7 +30,7 @@
             border: none;
             outline: none;
             background: rgba(255, 255, 255, 0);
-            color:black !important;
+            color: black !important;
         }
 
         /*包含以下四种的链接*/
@@ -220,6 +220,17 @@
 </head>
 
 <body class="mdui-theme-primary-indigo mdui-color-theme-50 mdui-theme-accent-blue mdui-theme-layout-auto">
+    <script>
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) { return pair[1]; }
+            }
+            return (false);
+        }
+    </script>
     <div class="mdui-appbar mdui-appbar-fixed mdui-appbar-scroll-toolbar-hide" id="appbar">
         <div class="mdui-toolbar mdui-color-theme">
             <div>
@@ -249,10 +260,51 @@
                     document.getElementById("clearBox").setAttribute("hidden", "hidden");
                 }
             </script>
-            <!-- <div class="mdui-toolbar-spacer"></div>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon">
-                <i class="mdui-icon material-icons">more_vert</i>
-            </a> -->
+            <!-- <div class="mdui-toolbar-spacer"></div> -->
+            <!-- 向下偏移 10px -->
+            <button class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-ripple"
+                style="transform: translateY(20%);z-index: 999;" mdui-menu="{target: '#filter-page'}">
+                <i class="mdui-icon material-icons">filter_list</i>
+            </button>
+            <!-- Filter Page start -->
+            <ul class="mdui-menu" id="filter-page">
+                <li class="mdui-menu-item">
+                    <a href="javascript:change_sort('matching_desc');" class="mdui-ripple">匹配度 - 更高的</a>
+                </li>
+                <li class="mdui-menu-item" disabled>
+                    <a href="javascript:change_sort('matching_asc');">匹配度 - 更低的</a>
+                </li>
+                <li class="mdui-menu-item">
+                    <a href="javascript:change_sort('time_desc');" class="mdui-ripple">更新时间 - 较近的</a>
+                </li>
+                <li class="mdui-menu-item">
+                    <a href="javascript:change_sort('time_asc');" class="mdui-ripple">更新时间 - 较远的</a>
+                </li>
+            </ul>
+            <script>
+                function change_sort(sort) {
+                    console.log(sort);
+                    var url = window.location.href;
+                    // 如果已经有参数了
+                    if (url.indexOf("?") != -1) {
+                        // 如果已经有 sort 参数了
+                        if (url.indexOf("sort=") != -1) {
+                            // 就替换 sort 参数的值
+                            url = url.replace(/sort=[^&]*/, "sort=" + sort);
+                        } else {
+                            // 如果没有 sort 参数，就添加 sort 参数
+                            url = url + "&sort=" + sort;
+                        }
+                    } else {
+                        // 如果没有参数，就添加 sort 参数
+                        url = url + "?sort=" + sort;
+                    }
+                    // window.location.href = url;
+                    changeurl(url);
+                    // window.location.reload();
+                }
+            </script>
+            <!-- Filter Page end -->
         </div>
         <div class="mdui-tab mdui-color-theme" mdui-tab>
             <a id="aall" class="mdui-ripple mdui-ripple-white">综合</a>
@@ -263,7 +315,6 @@
             <a id="apages" class="mdui-ripple mdui-ripple-white">用户&amp;团队</a>
         </div>
     </div>
-
     <div class="mdui-container">
         <br><br><br><br><br><br><br>
         <div id="all">
@@ -289,7 +340,9 @@
 
                     <!-- 卡片的按钮 -->
                     <div class="mdui-card-actions">
-                        <button class="mdui-btn mdui-ripple" onclick="open_in_new();" style="border-radius: 15px;"><small><i class="mdui-icon material-icons" style="transform: scale(0.75, 0.75);">open_in_new</i></small>打开此页面</button>
+                        <button class="mdui-btn mdui-ripple" onclick="open_in_new();"
+                            style="border-radius: 15px;"><small><i class="mdui-icon material-icons"
+                                    style="transform: scale(0.75, 0.75);">open_in_new</i></small>打开此页面</button>
                         <!-- <button class="mdui-btn mdui-ripple" style="border-radius: 15px;" onclick="hide();">隐藏快速预览</button> -->
                     </div>
 
@@ -297,8 +350,8 @@
             </div>
         </div>
         <script>
-            function open_in_new(){
-                url=document.getElementById("mainiframe").getAttribute("src");
+            function open_in_new() {
+                url = document.getElementById("mainiframe").getAttribute("src");
                 window.open(url);
             }
             function view(url) {
@@ -333,26 +386,17 @@
                 var halfScreenHeight = window.innerHeight / 2;
                 var gotoTop = document.getElementById("goto_top");
                 var nowPos = getScrollTop();
-                if(nowPos < halfScreenHeight - 150){
+                if (nowPos < halfScreenHeight - 150) {
                     gotoTop.hidden = true;
-                }else if(nowPos > halfScreenHeight - 150){
+                } else if (nowPos > halfScreenHeight - 150) {
                     gotoTop.hidden = false;
-                    if(nowPos < halfScreenHeight + 150){
+                    if (nowPos < halfScreenHeight + 150) {
                         gotoTop.style.opacity = (nowPos - halfScreenHeight + 150) / 300;
                     }
                 }
             };
         </script>
         <script>
-            function getQueryVariable(variable) {
-                var query = window.location.search.substring(1);
-                var vars = query.split("&");
-                for (var i = 0; i < vars.length; i++) {
-                    var pair = vars[i].split("=");
-                    if (pair[0] == variable) { return pair[1]; }
-                }
-                return (false);
-            }
             function getq() {
                 var q = getQueryVariable("q");
                 if (q == false) {
@@ -439,16 +483,16 @@
                     "luoguUser": "洛谷用户",
                     "luoguTeam": "洛谷团队"
                 }
-                if (index['_index'] == "pages"){
+                if (index['_index'] == "pages") {
                     return CHART3[index['_source']['type']];
                 }
                 if (index['_index'] == "articles") {
-                    if(index['_source']['platform'] in CHART2){
+                    if (index['_source']['platform'] in CHART2) {
                         return CHART2[index['_source']['platform']];
-                    }else{
+                    } else {
                         return index['_source']['platform'];
                     }
-                }else if (index['_index'] == "problems") {
+                } else if (index['_index'] == "problems") {
                     if (index['_source']['oj'] in CHART) {
                         return CHART[index['_source']['oj']];
                     } else {
@@ -517,6 +561,14 @@
                 allWrite(`<br><br><br><br><br>`);
             }
             function makeHTML(info) {
+                if(info['_score']==null){
+                    info['_score']=info['sort'][0];
+                    if(window['maxScore']==null){
+                        window['maxScore']=info['_score'];
+                    }else{
+                        window['maxScore']=Math.max(window['maxScore'],info['_score']);
+                    }
+                }
                 ret = '';
                 ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p onmouseover="view(`' + info['_source']['url'] + '`);" class="href-title">' + info['_source']['title'] + '</p></a></h5>';
                 ret += '<small>' + info['_source']['content'] + '</small><br>';
@@ -539,29 +591,31 @@
                 page = getQueryVariable("page");
                 if (page == false) page = 1;
                 else page = Number(page);
+                var sort = getQueryVariable("sort");
+                if (sort == false) sort = "matching_desc";
                 mdui.mutation();
                 if (type == false || type == "all") {
                     document.getElementById("aall").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/search?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/search?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
                         document.getElementById("allContent").innerHTML = '';
                         tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']==null?"<del>不可用</del>":data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
                         hits = data['hits']['hits'];
                         for (i in hits) {
                             allWrite(makeHTML(hits[i]));
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 } else if (type == "bbs") {
                     document.getElementById("abbs").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/bbs?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/bbs?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
@@ -574,12 +628,12 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 } else if (type == "problem") {
                     document.getElementById("aproblem").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/problem?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/problem?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
@@ -592,12 +646,12 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 } else if (type == "wiki") {
                     document.getElementById("awiki").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/wiki?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/wiki?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
@@ -610,12 +664,12 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 } else if (type == "article") {
                     document.getElementById("aarticle").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/article?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/article?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
@@ -628,12 +682,12 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 } else if (type == "pages") {
                     document.getElementById("apages").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                     mdui.mutation();
-                    fetch(BASEURL + "/pages?q=" + getQueryVariable("q") + "&page=" + String(page),{credentials: 'include'}).then(function (response) {
+                    fetch(BASEURL + "/pages?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
@@ -646,7 +700,7 @@
                         }
                         makePageButton(String(data['hits']['total']['value']));
                     }).catch(function () {
-                        mdui.snackbar("服务器开小差力！"+error);
+                        mdui.snackbar("服务器开小差力！" + error);
                     });
                 }
                 mdui.mutation();
@@ -662,8 +716,8 @@
                     href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="/img/favicon.svg"
                         alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
                     class="aaa" href="/">OIso.cf</a>&nbsp;| 2022 - 现在 | v0.8.8 测试版 | Developed
-                    by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
-                        target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
+                by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
+                    target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2 aaa" title="评论需 Github 账号，实在不行洛谷也可私信我"
                     href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a>
             </div>
             <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2"
@@ -706,8 +760,9 @@
                 return windowHeight;
             }
         </script>
-        <button class="mdui-fab mdui-fab-fixed" hidden="hidden" id="goto_top"><i class="mdui-icon material-icons">keyboard_arrow_up</i></button>
-        <script>            
+        <button class="mdui-fab mdui-fab-fixed" hidden="hidden" id="goto_top"><i
+                class="mdui-icon material-icons">keyboard_arrow_up</i></button>
+        <script>
             document.getElementById("goto_top").addEventListener("click", function () {
                 // 平滑滚动
                 window.scrollTo({
@@ -717,4 +772,5 @@
             });
         </script>
 </body>
+
 </html>
