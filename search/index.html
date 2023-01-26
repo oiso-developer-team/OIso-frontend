@@ -318,13 +318,15 @@
     <div class="mdui-container">
         <br><br><br><br><br><br><br>
         <div id="all">
-            <div class="mdui-typo mdui-col-md-7 mdui-col-xs-12 mdui-col-sm-10" id="allContent">
-                <center>
-                    <br><br><br><br><br>
-                    <div class="mdui-spinner mdui-spinner-colorful"></div>
-                </center>
+            <div class="mdui-typo mdui-col-md-7 mdui-col-xs-12 mdui-col-sm-10">
+                <div id="allContent">
+                    <center>
+                        <br><br><br><br><br>
+                        <div class="mdui-spinner mdui-spinner-colorful"></div>
+                    </center>
+                </div>
             </div>
-            <div class="mdui-typo mdui-col-md-1 mdui-col-xs-12 mdui-col-sm-10" id="allContent">
+            <div class="mdui-typo mdui-col-md-1 mdui-col-xs-12 mdui-col-sm-10">
                 <!-- 占位~ -->
             </div>
             <div class="mdui-typo mdui-col-md-4 mdui-col-xs-12 mdui-col-sm-10" id="quickView">
@@ -561,12 +563,12 @@
                 allWrite(`<br><br><br><br><br>`);
             }
             function makeHTML(info) {
-                if(info['_score']==null){
-                    info['_score']=info['sort'][0];
-                    if(window['maxScore']==null){
-                        window['maxScore']=info['_score'];
-                    }else{
-                        window['maxScore']=Math.max(window['maxScore'],info['_score']);
+                if (info['_score'] == null) {
+                    info['_score'] = info['sort'][0];
+                    if (window['maxScore'] == null) {
+                        window['maxScore'] = info['_score'];
+                    } else {
+                        window['maxScore'] = Math.max(window['maxScore'], info['_score']);
                     }
                 }
                 ret = '';
@@ -594,121 +596,61 @@
                 var sort = getQueryVariable("sort");
                 if (sort == false) sort = "matching_desc";
                 mdui.mutation();
-                if (type == false || type == "all") {
-                    document.getElementById("aall").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/search?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']==null?"<del>不可用</del>":data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
-                } else if (type == "bbs") {
-                    document.getElementById("abbs").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/bbs?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
-                } else if (type == "problem") {
-                    document.getElementById("aproblem").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/problem?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
-                } else if (type == "wiki") {
-                    document.getElementById("awiki").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/wiki?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
-                } else if (type == "article") {
-                    document.getElementById("aarticle").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/article?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
-                } else if (type == "pages") {
-                    document.getElementById("apages").setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
-                    mdui.mutation();
-                    fetch(BASEURL + "/pages?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
-                        return response.json();
-                    }).then(function (data) {
-                        console.log(data);
-                        document.getElementById("allContent").innerHTML = '';
-                        tot = Math.ceil(data['hits']['total']['value'] / 20);
-                        allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                        hits = data['hits']['hits'];
-                        for (i in hits) {
-                            allWrite(makeHTML(hits[i]));
-                        }
-                        makePageButton(String(data['hits']['total']['value']));
-                    }).catch(function () {
-                        mdui.snackbar("服务器开小差力！" + error);
-                    });
+                if (type == false) {
+                    type = "all";
                 }
+                document.getElementById("a" + type).setAttribute("class", "mdui-ripple mdui-ripple-white mdui-tab-active");
                 mdui.mutation();
+                var urlbase = type;
+                window['type'] = type;
+                if (type == "all") urlbase = "search";
+                fetch(BASEURL + "/" + urlbase + "?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log(data);
+                    document.getElementById("allContent").innerHTML = '';
+                    tot = Math.ceil(data['hits']['total']['value'] / 20);
+                    allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score'] == null ? "<del>不可用</del>" : data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                    if(window['type']=="all"){
+                        allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
+                        // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
+                        mdui.mutation();
+                        ai_query(getQueryVariable("q"));
+                    }
+                    hits = data['hits']['hits'];
+                    for (i in hits) {
+                        allWrite(makeHTML(hits[i]));
+                    }
+                    makePageButton(String(data['hits']['total']['value']));
+                }).catch(function () {
+                    mdui.snackbar("服务器开小差力！" + error);
+                });
             }
             search();
             q = getQueryVariable("q");
             document.getElementById("inputBox").value = decodeURIComponent(q);
             document.title = decodeURIComponent(q) + " - 🍋OIso🔍";
+            function ai_query(question){
+                // https://api.oiso.cf:2096/ai/query?q=AC%E8%87%AA%E5%8A%A8%E6%9C%BA%E6%98%AF%E4%BB%80%E4%B9%88
+                fetch(BASEURL + "/ai/query?q=" + question, { credentials: 'include' }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    console.log(data);
+                    if('error' in data){
+                        document.getElementById("ai_answer").innerHTML = `<div class="mdui-card-content">AI 引擎正在启动中，稍后再来试试吧（约1分钟）！</div>`;
+                        mdui.mutation();
+                        return;
+                    }else{
+                        // data['answer'] HTML编码
+                        data['answer'] = data['answer'].replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                        document.getElementById("ai_answer").innerHTML = `<div class="mdui-card-content">${data['answer']}</div>`;
+                        mdui.mutation();
+                        return;
+                    }
+                }).catch(function () {
+                    mdui.snackbar("服务器开小差力！" + error);
+                });
+            }
         </script>
         <div class="dARkdOOr fixed left-0 right-0 bottom-0 flex justify-center items-center" dark="bg-dark-700"
             bg="gray-100" w="full" h="12" text="xs" id="foot" hidden="hidden">
