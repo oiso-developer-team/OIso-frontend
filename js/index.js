@@ -7,6 +7,7 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
+        window['uid'] = data['uid'];
         get_benben();
         namespace = '/Socket';
         var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
@@ -273,7 +274,10 @@ function parse_benben(odata) {
         } else {
             tag = ``
         }
-
+        var needhidden = "";
+        if (String(window['uid']) == String(msg.uid)) {
+            needhidden = "hidden='hidden'";
+        }
         txt = `<div class="mdui-typo">
             <div class="am-comment-main">
                 <header class="am-comment-hd">
@@ -288,8 +292,8 @@ function parse_benben(odata) {
                         `+ iptag + `
                         `+ tag + `
                         `+ timeChinese + `
-                        <!-- 回复按钮 -->
                         <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
+                        <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>回复</a>
                     </div>
                 </header>
                 <div class="am-comment-bd">
@@ -455,7 +459,10 @@ function get_benben() {
             } else {
                 tag = ``
             }
-
+            var needhidden = "";
+            if (String(window['uid']) == String(msg.uid)) {
+                needhidden = "hidden='hidden'";
+            }
             txt = `<div class="mdui-typo">
                 <div class="am-comment-main">
                     <header class="am-comment-hd">
@@ -470,9 +477,9 @@ function get_benben() {
                             `+ iptag + `
                             `+ tag + `
                             `+ timeChinese + `
-                            <!-- 回复按钮 -->
                             <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
-                        </div>
+                            <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>回复</a>
+                            </div>
                     </header>
                     <div class="am-comment-bd">
                         `+ msg.msg + `
@@ -491,5 +498,29 @@ function get_benben() {
         document.querySelector("#benben").innerHTML = tmptxt;
     }).catch(function () {
         mdui.snackbar("更新犇犇失败：" + error);
+    });
+}
+
+function msgdel(time) {
+    mdui.confirm("确定删除这条犇犇吗？", "删除犇犇", function () {
+        // https://api.oiso.cf:2096/msg/delete?time=1674726448.608633
+        var url = "https://api.oiso.cf:2096/msg/delete?time=" + time;
+        fetch(url, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            data = JSON.parse(data);
+            if (data.code == 200) {
+                mdui.snackbar("删除成功！");
+                getmsg();
+            } else {
+                mdui.snackbar("删除失败：" + data.msg);
+            }
+        }).catch(function (error) {
+            mdui.snackbar("删除失败：" + error);
+        });
     });
 }
