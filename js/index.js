@@ -275,7 +275,7 @@ function parse_benben(odata) {
             tag = ``
         }
         var needhidden = "";
-        if (String(window['uid']) == String(msg.uid)) {
+        if (String(window['uid']) != String(msg.uid)) {
             needhidden = "hidden='hidden'";
         }
         txt = `<div class="mdui-typo">
@@ -293,7 +293,7 @@ function parse_benben(odata) {
                         `+ tag + `
                         `+ timeChinese + `
                         <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
-                        <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>回复</a>
+                        <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>删除</a>
                     </div>
                 </header>
                 <div class="am-comment-bd">
@@ -460,7 +460,7 @@ function get_benben() {
                 tag = ``
             }
             var needhidden = "";
-            if (String(window['uid']) == String(msg.uid)) {
+            if (String(window['uid']) != String(msg.uid)) {
                 needhidden = "hidden='hidden'";
             }
             txt = `<div class="mdui-typo">
@@ -478,7 +478,7 @@ function get_benben() {
                             `+ tag + `
                             `+ timeChinese + `
                             <a href="javascript:void(0);" class="am-fr" onclick="replyto('@`+ msg.user + ` ：` + originMsg.replace('\n', '') + `')">回复</a>
-                            <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>回复</a>
+                            <a href="javascript:void(0);" class="am-fr" onclick="msgdel('${String(msg.time)}')" ${needhidden}>删除</a>
                             </div>
                     </header>
                     <div class="am-comment-bd">
