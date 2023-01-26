@@ -515,7 +515,6 @@ function msgdel(time) {
         }).then(function (data) {
             if (data.code == 200) {
                 mdui.snackbar("删除成功！");
-                getmsg();
             } else {
                 mdui.snackbar("删除失败：" + data.msg);
             }
