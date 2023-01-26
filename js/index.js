@@ -7,7 +7,8 @@ fetch("https://api.oiso.cf:2096/profile", {
         document.getElementById("lbt").innerHTML = "未登录";
         mdui.snackbar("请登录");
     } else {
-        window['uid'] = data['uid'];
+        console.log(data);
+        window['uid'] = JSON.parse(data).uid;
         get_benben();
         namespace = '/Socket';
         var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
