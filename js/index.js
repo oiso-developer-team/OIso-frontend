@@ -513,7 +513,6 @@ function msgdel(time) {
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
-            data = JSON.parse(data);
             if (data.code == 200) {
                 mdui.snackbar("删除成功！");
                 getmsg();
