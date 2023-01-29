@@ -1348,7 +1348,7 @@
                 </div>
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">封面图片 url</label>
-                    <input class="mdui-textfield-input" type="text" id="cover"/>
+                    <input class="mdui-textfield-input" type="url" id="coverurl"/>
                 </div>
                 <select class="mdui-select" id="category">
                     <option value="disabled" disabled>请选择分区</option>
@@ -1381,7 +1381,7 @@
                         var detail = data["data"];
                         document.getElementById("title").value = detail["title"];
                         document.getElementById("desc").value = detail["desc"];
-                        document.getElementById("cover").value = detail["cover"];
+                        document.getElementById("coverurl").value = detail["cover"];
                         document.getElementById("category").value = detail["category"];
                     } else {
                         mdui.snackbar("这是你第一次创建直播间，快去填写信息吧！")
@@ -1396,7 +1396,7 @@
             var uidstr = String(window["uid"]);
             var title = document.getElementById("title").value;
             var desc = document.getElementById("desc").value;
-            var cover = document.getElementById("cover").value;
+            var cover = document.getElementById("coverurl").value;
             var category = document.getElementById("category").value;
             var url = "https://api.oiso.cf:2096/live/register";
             $.ajax({
