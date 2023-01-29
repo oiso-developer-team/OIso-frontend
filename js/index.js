@@ -98,7 +98,7 @@ function parse_stream(data) {
                 <video id="videoElement" class="centeredVideo" controls>Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
-            document.getElementById("stream_title").innerText = j.msg;
+            document.getElementById("stream_title").innerText = "主播正在摸🐟……";
             setup_stream2('https://www.oiso.cf/img/fishing.mp4');
         }
     }
