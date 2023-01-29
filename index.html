@@ -1510,6 +1510,7 @@
                     if (data["code"] == 200) {
                         var detail = data["data"];
                         var list = document.getElementsByClassName("mdui-list")[0];
+                        list.innerHTML = "";
                         for (var i = 0; i < detail.length; i++) {
                             var item = document.createElement("li");
                             item.className = "mdui-list-item mdui-ripple";
@@ -1527,6 +1528,7 @@
                             item.appendChild(item_content);
                             list.appendChild(item);
                         }
+                        mdui.mutation();
                     } else {
                         mdui.snackbar("获取直播列表失败！")
                     }
