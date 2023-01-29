@@ -1477,7 +1477,7 @@
         }
     </script>
 
-    <div class="mdui-dialog" id="dialog-live-list" style="border-radius: 20px;">
+    <div class="mdui-dialog" id="dialog-livelist" style="border-radius: 20px;">
         <div class="mdui-dialog-title" id="live_dialog_title">直播选台</div>
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-typo">
@@ -1498,7 +1498,6 @@
     </div>
     <script>
         function get_live_list() {
-            return;
             var url = "https://api.oiso.cf:2096/live/list";
             $.ajax({
                 url: url,
