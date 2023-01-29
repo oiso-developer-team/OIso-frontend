@@ -1338,7 +1338,7 @@
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-typo">
                 <h3>免责声明</h3>
-                <b>使用本直播功能即默认您已阅读 由中华人民共和国国家互联网信息办公室发布的 <a href="http://www.cac.gov.cn/2016-11/04/c_1119847629.htm" target="_blank">互联网直播服务管理规定</a> 。 本直播不含打赏功能，仅供信息学竞赛选手的学习交流之用，造成的后果开发者及平台服务提供者概不负责。严禁直播任何损害国家利益、有害社会公德、违反国家法律等的一切内容。</b>
+                <b>使用本直播功能即默认您已阅读 由中华人民共和国国家互联网信息办公室发布的 <a href="http://www.cac.gov.cn/2016-11/04/c_1119847629.htm" target="_blank">互联网直播服务管理规定</a> 。 本直播不含打赏功能，仅供信息学竞赛选手的学习交流之用，造成的后果开发者及平台服务提供者概不负责。严禁直播任何损害国家利益、有害社会公德、违反国家法律等的一切内容。违者将封禁账号，并将用户相关信息举报至有关部门。</b>
                 <h3>直播间信息</h3>
                 <p>请放心填写，此信息日后可多次修改。</p>
                 <div class="mdui-textfield mdui-textfield-floating-label">
@@ -1460,7 +1460,7 @@
                 },
                 success: function (data) {
                     if (data["code"] == 200) {
-                        var detail = data["data"];
+                        var detail = data;
                         document.getElementById("baseurl").innerText = detail["baseurl"];
                         document.getElementById("streamkey").innerText = detail["key"];
                     } else {
