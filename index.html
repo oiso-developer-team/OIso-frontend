@@ -1508,7 +1508,7 @@
                 },
                 success: function (data) {
                     if (data["code"] == 200) {
-                        var detail = data["detail"];
+                        var detail = data["data"];
                         var list = document.getElementsByClassName("mdui-list")[0];
                         for (var i = 0; i < detail.length; i++) {
                             var item = document.createElement("li");
