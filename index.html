@@ -1348,7 +1348,7 @@
                 </div>
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">封面图片 url</label>
-                    <input class="mdui-textfield-input" type="url" id="cover"/>
+                    <input class="mdui-textfield-input" id="cover"/>
                 </div>
                 <select class="mdui-select" id="category">
                     <option value="disabled" disabled>请选择分区</option>
@@ -1367,7 +1367,7 @@
     <script>
         function get_mylive_detail() {
             var uidstr = String(window["uid"]);
-            document.getElementById("live_dialog_title").innerText = "用户" + uidstr + " 的直播间信息";
+            document.getElementById("live_dialog_title").innerText = "用户 " + uidstr + " 的直播间信息";
             var url = "https://api.oiso.cf:2096/live/detail?room=" + uidstr;
             $.ajax({
                 url: url,
