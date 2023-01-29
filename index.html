@@ -1539,9 +1539,51 @@
             });
         }
         function watchlive(roomid){
-            // goto /live?room=roomid
-            window.location.href = "/live?room=" + roomid;
+            window['live_chosen'] = roomid;
+            document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
+                <video id="videoElement" class="centeredVideo" controls 
+                style="height: 333px; width: 100%; object-fit: fill;"
+                >Your browser is too old to
+                    support HTML5 video.</video>
+            </div>`;
+            setTimeout(function () {
+                setup_stream_user(roomid);
+            }, 100);
+            setTimeout(function () {
+                if (document.getElementById("videoElement").paused) {
+                    mdui.snackbar({
+                        message: '播放不通畅？试试刷新页面！',
+                        buttonText: '立即刷新',
+                        onButtonClick: function () {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }, 5000);
         }
+        function setup_stream_user(roomid){
+            url = "https://api.oiso.cf:2096/live/detail?room=" + roomid;
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        setup_stream(data["urls"]["flv"]);
+                        document.getElementById("stream_title").innerText = data["title"] + " - 用户 " + String(data["uid"]);
+                    } else {
+                        mdui.snackbar("获取直播地址失败！")
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar("获取直播地址失败！")
+                }
+            });
+        }
+        get_live_list();
     </script>
 
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">

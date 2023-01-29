@@ -32,7 +32,9 @@ fetch("https://api.oiso.cf:2096/profile", {
             parse_benben(data.chat_msg);
             parse_music(data.song_msg);
             parse_spiderstatus(data.spider_status);
-            parse_stream(data.live);
+            if(window['live_chosen'] == undefined){
+                parse_stream(data.live);
+            }
         });
 
         document.getElementById("updown").removeAttribute("hidden");
