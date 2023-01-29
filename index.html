@@ -1573,7 +1573,7 @@
                 success: function (data) {
                     if (data["code"] == 200) {
                         setup_stream(data["urls"]["flv"]);
-                        document.getElementById("stream_title").innerText = data["title"] + " - 用户 " + String(data["uid"]);
+                        document.getElementById("stream_title").innerText = data["data"]["title"] + " - 用户 " + String(data["data"]["uid"]);
                     } else {
                         mdui.snackbar("获取直播地址失败！")
                     }
