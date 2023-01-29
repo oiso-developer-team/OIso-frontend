@@ -1338,20 +1338,22 @@
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-typo">
                 <h3>免责声明</h3>
-                <b>使用本直播功能即默认您已阅读 由中华人民共和国国家互联网信息办公室发布的 <a href="http://www.cac.gov.cn/2016-11/04/c_1119847629.htm" target="_blank">互联网直播服务管理规定</a> 。 本直播不含打赏功能，仅供信息学竞赛选手的学习交流之用，造成的后果开发者及平台服务提供者概不负责。严禁直播任何损害国家利益、有害社会公德、违反国家法律等的一切内容。违者将封禁账号，并将用户相关信息举报至有关部门。</b>
+                <b>使用本直播功能即默认您已阅读 由中华人民共和国国家互联网信息办公室发布的 <a href="http://www.cac.gov.cn/2016-11/04/c_1119847629.htm"
+                        target="_blank">互联网直播服务管理规定</a> 。
+                    本直播不含打赏功能，仅供信息学竞赛选手的学习交流之用，造成的后果开发者及平台服务提供者概不负责。严禁直播任何损害国家利益、有害社会公德、违反国家法律等的一切内容。违者将封禁账号，并将用户相关信息举报至有关部门。</b>
                 <h3>直播间信息</h3>
                 <p>请放心填写，此信息日后可多次修改。</p>
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">直播间标题</label>
-                    <input class="mdui-textfield-input" type="text" id="title"/>
+                    <input class="mdui-textfield-input" type="text" id="title" />
                 </div>
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">简介</label>
-                    <input class="mdui-textfield-input" type="text" id="desc"/>
+                    <input class="mdui-textfield-input" type="text" id="desc" />
                 </div>
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">封面图片 url</label>
-                    <input class="mdui-textfield-input" type="url" id="coverurl"/>
+                    <input class="mdui-textfield-input" type="url" id="coverurl" />
                 </div>
                 <select class="mdui-select" id="category">
                     <option value="disabled" disabled>请选择分区</option>
@@ -1372,7 +1374,8 @@
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;" onclick="submit_liveinfo();">提交</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;"
+                onclick="submit_liveinfo();">提交</button>
         </div>
     </div>
     <script>
@@ -1428,14 +1431,14 @@
                 },
                 success: function (data) {
                     if (data["code"] == 200) {
-                        if(window['first_time']) {
+                        if (window['first_time']) {
                             window['first_time'] = false;
                             mdui.snackbar("创建成功！刷新页面并重新打开此窗口即可获得推流地址！")
                         } else {
                             mdui.snackbar("编辑成功！")
                         }
                     } else {
-                        if(window['first_time']) {
+                        if (window['first_time']) {
                             window['first_time'] = false;
                             mdui.snackbar("创建失败！")
                         } else {
@@ -1471,6 +1474,71 @@
                     mdui.snackbar("获取推流地址失败！")
                 }
             });
+        }
+    </script>
+
+    <div class="mdui-dialog" id="dialog-live-list" style="border-radius: 20px;">
+        <div class="mdui-dialog-title" id="live_dialog_title">直播选台</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <div class="mdui-typo">
+                <ul class="mdui-list">
+                    <!-- <li class="mdui-list-item mdui-ripple" onclick="watchlive('roomid');">
+                        <div class="mdui-list-item-content">
+                            <div class="mdui-list-item-title mdui-list-item-one-line">直播间标题</div>
+                            <div class="mdui-list-item-text mdui-list-item-two-line">直播间描述</div>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+    <script>
+        function get_live_list() {
+            var url = "https://api.oiso.cf:2096/live/list";
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        var detail = data["detail"];
+                        var list = document.getElementsByClassName("mdui-list")[0];
+                        for (var i = 0; i < detail.length; i++) {
+                            var item = document.createElement("li");
+                            item.className = "mdui-list-item mdui-ripple";
+                            item.setAttribute("onclick", "watchlive('" + detail[i]["roomid"] + "');");
+                            var item_content = document.createElement("div");
+                            item_content.className = "mdui-list-item-content";
+                            var item_title = document.createElement("div");
+                            item_title.className = "mdui-list-item-title mdui-list-item-one-line";
+                            item_title.innerText = detail[i]["title"];
+                            var item_text = document.createElement("div");
+                            item_text.className = "mdui-list-item-text mdui-list-item-two-line";
+                            item_text.innerText = detail[i]["desc"];
+                            item_content.appendChild(item_title);
+                            item_content.appendChild(item_text);
+                            item.appendChild(item_content);
+                            list.appendChild(item);
+                        }
+                    } else {
+                        mdui.snackbar("获取直播列表失败！")
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar("获取直播列表失败！")
+                }
+            });
+        }
+        function watchlive(roomid){
+            // goto /live?room=roomid
+            window.location.href = "/live?room=" + roomid;
         }
     </script>
 
@@ -1516,66 +1584,66 @@
     </div>
     <script>
         function copyToClip(content) {
-            var aux = document.createElement("input");
-            aux.setAttribute("value", content);
-            document.body.appendChild(aux);
-            aux.select();
-            document.execCommand("copy");
-            document.body.removeChild(aux);
-        }
+                    var aux = document.createElement("input");
+                    aux.setAttribute("value", content);
+                    document.body.appendChild(aux);
+                    aux.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(aux);
+                }
         document.getElementById("subup").onclick = function () {
-            document.getElementById("subup").disabled = true;
-            document.getElementById("subup").innerText = "上传中...";
-            let file = document.getElementById("file").files[0];
-            let formData = new FormData();
-            formData.append("file", file);
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
-            xhr.withCredentials = true;
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    if (data.code == 200) {
-                        mdui.snackbar(data.msg);
-                        document.getElementById('url').innerText = data.url;
-                        document.getElementById('copy-url').onclick = function () {
-                            copyToClip(data.url);
-                            mdui.snackbar("已复制到剪贴板");
+                    document.getElementById("subup").disabled = true;
+                    document.getElementById("subup").innerText = "上传中...";
+                    let file = document.getElementById("file").files[0];
+                    let formData = new FormData();
+                    formData.append("file", file);
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
+                    xhr.withCredentials = true;
+                    xhr.send(formData);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            var data = JSON.parse(xhr.responseText);
+                            if (data.code == 200) {
+                                mdui.snackbar(data.msg);
+                                document.getElementById('url').innerText = data.url;
+                                document.getElementById('copy-url').onclick = function () {
+                                    copyToClip(data.url);
+                                    mdui.snackbar("已复制到剪贴板");
+                                }
+                                document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
+                                document.getElementById('copy-url-markdown').onclick = function () {
+                                    copyToClip("![](" + data.url + ")");
+                                    mdui.snackbar("已复制到剪贴板");
+                                }
+                                document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
+                                document.getElementById('copy-url-html').onclick = function () {
+                                    copyToClip("<img src=\"" + data.url + "\"/>");
+                                    mdui.snackbar("已复制到剪贴板");
+                                }
+                                document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
+                                document.getElementById('copy-url-bbcode').onclick = function () {
+                                    copyToClip("[img]" + data.url + "[/img]");
+                                    mdui.snackbar("已复制到剪贴板");
+                                }
+                            } else {
+                                mdui.snackbar("出错了：" + data.msg);
+                            }
                         }
-                        document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
-                        document.getElementById('copy-url-markdown').onclick = function () {
-                            copyToClip("![](" + data.url + ")");
-                            mdui.snackbar("已复制到剪贴板");
+                        document.getElementById("subup").disabled = false;
+                        document.getElementById("subup").innerText = "上传";
+                    }
+                    //进度条
+                    xhr.upload.onprogress = function (e) {
+                        console.log(e.loaded, e.total);
+                        if (e.lengthComputable) {
+                            var percent = e.loaded / e.total * 100;
+                            console.log("上传进度：" + percent + "%")
+                            document.getElementById("upprogress").style.display = "block";
+                            document.getElementById("upprogress").style.width = percent + "%";
                         }
-                        document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
-                        document.getElementById('copy-url-html').onclick = function () {
-                            copyToClip("<img src=\"" + data.url + "\"/>");
-                            mdui.snackbar("已复制到剪贴板");
-                        }
-                        document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
-                        document.getElementById('copy-url-bbcode').onclick = function () {
-                            copyToClip("[img]" + data.url + "[/img]");
-                            mdui.snackbar("已复制到剪贴板");
-                        }
-                    } else {
-                        mdui.snackbar("出错了：" + data.msg);
                     }
                 }
-                document.getElementById("subup").disabled = false;
-                document.getElementById("subup").innerText = "上传";
-            }
-            //进度条
-            xhr.upload.onprogress = function (e) {
-                console.log(e.loaded, e.total);
-                if (e.lengthComputable) {
-                    var percent = e.loaded / e.total * 100;
-                    console.log("上传进度：" + percent + "%")
-                    document.getElementById("upprogress").style.display = "block";
-                    document.getElementById("upprogress").style.width = percent + "%";
-                }
-            }
-        }
     </script>
 
     <div class="mdui-dialog" id="dialog-online_show" style="border-radius: 20px;">
@@ -1620,26 +1688,26 @@
         </div>
         <script>
             function gocsong() {
-                var url = document.querySelector("#dialog-csong input").value;
-                if (isNaN(url)) {
-                    mdui.snackbar("请输入正确的歌曲ID，是一串数字。");
-                    return;
-                }
-                fetch("https://api.oiso.cf:2096/song?song=" + url, {
-                    credentials: 'include'
-                }).then(function (response) {
-                    return response.text();
-                }).then(function (data) {
-                    // console.log(data);
-                    if (data == "True") {
-                        mdui.snackbar("点歌成功！已排入点歌队列！");
-                    } else {
-                        mdui.snackbar("点歌失败：" + data);
+                    var url = document.querySelector("#dialog-csong input").value;
+                    if (isNaN(url)) {
+                        mdui.snackbar("请输入正确的歌曲ID，是一串数字。");
+                        return;
                     }
-                }).catch(function () {
-                    mdui.snackbar("点歌失败：" + data);
-                });
-            }
+                    fetch("https://api.oiso.cf:2096/song?song=" + url, {
+                        credentials: 'include'
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (data) {
+                        // console.log(data);
+                        if (data == "True") {
+                            mdui.snackbar("点歌成功！已排入点歌队列！");
+                        } else {
+                            mdui.snackbar("点歌失败：" + data);
+                        }
+                    }).catch(function () {
+                        mdui.snackbar("点歌失败：" + data);
+                    });
+                }
         </script>
     </div>
 
@@ -1804,61 +1872,61 @@
                 });
             </script>
             <script>
-                function getWindowHeight2() {
-                    var windowHeight = 0;
-                    if (document.compatMode == "CSS1Compat") {
-                        windowHeight = document.documentElement.clientHeight;
-                    } else {
-                        windowHeight = document.body.clientHeight;
-                    }
-                    return windowHeight;
+            function getWindowHeight2() {
+                var windowHeight = 0;
+                if (document.compatMode == "CSS1Compat") {
+                    windowHeight = document.documentElement.clientHeight;
+                } else {
+                    windowHeight = document.body.clientHeight;
                 }
-                document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.5) + "px;overflow:scroll;")
+                return windowHeight;
+            }
+            document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.5) + "px;overflow:scroll;")
             </script>
             <script>
-                function send_benben() {
-                    document.getElementById("ib").setAttribute("disabled", "disabled");
-                    var time_is_up = false;
-                    setTimeout(() => {
-                        document.getElementById("ib").removeAttribute("disabled");
-                        document.getElementById("ib").value = "";
-                        time_is_up = true;
-                    }, 5000);
-                    var text = document.getElementById("ib").value;
-                    if (text == "") {
-                        mdui.snackbar("总要说点什么吧？");
-                        return;
-                    }
-                    text = encodeURIComponent(text);
-                    fetch("https://api.oiso.cf:2096/msg?msg=" + text, {
-                        credentials: 'include'
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (data) {
-                        // console.log(data);
-                        if (data == "True") {
-                            mdui.snackbar("发送成功！");
-                            // get_benben();
-                            document.getElementById("ib").value = "冷却中……";
-                            if (time_is_up) {
-                                document.getElementById("ib").value = "";
-                            }
-                        } else {
-                            mdui.snackbar("发送失败：" + data);
-                        }
-                    }).catch(function () {
-                        mdui.snackbar("发送失败：" + error);
-                    });
+            function send_benben() {
+                document.getElementById("ib").setAttribute("disabled", "disabled");
+                var time_is_up = false;
+                setTimeout(() => {
+                    document.getElementById("ib").removeAttribute("disabled");
+                    document.getElementById("ib").value = "";
+                    time_is_up = true;
+                }, 5000);
+                var text = document.getElementById("ib").value;
+                if (text == "") {
+                    mdui.snackbar("总要说点什么吧？");
+                    return;
                 }
-                document.getElementById("ib").addEventListener("keyup", function (event) {
-                    // console.log(event);
-                    if (event.keyCode === 13) {
-                        event.preventDefault();
-                        // 把最后的换行去掉
-                        document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
-                        send_benben();
+                text = encodeURIComponent(text);
+                fetch("https://api.oiso.cf:2096/msg?msg=" + text, {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    // console.log(data);
+                    if (data == "True") {
+                        mdui.snackbar("发送成功！");
+                        // get_benben();
+                        document.getElementById("ib").value = "冷却中……";
+                        if (time_is_up) {
+                            document.getElementById("ib").value = "";
+                        }
+                    } else {
+                        mdui.snackbar("发送失败：" + data);
                     }
+                }).catch(function () {
+                    mdui.snackbar("发送失败：" + error);
                 });
+            }
+            document.getElementById("ib").addEventListener("keyup", function (event) {
+                // console.log(event);
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    // 把最后的换行去掉
+                    document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
+                    send_benben();
+                }
+            });
             </script>
             <br><br>
             <br><br>
@@ -1866,40 +1934,40 @@
         </div>
     </div>
     <script>
-        function parseElement(htmlString) {
-            return new DOMParser().parseFromString(htmlString, 'text/html').body.childNodes[0]
-        }
-        function getWindowHeight() {
-            var windowHeight = 0;
-            if (document.compatMode == "CSS1Compat") {
-                windowHeight = document.documentElement.clientHeight;
-            } else {
-                windowHeight = document.body.clientHeight;
+            function parseElement(htmlString) {
+                return new DOMParser().parseFromString(htmlString, 'text/html').body.childNodes[0]
             }
-            return windowHeight;
-        }
-
-        // console.log(getWindowHeight());
-
-        document.getElementById("happy").style.position = "absolute";
-        document.getElementById("happy").style.top = getWindowHeight() + "px";
-
-        function replyto(content) {
-            document.getElementById("ib").value = " > " + content;
-            document.getElementById("ib").focus();
-            // 把光标移到文本框最前面
-            var input = document.getElementById("ib");
-            if (input.setSelectionRange) {
-                input.focus();
-                input.setSelectionRange(0, 0);
-            } else if (input.createTextRange) {
-                var range = input.createTextRange();
-                range.collapse(true);
-                range.moveEnd('character', 0);
-                range.moveStart('character', 0);
-                range.select();
+            function getWindowHeight() {
+                var windowHeight = 0;
+                if (document.compatMode == "CSS1Compat") {
+                    windowHeight = document.documentElement.clientHeight;
+                } else {
+                    windowHeight = document.body.clientHeight;
+                }
+                return windowHeight;
             }
-        }
+
+            // console.log(getWindowHeight());
+
+            document.getElementById("happy").style.position = "absolute";
+            document.getElementById("happy").style.top = getWindowHeight() + "px";
+
+            function replyto(content) {
+                document.getElementById("ib").value = " > " + content;
+                document.getElementById("ib").focus();
+                // 把光标移到文本框最前面
+                var input = document.getElementById("ib");
+                if (input.setSelectionRange) {
+                    input.focus();
+                    input.setSelectionRange(0, 0);
+                } else if (input.createTextRange) {
+                    var range = input.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', 0);
+                    range.moveStart('character', 0);
+                    range.select();
+                }
+            }
 
 
     </script>
@@ -1908,144 +1976,144 @@
 
     </script>
     <script> // 鼠标点击特效
-        function clickEffect() {
-            let balls = [];
-            let longPressed = false;
-            let longPress;
-            let multiplier = 0;
-            let width, height;
-            let origin;
-            let normal;
-            let ctx;
-            const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
-            const canvas = document.createElement("canvas");
-            document.body.appendChild(canvas);
-            canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
-            const pointer = document.createElement("span");
-            pointer.classList.add("pointer");
-            document.body.appendChild(pointer);
+            function clickEffect() {
+                let balls = [];
+                let longPressed = false;
+                let longPress;
+                let multiplier = 0;
+                let width, height;
+                let origin;
+                let normal;
+                let ctx;
+                const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
+                const canvas = document.createElement("canvas");
+                document.body.appendChild(canvas);
+                canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
+                const pointer = document.createElement("span");
+                pointer.classList.add("pointer");
+                document.body.appendChild(pointer);
 
-            if (canvas.getContext && window.addEventListener) {
-                ctx = canvas.getContext("2d");
-                updateSize();
-                window.addEventListener('resize', updateSize, false);
-                loop();
-                window.addEventListener("mousedown", function (e) {
-                    pushBalls(randBetween(10, 20), e.clientX, e.clientY);
-                    document.body.classList.add("is-pressed");
-                    longPress = setTimeout(function () {
-                        document.body.classList.add("is-longpress");
-                        longPressed = true;
-                    }, 500);
-                }, false);
-                window.addEventListener("mouseup", function (e) {
-                    clearInterval(longPress);
+                if (canvas.getContext && window.addEventListener) {
+                    ctx = canvas.getContext("2d");
+                    updateSize();
+                    window.addEventListener('resize', updateSize, false);
+                    loop();
+                    window.addEventListener("mousedown", function (e) {
+                        pushBalls(randBetween(10, 20), e.clientX, e.clientY);
+                        document.body.classList.add("is-pressed");
+                        longPress = setTimeout(function () {
+                            document.body.classList.add("is-longpress");
+                            longPressed = true;
+                        }, 500);
+                    }, false);
+                    window.addEventListener("mouseup", function (e) {
+                        clearInterval(longPress);
+                        if (longPressed == true) {
+                            document.body.classList.remove("is-longpress");
+                            pushBalls(randBetween(50 + Math.ceil(multiplier), 100 + Math.ceil(multiplier)), e.clientX, e.clientY);
+                            longPressed = false;
+                        }
+                        document.body.classList.remove("is-pressed");
+                    }, false);
+                    window.addEventListener("mousemove", function (e) {
+                        let x = e.clientX;
+                        let y = e.clientY;
+                        pointer.style.top = y + "px";
+                        pointer.style.left = x + "px";
+                    }, false);
+                } else {
+                    console.log("canvas or addEventListener is unsupported!");
+                }
+
+
+                function updateSize() {
+                    canvas.width = window.innerWidth * 2;
+                    canvas.height = window.innerHeight * 2;
+                    canvas.style.width = window.innerWidth + 'px';
+                    canvas.style.height = window.innerHeight + 'px';
+                    ctx.scale(2, 2);
+                    width = (canvas.width = window.innerWidth);
+                    height = (canvas.height = window.innerHeight);
+                    origin = {
+                        x: width / 2,
+                        y: height / 2
+                    };
+                    normal = {
+                        x: width / 2,
+                        y: height / 2
+                    };
+                }
+                class Ball {
+                    constructor(x = origin.x, y = origin.y) {
+                        this.x = x;
+                        this.y = y;
+                        this.angle = Math.PI * 2 * Math.random();
+                        if (longPressed == true) {
+                            this.multiplier = randBetween(14 + multiplier, 15 + multiplier);
+                        } else {
+                            this.multiplier = randBetween(6, 12);
+                        }
+                        this.vx = (this.multiplier + Math.random() * 0.5) * Math.cos(this.angle);
+                        this.vy = (this.multiplier + Math.random() * 0.5) * Math.sin(this.angle);
+                        this.r = randBetween(8, 12) + 3 * Math.random();
+                        this.color = colours[Math.floor(Math.random() * colours.length)];
+                    }
+                    update() {
+                        this.x += this.vx - normal.x;
+                        this.y += this.vy - normal.y;
+                        normal.x = -2 / window.innerWidth * Math.sin(this.angle);
+                        normal.y = -2 / window.innerHeight * Math.cos(this.angle);
+                        this.r -= 0.3;
+                        this.vx *= 0.9;
+                        this.vy *= 0.9;
+                    }
+                }
+
+                function pushBalls(count = 1, x = origin.x, y = origin.y) {
+                    for (let i = 0; i < count; i++) {
+                        balls.push(new Ball(x, y));
+                    }
+                }
+
+                function randBetween(min, max) {
+                    return Math.floor(Math.random() * max) + min;
+                }
+
+                function loop() {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0)";
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < balls.length; i++) {
+                        let b = balls[i];
+                        if (b.r < 0) continue;
+                        ctx.fillStyle = b.color;
+                        ctx.beginPath();
+                        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
+                        ctx.fill();
+                        b.update();
+                    }
                     if (longPressed == true) {
-                        document.body.classList.remove("is-longpress");
-                        pushBalls(randBetween(50 + Math.ceil(multiplier), 100 + Math.ceil(multiplier)), e.clientX, e.clientY);
-                        longPressed = false;
+                        multiplier += 0.2;
+                    } else if (!longPressed && multiplier >= 0) {
+                        multiplier -= 0.4;
                     }
-                    document.body.classList.remove("is-pressed");
-                }, false);
-                window.addEventListener("mousemove", function (e) {
-                    let x = e.clientX;
-                    let y = e.clientY;
-                    pointer.style.top = y + "px";
-                    pointer.style.left = x + "px";
-                }, false);
-            } else {
-                console.log("canvas or addEventListener is unsupported!");
-            }
-
-
-            function updateSize() {
-                canvas.width = window.innerWidth * 2;
-                canvas.height = window.innerHeight * 2;
-                canvas.style.width = window.innerWidth + 'px';
-                canvas.style.height = window.innerHeight + 'px';
-                ctx.scale(2, 2);
-                width = (canvas.width = window.innerWidth);
-                height = (canvas.height = window.innerHeight);
-                origin = {
-                    x: width / 2,
-                    y: height / 2
-                };
-                normal = {
-                    x: width / 2,
-                    y: height / 2
-                };
-            }
-            class Ball {
-                constructor(x = origin.x, y = origin.y) {
-                    this.x = x;
-                    this.y = y;
-                    this.angle = Math.PI * 2 * Math.random();
-                    if (longPressed == true) {
-                        this.multiplier = randBetween(14 + multiplier, 15 + multiplier);
-                    } else {
-                        this.multiplier = randBetween(6, 12);
-                    }
-                    this.vx = (this.multiplier + Math.random() * 0.5) * Math.cos(this.angle);
-                    this.vy = (this.multiplier + Math.random() * 0.5) * Math.sin(this.angle);
-                    this.r = randBetween(8, 12) + 3 * Math.random();
-                    this.color = colours[Math.floor(Math.random() * colours.length)];
+                    removeBall();
+                    requestAnimationFrame(loop);
                 }
-                update() {
-                    this.x += this.vx - normal.x;
-                    this.y += this.vy - normal.y;
-                    normal.x = -2 / window.innerWidth * Math.sin(this.angle);
-                    normal.y = -2 / window.innerHeight * Math.cos(this.angle);
-                    this.r -= 0.3;
-                    this.vx *= 0.9;
-                    this.vy *= 0.9;
-                }
-            }
 
-            function pushBalls(count = 1, x = origin.x, y = origin.y) {
-                for (let i = 0; i < count; i++) {
-                    balls.push(new Ball(x, y));
-                }
-            }
-
-            function randBetween(min, max) {
-                return Math.floor(Math.random() * max) + min;
-            }
-
-            function loop() {
-                ctx.fillStyle = "rgba(255, 255, 255, 0)";
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < balls.length; i++) {
-                    let b = balls[i];
-                    if (b.r < 0) continue;
-                    ctx.fillStyle = b.color;
-                    ctx.beginPath();
-                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
-                    ctx.fill();
-                    b.update();
-                }
-                if (longPressed == true) {
-                    multiplier += 0.2;
-                } else if (!longPressed && multiplier >= 0) {
-                    multiplier -= 0.4;
-                }
-                removeBall();
-                requestAnimationFrame(loop);
-            }
-
-            function removeBall() {
-                for (let i = 0; i < balls.length; i++) {
-                    let b = balls[i];
-                    if (b.x + b.r < 0 || b.x - b.r > width || b.y + b.r < 0 || b.y - b.r > height || b.r < 0) {
-                        balls.splice(i, 1);
+                function removeBall() {
+                    for (let i = 0; i < balls.length; i++) {
+                        let b = balls[i];
+                        if (b.x + b.r < 0 || b.x - b.r > width || b.y + b.r < 0 || b.y - b.r > height || b.r < 0) {
+                            balls.splice(i, 1);
+                        }
                     }
                 }
             }
-        }
         // clickEffect(); tnnd 卡爆了
     </script>
     <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
     <script type="text/javascript">
-        document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
+            document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
     </script>
 </body>
 
