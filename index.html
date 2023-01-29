@@ -1357,6 +1357,7 @@
                     <option value="learning">授课学习</option>
                     <option value="other">其他</option>
                 </select>
+                <p>目前暂未提供推流地址。敬请期待！</p>
             </div>
         </div>
         <div class="mdui-divider"></div>
@@ -1383,6 +1384,7 @@
                         document.getElementById("desc").value = detail["desc"];
                         document.getElementById("coverurl").value = detail["cover"];
                         document.getElementById("category").value = detail["category"];
+                        mdui.mutation();
                     } else {
                         mdui.snackbar("这是你第一次创建直播间，快去填写信息吧！")
                     }
