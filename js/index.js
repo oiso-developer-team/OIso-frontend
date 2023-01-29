@@ -32,7 +32,7 @@ fetch("https://api.oiso.cf:2096/profile", {
             parse_benben(data.chat_msg);
             parse_music(data.song_msg);
             parse_spiderstatus(data.spider_status);
-            parse_stream(data.stream_name);
+            parse_stream(data.live);
         });
 
         document.getElementById("updown").removeAttribute("hidden");
@@ -65,10 +65,9 @@ function check_playing(url) {
 }
 
 function parse_stream(data) {
-    j = JSON.parse(data);
-    var code = j.code;
-    if (code == 200) {
-        document.getElementById("stream_title").innerText = j.msg;
+    j = (data);
+    if (j.isLiving) {
+        document.getElementById("stream_title").innerText = j.data.title;
         if (window['stream'] == false || window['stream'] == undefined) {
             window['stream'] = true;
             document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
@@ -78,13 +77,8 @@ function parse_stream(data) {
                     support HTML5 video.</video>
             </div>`;
             setTimeout(function () {
-                setup_stream('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-            }, 1000);
-            setTimeout(function () {
-                if (document.getElementById("videoElement").paused) {
-                    check_playing('https://api.oiso.cf:2083/live?port=1935&app=myapp&stream=' + j.name);
-                }
-            }, 3000);
+                setup_stream(j.urls.flv);
+            }, 100);
             setTimeout(function () {
                 if (document.getElementById("videoElement").paused) {
                     mdui.snackbar({
