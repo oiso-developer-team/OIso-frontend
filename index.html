@@ -584,7 +584,8 @@
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
                 target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
                 href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background"
-                href="https://bing.com" target="_blank">Bing Wallpaper</a> | <a href="https://icp.gov.moe/?keyword=20230322" target="_blank">萌ICP备20230322号</a>
+                href="https://bing.com" target="_blank">Bing Wallpaper</a> | <a
+                href="https://icp.gov.moe/?keyword=20230322" target="_blank">萌ICP备20230322号</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
@@ -1156,7 +1157,8 @@
         <div class="mdui-dialog-content mdui-typo">
 
             <p>由于种种原因，我们无法及时爬取您的博客。所以您可以在这里手动请求爬取您的博客。</p>
-            <p><b>仅能爬取洛谷博客、CSDN 和 cnblogs 博客。其他博客请<button style="border-radius: 15px;" class="mdui-btn mdui-ripple" onclick="mdui.snackbar('洛谷私信 @diyanqi');">联系腐竹</button>。</b></p>
+            <p><b>仅能爬取洛谷博客、CSDN 和 cnblogs 博客。其他博客请<button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                        onclick="mdui.snackbar('洛谷私信 @diyanqi');">联系腐竹</button>。</b></p>
             <p>博客爬取有以下几种形式：</p>
             <p>1. 您可以输入某个洛谷用户的 uid ，是一串数字，由此爬取该用户的所有文章。如 https://www.luogu.com.cn/blog/chen-zhe/luo-gu-ping-ce-ji-ji-ri
             </p>
@@ -1197,7 +1199,7 @@
                             mdui.snackbar("失败了：" + error);
                         });
                         return;
-                    }else if(url.indexOf("https://www.cnblogs.com/") == 0){
+                    } else if (url.indexOf("https://www.cnblogs.com/") == 0) {
                         fetch("https://api.oiso.cf:2096/spider/request?type=cnblogs&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
@@ -1213,7 +1215,7 @@
                             mdui.snackbar("失败了：" + error);
                         });
                         return;
-                    }else if(url.indexOf("https://blog.csdn.net/") == 0){
+                    } else if (url.indexOf("https://blog.csdn.net/") == 0) {
                         fetch("https://api.oiso.cf:2096/spider/request?type=csdn&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
@@ -1229,7 +1231,7 @@
                             mdui.snackbar("失败了：" + error);
                         });
                         return;
-                    }else{
+                    } else {
                         fetch("https://api.oiso.cf:2096/spider/request?type=custom&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
@@ -1331,6 +1333,99 @@
         }
     </script>
 
+    <div class="mdui-dialog" id="dialog-mylive" style="border-radius: 20px;">
+        <div class="mdui-dialog-title" id="live_dialog_title">我的直播间</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <div class="mdui-typo">
+                <p>请放心填写，此信息日后可多次修改。</p>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">直播间标题</label>
+                    <input class="mdui-textfield-input" type="text" id="title"/>
+                </div>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">简介</label>
+                    <input class="mdui-textfield-input" type="text" id="desc"/>
+                </div>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">封面图片 url</label>
+                    <input class="mdui-textfield-input" type="url" id="cover"/>
+                </div>
+                <select class="mdui-select" id="category">
+                    <option value="disabled" disabled>请选择分区</option>
+                    <option value="coding">写代码</option>
+                    <option value="gaming">游戏休闲</option>
+                    <option value="learning">授课学习</option>
+                    <option value="other">其他</option>
+                </select>
+            </div>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;" onclick="submit_liveinfo();">提交</button>
+        </div>
+    </div>
+    <script>
+        function get_mylive_detail() {
+            var uidstr = String(window["uid"]);
+            document.getElementById("live_dialog_title").innerText = "用户" + uidstr + " 的直播间信息";
+            var url = "https://api.oiso.cf:2096/live/detail?room=" + uidstr;
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        var detail = data["data"];
+                        document.getElementById("title").value = detail["title"];
+                        document.getElementById("desc").value = detail["desc"];
+                        document.getElementById("cover").value = detail["cover"];
+                        document.getElementById("category").value = detail["category"];
+                    } else {
+                        mdui.snackbar("这是你第一次创建直播间，快去填写信息吧！")
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar("获取直播间信息失败！")
+                }
+            });
+        }
+        function submit_liveinfo() {
+            var uidstr = String(window["uid"]);
+            var title = document.getElementById("title").value;
+            var desc = document.getElementById("desc").value;
+            var cover = document.getElementById("cover").value;
+            var category = document.getElementById("category").value;
+            var url = "https://api.oiso.cf:2096/live/register";
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    "title": title,
+                    "desc": desc,
+                    "cover": cover,
+                    "category": category
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        mdui.snackbar("创建成功！")
+                    } else {
+                        mdui.snackbar("创建失败！")
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar("创建失败！")
+                }
+            });
+        }
+    </script>
+
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
         <div class="mdui-dialog-title">图片上传（使用编程猫社区 API ）</div>
         <div class="mdui-dialog-content mdui-typo mdui-container">
@@ -1344,25 +1439,25 @@
             <div class="mdui-row">
                 <pre id="url" class="mdui-col-xs-10">直链</pre>
                 <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url">
-                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制直链
                 </button>
             </div>
             <div class="mdui-row">
                 <pre id="url-markdown" class="mdui-col-xs-10">Markdown 格式</pre>
                 <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-markdown">
-                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制 Markdown
                 </button>
             </div>
             <div class="mdui-row">
                 <pre id="url-html" class="mdui-col-xs-10">HTML 格式</pre>
                 <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-html">
-                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制 HTML
                 </button>
             </div>
             <div class="mdui-row">
                 <pre id="url-bbcode" class="mdui-col-xs-10">BBCode 格式</pre>
                 <button class="mdui-btn mdui-ripple mdui-col-xs-2" style="border-radius: 15px;" id="copy-url-bbcode">
-                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制
+                    <i class="mdui-icon material-icons mdui-icon-left">content_copy</i> 复制 BBCode
                 </button>
             </div>
         </div>
@@ -1451,7 +1546,7 @@
     </div>
 
     <script>
-        
+
         // getspiderstatus();
         // setInterval(getspiderstatus(), 15000);
     </script>
@@ -1599,13 +1694,13 @@
                                         图片上传
                                     </button>
                                 </div>
-                                <!-- <div class="mdui-col icon-code-wrap">
+                                <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        onclick="start_live();">
+                                        mdui-dialog="{target: '#dialog-mylive'}" onclick="get_mylive_detail();">
                                         <i class="mdui-icon mdui-icon-left material-icons">live_tv</i>
-                                        在线直播
+                                        我要直播
                                     </button>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1751,11 +1846,11 @@
             }
         }
 
-        
+
     </script>
 
     <script>
-        
+
     </script>
     <script> // 鼠标点击特效
         function clickEffect() {
@@ -1893,7 +1988,7 @@
         }
         // clickEffect(); tnnd 卡爆了
     </script>
-     <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
+    <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
     <script type="text/javascript">
         document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
     </script>
