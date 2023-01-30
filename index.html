@@ -1233,7 +1233,7 @@
                         });
                         return;
                     } else {
-                        fetch("https://api.oiso.cf:2096/spider/request?type=custom&id=" + url, {
+                        fetch("https://api.oiso.cf:2096/spider/request?type=personal&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
                             return response.text();
