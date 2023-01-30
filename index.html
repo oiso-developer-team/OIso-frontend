@@ -509,7 +509,7 @@
             $.ajax({
                 url: myurl, success: (data) => {
                     lostfocus = false;
-                    data = $.parseJSON(data);
+                    // data = $.parseJSON(data);
                     console.log(data);
                     let hits = data.hits.hits;
                     $("#suggestionContainer").empty();
