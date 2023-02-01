@@ -1591,7 +1591,9 @@
         <div class="mdui-dialog-title">AI 作图</div>
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-typo">
-                <h3>注：此功能在未来可能会升级为 VIP 功能。限制使用：30次/天。</h3>
+                <h5>注：此功能在未来可能会升级为 VIP 功能。限制使用：30次/天。</h5>
+                <h5>请输入作图提示词，用英文逗号<code>,</code>分隔提示词。使用英文提示词质量更佳。</h5>
+                <h5>作图时间约为 30 秒，请耐心等待。</h5>
                 <!-- 一个输入框，请输入作图提示词 -->
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">作图提示词，用英文逗号分隔！</label>
@@ -1652,12 +1654,8 @@
                     withCredentials: true
                 },
                 success: function (data) {
-                    if (data["code"] == 200) {
-                        document.getElementById("img1").src = data["img1"];
-                        document.getElementById("img2").src = data["img2"];
-                    } else {
-                        mdui.snackbar("作图失败！")
-                    }
+                    document.getElementById("img1").src = data["img1"];
+                    document.getElementById("img2").src = data["img2"];
                 },
                 error: function (data) {
                     mdui.snackbar("作图失败！")
