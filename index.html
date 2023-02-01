@@ -1600,7 +1600,7 @@
                     <input class="mdui-textfield-input" type="text" id="live_dialog_input" />
                 </div>
                 <!-- 按钮：作图！-->
-                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" onclick="aidraw_submit();">作图！</button>
+                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" onclick="aidraw_submit();" id="aidb">作图！</button>
                 <!-- 两个并排的图片 -->
                 <div class="mdui-container">
                     <div class="mdui-row">
@@ -1640,6 +1640,7 @@
     <script>
         function aidraw_submit(){
             // https://api.oiso.cf:2096/ai/waifu?desc=cat,girl
+            document.getElementById("aidb").disabled = true;
             var desc = document.getElementById("live_dialog_input").value;
             if(desc == ""){
                 mdui.snackbar("请输入作图提示词！");
@@ -1656,9 +1657,12 @@
                 success: function (data) {
                     document.getElementById("img1").src = data["img1"];
                     document.getElementById("img2").src = data["img2"];
+                    mdui.snackbar("作图成功！")
+                    document.getElementById("aidb").disabled = false;
                 },
                 error: function (data) {
                     mdui.snackbar("作图失败！")
+                    document.getElementById("aidb").disabled = false;
                 }
             });
         }
