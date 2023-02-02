@@ -1600,17 +1600,22 @@
                     <input class="mdui-textfield-input" type="text" id="live_dialog_input" />
                 </div>
                 <!-- 按钮：作图！-->
-                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" onclick="aidraw_submit();" id="aidb">作图！</button>
+                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" onclick="aidraw_submit();"
+                    id="aidb">作图！</button>
+                <div class="mdui-progress" id="aiprogress" hidden>
+                    <div class="mdui-progress-indeterminate"></div>
+                </div>
                 <!-- 两个并排的图片 -->
                 <div class="mdui-container">
                     <div class="mdui-row">
                         <div class="mdui-col-md-6 mdui-col-xs-12">
                             <div class="mdui-card">
                                 <div class="mdui-card-media">
-                                    <img src="https://smms.app/image/5aPMjvoSYe1D9Zm" id="img1"/>
+                                    <img src="https://s2.loli.net/2023/02/01/5aPMjvoSYe1D9Zm.png" id="img1" />
                                     <div class="mdui-card-media-covered">
                                         <div class="mdui-card-actions">
-                                            <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="down('img1');">下载</button>
+                                            <button class="mdui-btn mdui-ripple mdui-ripple-white"
+                                                onclick="down('img1');">下载</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1619,10 +1624,11 @@
                         <div class="mdui-col-md-6 mdui-col-xs-12">
                             <div class="mdui-card">
                                 <div class="mdui-card-media">
-                                    <img src="https://smms.app/image/5aPMjvoSYe1D9Zm" id="img2"/>
+                                    <img src="https://s2.loli.net/2023/02/01/5aPMjvoSYe1D9Zm.png" id="img2" />
                                     <div class="mdui-card-media-covered">
                                         <div class="mdui-card-actions">
-                                            <button class="mdui-btn mdui-ripple mdui-ripple-white" onclick="down('img2');">下载</button>
+                                            <button class="mdui-btn mdui-ripple mdui-ripple-white"
+                                                onclick="down('img2');">下载</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1638,11 +1644,13 @@
         </div>
     </div>
     <script>
-        function aidraw_submit(){
+        function aidraw_submit() {
             // https://api.oiso.cf:2096/ai/waifu?desc=cat,girl
             document.getElementById("aidb").disabled = true;
+            document.getElementById("aiprogress").hidden = false;
+            mdui.snackbar("已提交任务，大约需要 30 秒，请耐心等待！")
             var desc = document.getElementById("live_dialog_input").value;
-            if(desc == ""){
+            if (desc == "") {
                 mdui.snackbar("请输入作图提示词！");
                 return;
             }
@@ -1657,20 +1665,22 @@
                 success: function (data) {
                     document.getElementById("img1").src = data["img1"];
                     document.getElementById("img2").src = data["img2"];
-                    mdui.snackbar("作图成功！")
+                    mdui.snackbar("作图成功！");
                     document.getElementById("aidb").disabled = false;
+                    document.getElementById("aiprogress").hidden = true;
                 },
                 error: function (data) {
-                    mdui.snackbar("作图失败！")
+                    mdui.snackbar("作图失败！");
                     document.getElementById("aidb").disabled = false;
+                    document.getElementById("aiprogress").hidden = true;
                 }
             });
         }
-        function down(id){
+        function down(id) {
             var img = document.getElementById(id).src;
             var a = document.createElement("a");
             a.href = img;
-            a.download = "OIso_waifu.png";
+            a.download = "waifu.png";
             a.click();
         }
     </script>
@@ -2053,7 +2063,7 @@
                         // console.log(data);
                         if (data == "True") {
                             mdui.snackbar("发送成功！");
-                            // get_benben();
+                            get_benben();
                             document.getElementById("ib").value = "冷却中……";
                             if (time_is_up) {
                                 document.getElementById("ib").value = "";
