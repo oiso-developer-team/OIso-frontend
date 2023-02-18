@@ -607,6 +607,7 @@
                 var urlbase = type;
                 window['type'] = type;
                 if (type == "all") urlbase = "search";
+                ai_query(getQueryVariable("q"));
                 fetch(BASEURL + "/" + urlbase + "?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                     return response.json();
                 }).then(function (data) {
@@ -618,7 +619,6 @@
                         allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
                         // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
                         mdui.mutation();
-                        ai_query(getQueryVariable("q"));
                     }
                     hits = data['hits']['hits'];
                     for (i in hits) {
