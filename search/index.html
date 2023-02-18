@@ -606,16 +606,7 @@
                 mdui.mutation();
                 var urlbase = type;
                 window['type'] = type;
-
                 if (type == "all") urlbase = "search";
-
-                if (window['type'] == "all") {
-                    allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
-                    // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
-                    mdui.mutation();
-                    ai_query(getQueryVariable("q"));
-                }
-
                 fetch(BASEURL + "/" + urlbase + "?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
                     return response.json();
                 }).then(function (data) {
@@ -623,6 +614,12 @@
                     document.getElementById("allContent").innerHTML = '';
                     tot = Math.ceil(data['hits']['total']['value'] / 20);
                     allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score'] == null ? "<del>不可用</del>" : data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
+                    if(window['type']=="all"){
+                        allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
+                        // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
+                        mdui.mutation();
+                        ai_query(getQueryVariable("q"));
+                    }
                     hits = data['hits']['hits'];
                     for (i in hits) {
                         allWrite(makeHTML(hits[i]));
@@ -636,7 +633,7 @@
             q = getQueryVariable("q");
             document.getElementById("inputBox").value = decodeURIComponent(q);
             document.title = decodeURIComponent(q) + " - 🍋OIso🔍";
-            function ai_query(question) {
+            function ai_query(question){
                 // https://api.oiso.cf:2096/ai/query?q=AC%E8%87%AA%E5%8A%A8%E6%9C%BA%E6%98%AF%E4%BB%80%E4%B9%88
                 fetch(BASEURL + "/ai/query?q=" + question, { credentials: 'include' }).then(function (response) {
                     return response.json();
