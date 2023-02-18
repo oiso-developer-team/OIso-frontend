@@ -1,4 +1,4 @@
-fetch("https://api.oiso.cf:2096/profile", {
+fetch(window['api']+"/profile", {
     credentials: 'include'
 }).then(function (response) {
     return response.text();
@@ -373,7 +373,7 @@ function parse_spiderstatus(data) {
 }
 
 function get_benben() {
-    fetch("https://api.oiso.cf:2096/getmsg", {
+    fetch(window['api']+"/getmsg", {
         credentials: 'include'
     }).then(function (response) {
         return response.text();
@@ -501,7 +501,7 @@ function get_benben() {
 function msgdel(time) {
     mdui.confirm("确定删除这条犇犇吗？", "删除犇犇", function () {
         // https://api.oiso.cf:2096/msg/delete?time=1674726448.608633
-        var url = "https://api.oiso.cf:2096/msg/delete?time=" + time;
+        var url = window['api']+"/msg/delete?time=" + time;
         fetch(url, {
             method: "GET",
             mode: "cors",

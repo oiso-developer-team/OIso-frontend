@@ -19,6 +19,10 @@
         });
     </script>
 
+    <script>
+        window['api'] = '//online.oiso.cf';
+    </script>
+
     <style>
         #suggestionContainer {
             overflow: hidden;
@@ -503,7 +507,7 @@
             if (sugStatus === true) {
                 return;
             }
-            var myurl = `https://api.oiso.cf:2096/suggestion?q=${$("#inputBox")[0].value}`;
+            var myurl = `${window['api']}/suggestion?q=${$("#inputBox")[0].value}`;
             console.log(myurl);
             sugStatus = true;
             $.ajax({
@@ -549,7 +553,7 @@
         }
     </script>
     <script>
-        fetch("https://api.oiso.cf:2096").then(function (response) {
+        fetch(window['api']).then(function (response) {
             return response.text();
         }).then(function (data) {
             // console.log(data);
@@ -625,7 +629,7 @@
         </div>
         <script>
             function gologout() {
-                fetch("https://api.oiso.cf:2096/logout", {
+                fetch(window['api']+"/logout", {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -690,7 +694,7 @@
         <script>
             window['test'] = "ok!";
             function get_key() {
-                fetch("https://api.oiso.cf:2096/key_request", {
+                fetch(window['api']+"/key_request", {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -707,7 +711,7 @@
                     mdui.snackbar("总不能什么都不输入吧QWQ");
                     return;
                 }
-                fetch("https://api.oiso.cf:2096/key_check?url=" + url, {
+                fetch(window['api']+"/key_check?url=" + url, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1105,7 +1109,7 @@
                 var content = encodeURIComponent(document.getElementById("content").value);
                 var f = encodeURIComponent(document.getElementById("textcolor").value);
                 var b = encodeURIComponent(document.getElementById("background").value);
-                fetch(`https://api.oiso.cf:2096/tag/edit?f=${String(f)}&b=${String(b)}&content=${content}`, {
+                fetch(`${window['api']}/tag/edit?f=${String(f)}&b=${String(b)}&content=${content}`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1125,7 +1129,7 @@
         <script>
             function get_tag() {
                 // url: /tag/getmine
-                fetch(`https://api.oiso.cf:2096/tag/getmine`, {
+                fetch(`${window['api']}/tag/getmine`, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -1185,7 +1189,7 @@
                 if (isNaN(url)) {
                     // 说明是链接
                     if (url.indexOf("https://www.luogu.com.cn/blog/") == 0) {
-                        fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_single_passage&id=" + url, {
+                        fetch(window['api']+"/spider/request?type=lgblog_single_passage&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
                             return response.text();
@@ -1201,7 +1205,7 @@
                         });
                         return;
                     } else if (url.indexOf("https://www.cnblogs.com/") == 0) {
-                        fetch("https://api.oiso.cf:2096/spider/request?type=cnblogs&id=" + url, {
+                        fetch(window['api']+"/spider/request?type=cnblogs&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
                             return response.text();
@@ -1217,7 +1221,7 @@
                         });
                         return;
                     } else if (url.indexOf("https://blog.csdn.net/") == 0) {
-                        fetch("https://api.oiso.cf:2096/spider/request?type=csdn&id=" + url, {
+                        fetch(window['api']+"/spider/request?type=csdn&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
                             return response.text();
@@ -1233,7 +1237,7 @@
                         });
                         return;
                     } else {
-                        fetch("https://api.oiso.cf:2096/spider/request?type=personal&id=" + url, {
+                        fetch(window['api']+"/spider/request?type=personal&id=" + url, {
                             credentials: 'include'
                         }).then(function (response) {
                             return response.text();
@@ -1251,7 +1255,7 @@
                     }
                 } else {
                     // 说明是uid
-                    fetch("https://api.oiso.cf:2096/spider/request?type=lgblog_user&id=" + url, {
+                    fetch(window['api']+"/spider/request?type=lgblog_user&id=" + url, {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
@@ -1383,7 +1387,7 @@
         function get_mylive_detail() {
             var uidstr = String(window["uid"]);
             document.getElementById("live_dialog_title").innerText = "用户 " + uidstr + " 的直播间信息";
-            var url = "https://api.oiso.cf:2096/live/detail?room=" + uidstr;
+            var url = window['api']+"/live/detail?room=" + uidstr;
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1416,7 +1420,7 @@
             var desc = document.getElementById("desc").value;
             var cover = document.getElementById("coverurl").value;
             var category = document.getElementById("category").value;
-            var url = "https://api.oiso.cf:2096/live/register";
+            var url = window['api']+"/live/register";
             $.ajax({
                 url: url,
                 type: "POST",
@@ -1454,7 +1458,7 @@
         }
         function get_stream_key() {
             var uidstr = String(window["uid"]);
-            var url = "https://api.oiso.cf:2096/live/rtmpurl";
+            var url = window['api']+"/live/rtmpurl";
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1499,7 +1503,7 @@
     </div>
     <script>
         function get_live_list() {
-            var url = "https://api.oiso.cf:2096/live/list";
+            var url = window['api']+"/live/list";
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1563,7 +1567,7 @@
             }, 5000);
         }
         function setup_stream_user(roomid) {
-            url = "https://api.oiso.cf:2096/live/detail?room=" + roomid;
+            url = window['api']+"/live/detail?room=" + roomid;
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1654,7 +1658,7 @@
                 mdui.snackbar("请输入作图提示词！");
                 return;
             }
-            var url = "https://api.oiso.cf:2096/ai/waifu?desc=" + desc;
+            var url = window['api']+"/ai/waifu?desc=" + desc;
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1741,7 +1745,7 @@
             let formData = new FormData();
             formData.append("file", file);
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://api.oiso.cf:2096/img/upload", true);
+            xhr.open("POST", window['api']+"/img/upload", true);
             xhr.withCredentials = true;
             xhr.send(formData);
             xhr.onreadystatechange = function () {
@@ -1836,7 +1840,7 @@
                     mdui.snackbar("请输入正确的歌曲ID，是一串数字。");
                     return;
                 }
-                fetch("https://api.oiso.cf:2096/song?song=" + url, {
+                fetch(window['api']+"/song?song=" + url, {
                     credentials: 'include'
                 }).then(function (response) {
                     return response.text();
@@ -2014,7 +2018,7 @@
             </div>
             <script>
                 $.ajax({
-                    url: "https://api.oiso.cf:2096/bingimg/detail", success: (data) => {
+                    url: window['api']+"/bingimg/detail", success: (data) => {
                         // console.log(data);
                         // 先解析成json对象
                         var json = JSON.parse(data);
@@ -2055,7 +2059,7 @@
                         return;
                     }
                     text = encodeURIComponent(text);
-                    fetch("https://api.oiso.cf:2096/msg?msg=" + text, {
+                    fetch(window['api']+"/msg?msg=" + text, {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();

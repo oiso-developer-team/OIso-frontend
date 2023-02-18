@@ -588,7 +588,7 @@
                 return ret;
             }
             function search() {
-                BASEURL = 'https://api.oiso.cf:2096';
+                BASEURL = window['api'];
                 type = getQueryVariable("type");
                 page = getQueryVariable("page");
                 if (page == false) page = 1;
