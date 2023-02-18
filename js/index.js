@@ -11,7 +11,7 @@ fetch(window['api']+"/profile", {
         window['uid'] = JSON.parse(data).uid;
         get_benben();
         namespace = '/Socket';
-        var socket = io.connect("https://" + "api.oiso.cf" + ":" + "2096" + namespace, {
+        var socket = io.connect(window['api'] + namespace, {
             transportOptions: {
                 polling: {
                     extraHeaders: {
