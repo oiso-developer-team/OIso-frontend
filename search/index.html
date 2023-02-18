@@ -639,17 +639,9 @@
                     return response.json();
                 }).then(function (data) {
                     console.log(data);
-                    if('error' in data){
-                        document.getElementById("ai_answer").innerHTML = `<div class="mdui-card-content">AI 引擎正在启动中，稍后再来试试吧（约1分钟）！</div>`;
-                        mdui.mutation();
-                        return;
-                    }else{
-                        // data['answer'] HTML编码
-                        data['answer'] = data['answer'].replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-                        document.getElementById("ai_answer").innerHTML = `<div class="mdui-card-content">${data['answer']}</div>`;
-                        mdui.mutation();
-                        return;
-                    }
+                    data['msg'] = data['msg'].replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;").replace(/\n/g, "<br/>");
+                    document.getElementById("ai_answer").innerHTML = `<div class="mdui-card-content">${data['msg']}</div>`;
+                    mdui.mutation();
                 }).catch(function () {
                     mdui.snackbar("服务器开小差力！" + error);
                 });
