@@ -708,7 +708,10 @@
                 });
             });
         </script>
-        <script src="/js/chatgpt.js"></script>
+        <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
+        <script type="text/javascript">
+            document.write("<script src='/js/chatgpt.js?" + Math.random() + "'><\/script>");
+        </script>
 </body>
 
 </html>
