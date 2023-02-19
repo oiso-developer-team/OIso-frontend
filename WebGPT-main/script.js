@@ -48,12 +48,12 @@ fetch(window['api'] + "/profile", {
         temp = '';
       }
       temp += (recv.Data);
-      aiMessageText.innerHTML = marked(temp);
+      aiMessageText.innerHTML = (temp);
       myPrompt += `${recv.Data}`;
     });
     socket.on('completion_done', function (recv) {
       console.log('completion_done');
-      aiMessageText.innerHTML = marked(temp);
+      aiMessageText.innerHTML = (temp);
       myPrompt += '\n';
     });
   }
