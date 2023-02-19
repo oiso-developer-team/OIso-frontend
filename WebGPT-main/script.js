@@ -55,8 +55,6 @@ fetch(window['api'] + "/profile", {
       console.log('completion_done');
       aiMessageText.innerHTML = (temp);
       myPrompt += '\n';
-      // 自动滚动到chat-container的底部
-      chatContainer.scrollTop = chatContainer.scrollHeight;
       enableInput();
     });
   }
@@ -123,4 +121,5 @@ function sendMessage() {
   aiMessageText.innerHTML = `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`;
   aiMessageElement.appendChild(aiMessageText);
   chatContainer.appendChild(aiMessageElement);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
