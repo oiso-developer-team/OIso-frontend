@@ -4,13 +4,14 @@
 
 <head>
   <title>chatGPT</title>
+  <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css"/>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
   <!-- <div class="container"> -->
   <div id="chat-main-container">
-    <div id="chat-container">
+    <div id="chat-container" class="mdui-typo">
       <div class="message ai-message">
         <span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>
         <p id="startmsg">正在验证身份……</p>
@@ -24,6 +25,7 @@
   <!-- </div> -->
   <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.js"></script>
+  <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
   <script type="text/javascript">
     document.write("<script src='script.js?" + Math.random() + "' crossorigin='anonymous'><\/script>");
   </script>
