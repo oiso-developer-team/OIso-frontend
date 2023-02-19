@@ -43,11 +43,15 @@ fetch(window['api'] + "/profile", {
     socket.emit("verify");
     socket.on('completion_stream', function (recv) {
       console.log(recv.Data);
-      aiMessageText.innerText += marked(recv.Data);
+      if(aiMessageText.innerHTML == `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`){
+        aiMessageText.innerHTML = '';
+      }
+      aiMessageText.innerText += (recv.Data);
       myPrompt += `${recv.Data}`;
     });
     socket.on('completion_done', function (recv) {
       console.log('completion_done');
+      aiMessageText.innerHTML = marked(aiMessageText.innerText);
       myPrompt += '\n';
     });
   }
@@ -98,6 +102,7 @@ function sendMessage() {
   aiMessageElement.classList.add('message', 'ai-message');
   aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>`;
   aiMessageText = document.createElement('p');
+  aiMessageElement.innerHTML = `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`;
   aiMessageElement.appendChild(aiMessageText);
   chatContainer.appendChild(aiMessageElement);
 }
