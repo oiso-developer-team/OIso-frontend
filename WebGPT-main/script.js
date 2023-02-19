@@ -76,7 +76,7 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
-var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答使用markdown。\n';
+var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答可用html格式的加粗、超链接、下划线、倾斜、删除线、代码以及LateX公式。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
