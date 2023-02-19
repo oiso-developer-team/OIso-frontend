@@ -1,9 +1,12 @@
+window['api'] = "https://online.oiso.cf"
+
 fetch(window['api'] + "/profile", {
     credentials: 'include'
 }).then(function (response) {
     return response.text();
 }).then(function (data) {
     if (data != `False`) {
+        window['profile'] = JSON.parse(data);
         namespace = '/chatgpt';
         var socket = io.connect(window['api'] + namespace, {
             transportOptions: {

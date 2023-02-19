@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <!-- MDUI CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+    <title>OIso - chatGPT 服务 (OI向)</title>
+    <style>
+        /* bubble style */
+        .sender {
+            clear: both;
+        }
+
+        .sender div:nth-of-type(1) {
+            float: left;
+        }
+
+        .sender div:nth-of-type(2) {
+            background-color: rgb(225, 225, 225);
+            float: left;
+            margin: 0 20px 10px 15px;
+            padding: 10px 10px 10px 0px;
+            border-radius: 7px;
+        }
+
+        .receiver div:first-child img,
+        .sender div:first-child img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .receiver {
+            clear: both;
+        }
+
+        .receiver div:nth-child(1) {
+            float: right;
+        }
+
+        .receiver div:nth-of-type(2) {
+            float: right;
+            background-color: rgb(176, 255, 85);
+            margin: 0 10px 10px 20px;
+            padding: 10px 0px 10px 10px;
+            border-radius: 7px;
+        }
+
+        .left_triangle {
+            height: 0px;
+            width: 0px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent rgb(225, 225, 225) transparent transparent;
+            position: relative;
+            left: -14px;
+            top: 3px;
+        }
+
+        .right_triangle {
+            height: 0px;
+            width: 0px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent transparent transparent rgb(176, 255, 85);
+            position: relative;
+            right: -14px;
+            top: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- chatGPT 的聊天页面 -->
+    <div class="mdui-container">
+        <!-- Left -->
+        <div class="sender">
+            <div>
+                <img src="/img/openai.png">
+            </div>
+            <div>
+                <div class="left_triangle"></div>
+                <span id="startmsg"></span>
+            </div>
+        </div>
+        <script>
+            var startmsg = document.getElementById("startmsg");
+            // 早上、中午、下午、晚上？
+            var now = new Date();
+            var hour = now.getHours();
+            if (hour < 6) {
+                startmsg.innerHTML = "早上好，";
+            } else if (hour < 9) {
+                startmsg.innerHTML = "早上好，";
+            } else if (hour < 12) {
+                startmsg.innerHTML = "上午好，";
+            } else if (hour < 14) {
+                startmsg.innerHTML = "中午好，";
+            } else if (hour < 17) {
+                startmsg.innerHTML = "下午好，";
+            } else if (hour < 19) {
+                startmsg.innerHTML = "傍晚好，";
+            } else if (hour < 22) {
+                startmsg.innerHTML = "晚上好，";
+            } else {
+                startmsg.innerHTML = "夜里好，";
+            }
+            startmsg.innerHTML += window['profile']['name'] + "，有什么问题尽管问我！";
+        </script>
+        <!-- Right -->
+        <!-- <div class="receiver">
+            <div>
+                <img src="https://static.runoob.com/images/mix/img_avatar.png">
+            </div>
+            <div>
+                <div class="right_triangle"></div>
+                <span> hello world </span>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- MDUI JavaScript -->
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
+    <script type="text/javascript">
+        document.write("<script src='/js/chatgpt.js?" + Math.random() + "'><\/script>");
+    </script>
+</body>
+
+</html>
