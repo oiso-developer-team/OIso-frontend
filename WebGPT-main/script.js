@@ -43,7 +43,7 @@ fetch(window['api'] + "/profile", {
     socket.emit("verify");
     socket.on('completion_stream', function (recv) {
       console.log(recv.Data);
-      aiMessageText.innerText += recv.Data;
+      aiMessageText.innerText += marked(recv.Data);
       myPrompt += `${recv.Data}`;
     });
     socket.on('completion_done', function (recv) {
@@ -70,7 +70,7 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
-var myPrompt = '你在OIso上，尽量回答与信息学竞赛和计算机相关的内容。回答使用markdown格式。\n';
+var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答使用markdown格式，代码需标注语言。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
@@ -96,7 +96,7 @@ function sendMessage() {
   // Display the AI's response in the chat container
   aiMessageElement = document.createElement('div');
   aiMessageElement.classList.add('message', 'ai-message');
-  aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>WebGPT</b></span>`;
+  aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>`;
   aiMessageText = document.createElement('p');
   aiMessageElement.appendChild(aiMessageText);
   chatContainer.appendChild(aiMessageElement);

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <head>
-  <title>WebGPT</title>
+  <title>chatGPT</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -12,17 +12,18 @@
   <div id="chat-main-container">
     <div id="chat-container">
       <div class="message ai-message">
-        <span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>WebGPT</b></span>
+        <span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>
         <p id="startmsg">正在验证身份……</p>
       </div>
     </div>
     <div id="input-container">
-      <input placeholder="Type your message here!" type="text" id="user-input">
+      <input placeholder="开始聊天吧（不超过 300 字）！" type="text" id="user-input">
       <button id="send-button">➜</button>
     </div>
   </div>
   <!-- </div> -->
   <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.js"></script>
   <script type="text/javascript">
     document.write("<script src='script.js?" + Math.random() + "' crossorigin='anonymous'><\/script>");
   </script>
