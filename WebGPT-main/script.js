@@ -69,6 +69,9 @@ inputField.addEventListener('keyup', (event) => {
   }
 });
 
+var aiMessageElement;
+var aiMessageText;
+
 function sendMessage() {
   const userMessage = inputField.value;
   // Clear the input field
@@ -90,20 +93,18 @@ function sendMessage() {
   });
 
   // Display the AI's response in the chat container
-  const aiMessageElement = document.createElement('div');
+  aiMessageElement = document.createElement('div');
   aiMessageElement.classList.add('message', 'ai-message');
   aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>WebGPT</b></span>`;
-  const aiMessageText = document.createElement('p');
+  aiMessageText = document.createElement('p');
   aiMessageElement.appendChild(aiMessageText);
-  chatContainer.appendChild(aiMessageElement);
-
-  socket.on('completion_stream', function (recv) {
-    console.log(recv.Data);
-    aiMessageText.innerText += recv.Data;
-  });
-  socket.on('completion_done', function (recv) {
-    console.log('completion_done');
-    return;
-  });
-      
+  chatContainer.appendChild(aiMessageElement);      
 }
+
+socket.on('completion_stream', function (recv) {
+  console.log(recv.Data);
+  aiMessageText.innerText += recv.Data;
+});
+socket.on('completion_done', function (recv) {
+  console.log('completion_done');
+});
