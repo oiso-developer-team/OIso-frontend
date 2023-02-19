@@ -193,16 +193,16 @@ body {
 
 .loadingThree {
    width: 150px;
-   height: 15px;
+   height: 1px;
    margin: 0 auto;
-   margin-top: 100px;
+   margin-left: 50px;
 }
 
 .loadingThree span {
    display: inline-block;
-   width: 15px;
+   width: 1px;
    height: 100%;
-   margin-right: 5px;
+   margin-right: 25px;
    border-radius: 50%;
    background: lightgreen;
    -webkit-animation: load 1.04s ease infinite;
