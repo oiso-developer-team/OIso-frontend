@@ -102,7 +102,7 @@ function sendMessage() {
   aiMessageElement.classList.add('message', 'ai-message');
   aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>`;
   aiMessageText = document.createElement('p');
-  aiMessageElement.innerHTML = `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`;
+  aiMessageText.innerHTML = `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`;
   aiMessageElement.appendChild(aiMessageText);
   chatContainer.appendChild(aiMessageElement);
 }
