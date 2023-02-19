@@ -55,6 +55,9 @@ fetch(window['api'] + "/profile", {
       console.log('completion_done');
       aiMessageText.innerHTML = (temp);
       myPrompt += '\n';
+      // 自动滚动到chat-container的底部
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      enableInput();
     });
   }
 });
@@ -63,6 +66,18 @@ var temp = '';
 const inputField = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const chatContainer = document.getElementById('chat-container');
+
+function disableInput() {
+  inputField.disabled = true;
+  inputField.placeholder = 'AI 正在思考...';
+  sendButton.disabled = true;
+}
+
+function enableInput() {
+  inputField.disabled = false;
+  inputField.placeholder = '开始聊天吧（不超过 300 字）！';
+  sendButton.disabled = false;
+}
 
 // Send user's message to the API when the send button is clicked
 sendButton.addEventListener('click', sendMessage);
@@ -76,12 +91,13 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
-var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答可用html格式的加粗、超链接、下划线、倾斜、删除线、代码以及LateX公式。\n';
+var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答可用html格式的加粗、超链接、下划线、倾斜、删除线、pre代码块、code内联代码、换行及LateX公式。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
   // Clear the input field
   inputField.value = '';
+  disableInput();
 
   // Display the user's message in the chat container
   const userMessageElement = document.createElement('div');
