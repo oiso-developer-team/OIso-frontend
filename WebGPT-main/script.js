@@ -70,7 +70,7 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
-var myPrompt = '你是一个 AI 聊天机器人，现在待在 OIso 的服务器上。你需要回答倾向于信息学竞赛和计算机方面的内容。\n';
+var myPrompt = '你在OIso上，尽量回答与信息学竞赛和计算机相关的内容。回答使用markdown格式。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
@@ -87,12 +87,11 @@ function sendMessage() {
   userMessageElement.appendChild(userMessageText);
   chatContainer.appendChild(userMessageElement);
 
-  myPrompt += `用户: ${userMessage}\n`;
+  myPrompt += `用户: ${userMessage}\nAI: `;
   socket.emit("prompt", {
     prompt: myPrompt,
     token: window['profile']['cookie']
   });
-  myPrompt += `AI: `;
 
   // Display the AI's response in the chat container
   aiMessageElement = document.createElement('div');
