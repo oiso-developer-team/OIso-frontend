@@ -103,6 +103,7 @@ function sendMessage() {
   });
   socket.on('completion_done', function (recv) {
     console.log('completion_done');
+    return;
   });
       
 }
