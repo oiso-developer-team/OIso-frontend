@@ -44,9 +44,11 @@ fetch(window['api'] + "/profile", {
     socket.on('completion_stream', function (recv) {
       console.log(recv.Data);
       aiMessageText.innerText += recv.Data;
+      myPrompt += `${recv.Data}`;
     });
     socket.on('completion_done', function (recv) {
       console.log('completion_done');
+      myPrompt += '\n';
     });
   }
 });
@@ -68,6 +70,7 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
+var myPrompt = '你是一个 AI 聊天机器人，现在待在 OIso 的服务器上。你需要回答倾向于信息学竞赛和计算机方面的内容。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
@@ -77,17 +80,19 @@ function sendMessage() {
   // Display the user's message in the chat container
   const userMessageElement = document.createElement('div');
   userMessageElement.classList.add('message', 'user-message');
-  userMessageElement.innerHTML = `<span><img src="images/user-avatar.jpg"> <b>You</b></span>`;
+  userMessageElement.innerHTML = `<span><img src="https://cdn.luogu.com.cn/upload/usericon/${String(window['profile']['uid'])}.png"> <b>${window['profile']['name']}</b></span>`;
 
   const userMessageText = document.createElement('p');
   userMessageText.innerText = userMessage;
   userMessageElement.appendChild(userMessageText);
   chatContainer.appendChild(userMessageElement);
 
+  myPrompt += `用户: ${userMessage}\n`;
   socket.emit("prompt", {
-    prompt: userMessage,
+    prompt: myPrompt,
     token: window['profile']['cookie']
   });
+  myPrompt += `AI: `;
 
   // Display the AI's response in the chat container
   aiMessageElement = document.createElement('div');
@@ -95,5 +100,5 @@ function sendMessage() {
   aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>WebGPT</b></span>`;
   aiMessageText = document.createElement('p');
   aiMessageElement.appendChild(aiMessageText);
-  chatContainer.appendChild(aiMessageElement);      
+  chatContainer.appendChild(aiMessageElement);
 }
