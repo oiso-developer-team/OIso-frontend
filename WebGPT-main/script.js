@@ -51,7 +51,7 @@ fetch(window['api'] + "/profile", {
     });
     socket.on('completion_done', function (recv) {
       console.log('completion_done');
-      aiMessageText.innerHTML = marked(aiMessageText.innerText);
+      // aiMessageText.innerHTML = marked(aiMessageText.innerText);
       myPrompt += '\n';
     });
   }
