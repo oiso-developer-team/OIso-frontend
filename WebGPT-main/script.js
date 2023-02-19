@@ -41,16 +41,13 @@ fetch(window['api'] + "/profile", {
       }
     });
     socket.emit("verify");
-    // socket.emit("prompt", {
-    //     prompt: "Hello, I am a chatbot. How are you today?",
-    //     token: JSON.parse(data).cookie
-    // });
-    // socket.on('completion_stream', function (recv) {
-    //   console.log(recv.Data);
-    // });
-    // socket.on('completion_done', function (recv) {
-    //   console.log('completion_done');
-    // });
+    socket.on('completion_stream', function (recv) {
+      console.log(recv.Data);
+      aiMessageText.innerText += recv.Data;
+    });
+    socket.on('completion_done', function (recv) {
+      console.log('completion_done');
+    });
   }
 });
 
@@ -100,11 +97,3 @@ function sendMessage() {
   aiMessageElement.appendChild(aiMessageText);
   chatContainer.appendChild(aiMessageElement);      
 }
-
-socket.on('completion_stream', function (recv) {
-  console.log(recv.Data);
-  aiMessageText.innerText += recv.Data;
-});
-socket.on('completion_done', function (recv) {
-  console.log('completion_done');
-});
