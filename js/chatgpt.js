@@ -14,9 +14,10 @@ fetch(window['api'] + "/profile", {
                 }
             }
         });
-        socket.emit("connect");
+        socket.emit("verify");
         socket.emit("prompt", {
-            prompt: "Hello, I am a chatbot. How are you today?"
+            prompt: "Hello, I am a chatbot. How are you today?",
+            token: JSON.parse(data).cookie
         });
         socket.on('completion_stream', function (recv) {
             console.log(recv.Data);
