@@ -45,19 +45,21 @@ fetch(window['api'] + "/profile", {
       console.log(recv.Data);
       if(aiMessageText.innerHTML == `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`){
         aiMessageText.innerHTML = '';
+        temp = '';
       }
-      aiMessageText.innerText += (recv.Data);
+      temp += (recv.Data);
+      aiMessageText.innerHTML = marked(temp);
       myPrompt += `${recv.Data}`;
     });
     socket.on('completion_done', function (recv) {
       console.log('completion_done');
-      // aiMessageText.innerHTML = marked(aiMessageText.innerText);
+      aiMessageText.innerHTML = marked(temp);
       myPrompt += '\n';
     });
   }
 });
 
-
+var temp = '';
 const inputField = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
 const chatContainer = document.getElementById('chat-container');
