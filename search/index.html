@@ -337,14 +337,18 @@
                 <div class="mdui-card" id="iframeCard" style="border-radius: 15px;">
 
                     <!-- 卡片的内容 -->
-                    <div class="mdui-card-content">
+                    <div class="mdui-card-content" style="padding:1px">
                         <iframe id="mainiframe" width="100%" height="300" frameborder="0" scrolling="auto"
-                            src="https://www.oiso.cf/quickView.html">
+                            src="https://www.oiso.cf/quickView.html"
+                            style="border-radius:15px">
                         </iframe>
                     </div>
 
                     <!-- 卡片的按钮 -->
-                    <div class="mdui-card-actions">
+                    <div class="mdui-card-actions" style="padding-top:0%">
+                        <button class="mdui-btn mdui-ripple" onclick="toggle();" id="tbu"
+                            style="border-radius: 15px;"><small><i class="mdui-icon material-icons"
+                                    style="transform: scale(0.75, 0.75);" id="tico">chat</i></small>对话 ChatGPT</button>
                         <button class="mdui-btn mdui-ripple" onclick="open_in_new();"
                             style="border-radius: 15px;"><small><i class="mdui-icon material-icons"
                                     style="transform: scale(0.75, 0.75);">open_in_new</i></small>打开此页面</button>
@@ -355,11 +359,30 @@
             </div>
         </div>
         <script>
+            function toggle() {
+                var cd = document.getElementById("iframeCard");
+                var tbu = document.getElementById("tbu");
+                var tico = document.getElementById("tico");
+                var ifr = document.getElementById("mainiframe");
+                if(tico.innerHTML == "chat"){
+                    tico.innerHTML = "center_focus_strong";
+                    tbu.innerHTML = "<small><i class='mdui-icon material-icons' style='transform: scale(0.75, 0.75);' id='tico'>center_focus_strong</i></small>返回快速预览";
+                    ifr.src = "https://www.oiso.cf/WebGPT-main";
+                }else{
+                    tico.innerHTML = "chat";
+                    tbu.innerHTML = "<small><i class='mdui-icon material-icons' style='transform: scale(0.75, 0.75);' id='tico'>chat</i></small>对话 ChatGPT";
+                    ifr.src = "https://www.oiso.cf/quickView.html";
+                }
+            }
             function open_in_new() {
                 url = document.getElementById("mainiframe").getAttribute("src");
                 window.open(url);
             }
             function view(url) {
+                var tico = document.getElementById("tico");
+                if(tico.innerHTML == "center_focus_strong"){
+                    return;
+                }
                 document.getElementById("mainiframe").setAttribute("src", url);
             }
             function changeFrameHeight() {
@@ -614,12 +637,12 @@
                     document.getElementById("allContent").innerHTML = '';
                     tot = Math.ceil(data['hits']['total']['value'] / 20);
                     allWrite("<small><em>共查询到 " + String(data['hits']['total']['value']) + " 条结果，耗时 " + String(data['took']) + " 毫秒，最高匹配度 " + String(data['hits']['max_score'] == null ? "<del>不可用</del>" : data['hits']['max_score']) + " 分。当前位置： " + String(page) + " &frasl; " + String(tot) + " 页。</em></small><hr/>");
-                    if(window['type']=="all"){
-                        allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
-                        // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
-                        mdui.mutation();
-                        ai_query(getQueryVariable("q"));
-                    }
+                    // if(window['type']=="all"){
+                    //     allWrite(`<div class="mdui-card" id="ai_answer"><div class="mdui-card-content"><center><div class="mdui-spinner mdui-spinner-colorful"></div></center></div></div><hr/>`);
+                    //     // <div class="mdui-card-primary"><div class="mdui-card-primary-title">Title</div><div class="mdui-card-primary-subtitle">Subtitle</div></div><div class="mdui-card-content">子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」</div>
+                    //     mdui.mutation();
+                    //     ai_query(getQueryVariable("q"));
+                    // }
                     hits = data['hits']['hits'];
                     for (i in hits) {
                         allWrite(makeHTML(hits[i]));
