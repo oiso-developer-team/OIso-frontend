@@ -367,7 +367,7 @@
                 if(tico.innerHTML == "chat"){
                     tico.innerHTML = "center_focus_strong";
                     tbu.innerHTML = "<small><i class='mdui-icon material-icons' style='transform: scale(0.75, 0.75);' id='tico'>center_focus_strong</i></small>返回快速预览";
-                    ifr.src = "https://www.oiso.cf/WebGPT-main";
+                    ifr.src = "https://www.oiso.cf/WebGPT-main?text=" + getQueryVariable("q");
                 }else{
                     tico.innerHTML = "chat";
                     tbu.innerHTML = "<small><i class='mdui-icon material-icons' style='transform: scale(0.75, 0.75);' id='tico'>chat</i></small>对话 ChatGPT";

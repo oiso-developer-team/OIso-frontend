@@ -22,6 +22,17 @@
       <button id="send-button">➜</button>
     </div>
   </div>
+  <script>
+    // 如果请求参数包含 text=...
+    if (window.location.search.indexOf('text=') !== -1) {
+      // 获取 text 参数的值
+      var text = decodeURIComponent(window.location.search.split('text=')[1].split('&')[0]);
+      // 将 text 参数的值设置为输入框的值
+      document.getElementById('user-input').value = text;
+      // 点击发送按钮
+      // document.getElementById('send-button').click();
+    }
+  </script>
   <!-- </div> -->
   <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
   <!-- <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.js"></script> -->
