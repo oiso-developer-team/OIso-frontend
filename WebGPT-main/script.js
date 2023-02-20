@@ -57,6 +57,10 @@ fetch(window['api'] + "/profile", {
       myPrompt += '\n';
       enableInput();
     });
+  }else{
+    mdui.snackbar({
+      message: '由于 AI 服务本身需要一定成本，该功能需 OIso Plus 及以上计划方可使用。请您谅解！'
+    });
   }
 });
 
