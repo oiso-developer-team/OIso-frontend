@@ -30,7 +30,7 @@ fetch(window['api'] + "/profile", {
       startmsg.innerHTML = "夜里好，";
     }
     startmsg.innerHTML += window['profile']['name'] + "，有什么问题尽管问我！";
-    namespace = '/chatgpt';
+    namespace = '/chatGPT';
     socket = io.connect(window['api'] + namespace, {
       transportOptions: {
         polling: {
@@ -120,7 +120,7 @@ function sendMessage() {
   // Display the AI's response in the chat container
   aiMessageElement = document.createElement('div');
   aiMessageElement.classList.add('message', 'ai-message');
-  aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>chatGPT</b></span>`;
+  aiMessageElement.innerHTML = `<span id="ai-avatar-name"><img src="images/openai-avatar.png"> <b>ChatGPT</b></span>`;
   aiMessageText = document.createElement('p');
   aiMessageText.innerHTML = `<div class="loadingThree"><span></span><span></span><span></span><span></span><span></span></div>`;
   aiMessageElement.appendChild(aiMessageText);

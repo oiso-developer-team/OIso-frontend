@@ -1595,9 +1595,9 @@
         <div class="mdui-dialog-title">AI 作图</div>
         <div class="mdui-dialog-content mdui-typo">
             <div class="mdui-typo">
-                <h5>注：此功能在未来可能会升级为 VIP 功能。限制使用：30次/天。</h5>
+                <h5>注：此功能为 VIP 功能。限制请求：30次/天。</h5>
                 <h5>请输入作图提示词，用英文逗号<code>,</code>分隔提示词。使用英文提示词质量更佳。</h5>
-                <h5>作图时间约为 30 秒，请耐心等待。</h5>
+                <h5>调用 OpenAI API，作图时间约为 7 秒，请耐心等待。</h5>
                 <!-- 一个输入框，请输入作图提示词 -->
                 <div class="mdui-textfield mdui-textfield-floating-label">
                     <label class="mdui-textfield-label">作图提示词，用英文逗号分隔！</label>
@@ -1808,11 +1808,36 @@
         </div>
     </div>
 
-    <script>
+    <div class="mdui-dialog" id="dialog-vip" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">会员计划</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <h1><b>注：VIP功能还在开发中，请勿购买！</h1></p>
+            <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
+            <p id="present_trail">您当前的计划：</p>
+            <p id="expire_time">到期时间：</p>
+            <p>什么，在哪里赞助我们？点击右方<a href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
 
-        // getspiderstatus();
-        // setInterval(getspiderstatus(), 15000);
-    </script>
+    <div class="mdui-dialog" id="dialog-vip" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">兑换代码</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <h1><b>注：VIP功能还在开发中，请勿购买！</h1></p>
+            <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
+            <p>您可以在下方输入兑换代码，以兑换 OIso 会员服务等。</p>
+            <p>什么，在哪里获取兑换代码？点击右方<a href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
 
     <div class="mdui-dialog" id="dialog-csong" style="border-radius: 20px;">
         <div class="mdui-dialog-title">云点歌</div>
@@ -1983,6 +2008,27 @@
                                         mdui-dialog="{target: '#dialog-aidraw'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">sentiment_satisfied</i>
                                         AI作图
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        onclick="window.open('https://www.oiso.cf/webgpt-main/');">
+                                        <i class="mdui-icon mdui-icon-left material-icons">chat</i>
+                                        ChatGPT
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-vip'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">done</i>
+                                        会员计划
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-redeem'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">done_all</i>
+                                        兑换代码
                                     </button>
                                 </div>
                             </div>

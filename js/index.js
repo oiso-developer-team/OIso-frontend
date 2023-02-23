@@ -9,6 +9,18 @@ fetch(window['api']+"/profile", {
     } else {
         console.log(data);
         window['uid'] = JSON.parse(data).uid;
+        const TRAILS = {
+            0:"OIso Free",
+            1:"OIso Plus",
+            2:"OIso Pro",
+            3:"OIso Premium"
+        }
+        document.getElementById("present_trail").innerText = "当前计划：" + TRAILS[JSON.parse(data).vip.level] + "（ 等级" + String(JSON.parse(data).vip.level) + " / 3 ）";
+        if(JSON.parse(data).vip.level != 0){
+            document.getElementById("expire_time").innerHTML += `到期时间：${new Date(JSON.parse(data).vip.expire).toLocaleString()}`;
+        }else{
+            document.getElementById("expire_time").innerHTML += `只要服务器不挂，就可以永久免费使用！`;
+        }
         get_benben();
         namespace = '/Socket';
         var socket = io.connect(window['api'] + namespace, {
