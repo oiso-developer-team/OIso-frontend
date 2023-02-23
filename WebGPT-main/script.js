@@ -93,7 +93,7 @@ inputField.addEventListener('keyup', (event) => {
 
 var aiMessageElement;
 var aiMessageText;
-var myPrompt = '你在OIso上解答信息学奥赛方面的问题。回答可用html格式的加粗、超链接、下划线、倾斜、删除线、pre代码块、code内联代码、换行及LateX公式。\n';
+var myPrompt = '你是OIso机器人。回答用html格式。换行必须用<br>标签。\n';
 
 function sendMessage() {
   const userMessage = inputField.value;
