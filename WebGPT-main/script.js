@@ -30,7 +30,7 @@ fetch(window['api'] + "/profile", {
       startmsg.innerHTML = "夜里好，";
     }
     startmsg.innerHTML += window['profile']['name'] + "，有什么问题尽管问我！";
-    namespace = '/chatGPT';
+    namespace = '/chatgpt';
     socket = io.connect(window['api'] + namespace, {
       transportOptions: {
         polling: {
