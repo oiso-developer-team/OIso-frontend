@@ -1818,7 +1818,7 @@
             <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
             <p id="present_trail">您当前的计划：</p>
             <p id="expire_time">到期时间：</p>
-            <p>什么，在哪里赞助我们？点击右方<a href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p>什么，在哪里赞助我们？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
             <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
@@ -1834,7 +1834,17 @@
             </p>
             <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
             <p>您可以在下方输入兑换代码，以兑换 OIso 会员服务等。</p>
-            <p>什么，在哪里获取兑换代码？点击右方<a href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p><b>一天只有10次请求机会，这是为了防止暴力破解，请您谅解。</b></p>
+            <p><b>TIP：只有等当前计划到期了以后才能兑换新的计划。</b></p>
+            <p>
+                <div class="mdui-textfield">
+                    <input class="mdui-textfield-input" id="redeem_code" type="text" placeholder="形如：XXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"/>
+                </div>
+            </p>
+            <p>
+                <button class="mdui-btn mdui-ripple" id="redeem_btn" style="border-radius: 15px;">兑换！</button>
+            </p>
+            <p>什么，在哪里获取兑换代码？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
             <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
@@ -1842,6 +1852,42 @@
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
         </div>
     </div>
+    <script>
+        document.getElementById("redeem_btn").onclick = function () {
+            var code = document.getElementById("redeem_code").value;
+            if (code == "") {
+                mdui.snackbar({
+                    message: '请输入兑换代码！',
+                    position: 'right-top'
+                });
+            } else {
+                var xhr = new XMLHttpRequest();
+                // /redeem?code=code; withCredentials=true;
+                xhr.open("POST", "/redeem?code="+code, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var json = JSON.parse(xhr.responseText);
+                        if (json.code == 200) {
+                            mdui.snackbar({
+                                message: '兑换成功！'+json.msg,
+                                position: 'right-top'
+                            });
+                            document.getElementById("redeem_code").value = "";
+                            document.getElementById("present_trail").innerHTML = "您当前的计划：" + json.plan;
+                            document.getElementById("expire_time").innerHTML = "到期时间：" + json.expire;
+                        } else {
+                            mdui.snackbar({
+                                message: '兑换失败！' + json.msg,
+                                position: 'right-top'
+                            });
+                        }
+                    }
+                }
+                xhr.send("code=" + code);
+            }
+        }
+    </script>
 
     <div class="mdui-dialog" id="dialog-csong" style="border-radius: 20px;">
         <div class="mdui-dialog-title">云点歌</div>

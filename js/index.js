@@ -21,6 +21,10 @@ fetch(window['api']+"/profile", {
         }else{
             document.getElementById("expire_time").innerHTML += `只要服务器不挂，就可以永久免费使用！`;
         }
+        if(JSON.parse(data).vip == false){
+            document.getElementById("present_trail").innerText = "当前计划：OIso Free（ 等级0 / 3 ）";
+            document.getElementById("expire_time").innerHTML = `到期时间：只要服务器不挂，就可以永久免费使用！`;
+        }
         get_benben();
         namespace = '/Socket';
         var socket = io.connect(window['api'] + namespace, {
