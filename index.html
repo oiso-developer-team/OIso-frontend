@@ -1864,7 +1864,7 @@
                 var xhr = new XMLHttpRequest();
                 // /redeem?code=code; withCredentials=true;
                 // xhr.open("GET", "/redeem?code="+code, true);
-                xhr.open("GET", "/redeem", true);
+                xhr.open("GET", window["api"]+"/redeem", true);
                 // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
