@@ -383,7 +383,12 @@
                 if(tico.innerHTML == "center_focus_strong"){
                     return;
                 }
-                document.getElementById("mainiframe").setAttribute("src", url);
+                window['leave'] = false;
+                setTimeout(() => {
+                    if(window['leave'] == false){
+                        document.getElementById("mainiframe").setAttribute("src", url);
+                    }
+                }, 500);
             }
             function changeFrameHeight() {
                 var ifm = document.getElementById("mainiframe");
@@ -598,17 +603,17 @@
                     }
                 }
                 ret = '';
-                ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p onmouseover="view(`' + info['_source']['url'] + '`);" class="href-title">' + info['_source']['title'] + '</p></a></h5>';
+                ret += '<h5><a class="link" href="' + info['_source']['url'] + '" target="_blank"><p onmouseleave="window[`leave`]=true;" onmouseover="view(`' + info['_source']['url'] + '`);" class="href-title">' + info['_source']['title'] + '</p></a></h5>';
                 ret += '<small>' + info['_source']['content'] + '</small><br>';
                 ret += '<small class="mdui-text-color-cyan">' + info['_source']['url'] + '</small><br>';
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 171, 160);">` + timestampToTime(info['_source']['time']) + `</span>`;
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(13, 102, 171);">` + indexToName(info) + `</span>`;
                 ret += `<span class="tag" style="color: rgb(255, 255, 255); background: rgb(171, 13, 102);">` + String(info['_score']) + `</span>`;
                 if (info['_index'] == "lgbbs") {
-                    ret += `<span onmouseover="view('https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
+                    ret += `<span onmouseleave="window['leave']=true;" onmouseover="view('https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://lgbbs.oiso.cf/show.php?url=` + info['_source']['url'] + `");'>` + `点击查看备份` + `</span>`;
                 }
                 if (info['_index'] == "problems" && (info['_id'].indexOf("UVA") != -1 || info['_id'].indexOf("CF") != -1) || info['_id'].indexOf("SP") != -1) {
-                    ret += `<span onmouseover="view('https://www.luogu.com.cn/problem/` + info['_id'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
+                    ret += `<span onmouseleave="window['leave']=true;" onmouseover="view('https://www.luogu.com.cn/problem/` + info['_id'] + `');" class="tag" style="color: rgb(255, 255, 255); background: #d9b611; cursor: pointer;" onclick='window.open("https://www.luogu.com.cn/problem/` + info['_id'] + `");'>` + `查看洛谷翻译` + `</span>`;
                 }
                 ret += '<hr/>';
                 return ret;
