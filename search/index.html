@@ -10,8 +10,8 @@
     <script>
         window['api'] = '//online.oiso.cf'
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
-    crossorigin="anonymous"></script>
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025" crossorigin="anonymous"></script> -->
+    <!-- google 广告等页面加载完后再加载 -->
     <style>
         .box {
             display: flex;
@@ -656,6 +656,11 @@
                             allWrite(makeHTML(hits[i]));
                         }
                         makePageButton(String(data['hits']['total']['value']));
+                        var s = document.createElement('script');
+                        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025';
+                        s.async = true;
+                        s.crossOrigin = 'anonymous';
+                        document.body.appendChild(s);
                     }).catch(function () {
                         mdui.snackbar("服务器开小差力！" + error);
                     });
