@@ -1863,8 +1863,8 @@
             } else {
                 var xhr = new XMLHttpRequest();
                 // /redeem?code=code; withCredentials=true;
-                xhr.open("POST", "/redeem?code="+code, true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.open("GET", "/redeem?code="+code, true);
+                // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         var json = JSON.parse(xhr.responseText);
