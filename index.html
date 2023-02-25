@@ -1861,31 +1861,35 @@
                     position: 'right-top'
                 });
             } else {
-                var xhr = new XMLHttpRequest();
-                // /redeem?code=code; withCredentials=true;
-                // xhr.open("GET", "/redeem?code="+code, true);
-                xhr.open("GET", window["api"]+"/redeem", true);
-                // xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        var json = JSON.parse(xhr.responseText);
-                        if (json.code == 200) {
+                // window["api"]+/redeem?code=code; withCredentials=true; use ajax
+                $.ajax({
+                    url: window["api"] + "/redeem?code=" + code,
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
                             mdui.snackbar({
-                                message: '兑换成功！'+json.msg,
+                                message: '兑换成功！'+data["msg"],
                                 position: 'right-top'
                             });
-                            document.getElementById("redeem_code").value = "";
-                            document.getElementById("present_trail").innerHTML = "您当前的计划：" + json.plan;
-                            document.getElementById("expire_time").innerHTML = "到期时间：" + json.expire;
+                            document.getElementById("present_trail").innerHTML = "您当前的计划：" + data["data"]["plan"];
+                            document.getElementById("expire_time").innerHTML = "到期时间：" + data["data"]["expire"];
                         } else {
                             mdui.snackbar({
-                                message: '兑换失败！' + json.msg,
+                                message: data["msg"],
                                 position: 'right-top'
                             });
                         }
+                    },
+                    error: function (data) {
+                        mdui.snackbar({
+                            message: '兑换失败！'+data["msg"],
+                            position: 'right-top'
+                        });
                     }
-                }
-                xhr.send("code=" + code);
+                });
             }
         }
     </script>
