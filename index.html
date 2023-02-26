@@ -1133,7 +1133,9 @@
                 url: url,
                 type: "GET",
                 dataType: "json",
-                withCredentials: true,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     if(data=='True'){
                         mdui.snackbar("设置成功");
