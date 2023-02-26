@@ -1112,6 +1112,7 @@
         });
         function get_pendant() {
             var url = window['api'] + "/pendant/get?uid=" + String(window['uid']);
+            console.log(url);
             $.ajax({
                 url: url,
                 type: "GET",
@@ -1121,7 +1122,7 @@
                         mdui.snackbar("您还没有设置头像挂件捏");
                     }else{
                         $("#pendanturl").val(data);
-                        $("pendantimg").src = data;
+                        $("#pendantimg").src = data;
                     }
                 }
             });
