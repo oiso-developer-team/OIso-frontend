@@ -1121,8 +1121,8 @@
                     if(data=='False'){
                         mdui.snackbar("您还没有设置头像挂件捏");
                     }else{
-                        $("#pendanturl").val(data);
-                        $("#pendantimg").src = data;
+                        document.getElementById("pendanturl").value = data;
+                        document.getElementById("pendantimg").src = data;
                     }
                 }
             });
