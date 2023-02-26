@@ -1092,8 +1092,8 @@
             <h5>预览</h5>
             <center>
                 <!-- luogu avatar img -->
-                <img id="avatarimg"/>
-                <img id="pendantimg" style="position: absolute;margin-left: -100px;height: 100px;transform: scale(1.35);opacity: 0.75;"/>
+                <img id="avatarimg" style="border-radius: 50%;"/>
+                <img id="pendantimg" style="position: absolute;margin-left: -100px;height: 100px;transform: scale(1.35);opacity: 0.75;border-radius: 5%;"/>
             </center>
             <p>完成后，请点击下方确认按钮。</p>
         </div>
@@ -1133,6 +1133,7 @@
                 url: url,
                 type: "GET",
                 dataType: "json",
+                withCredentials: true,
                 success: function (data) {
                     if(data=='True'){
                         mdui.snackbar("设置成功");
