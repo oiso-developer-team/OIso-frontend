@@ -9,6 +9,7 @@ fetch(window['api']+"/profile", {
     } else {
         console.log(data);
         window['uid'] = JSON.parse(data).uid;
+        document.getElementById("avatarimg").src = "https://cdn.luogu.com.cn/upload/usericon/" + JSON.parse(data).uid + ".png";
         const TRAILS = {
             0:"OIso Free",
             1:"OIso Plus",

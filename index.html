@@ -586,12 +586,13 @@
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
                 href="/">OIso.cf</a>&nbsp;| v0.9 测试版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top/"
-            target="_blank">diyanqi</a>&nbsp;&amp;&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.lotuses.net/"
-            target="_blank">Lotuses</a>&nbsp;,&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://github.com/orgs/oiso-developer-team/"
-                target="_blank">OIso 开发团队</a> | <a class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我"
-                href="https://www.amzcd.top/posts/OIso/" target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background"
-                href="https://bing.com" target="_blank">Bing Wallpaper</a> | <a
-                href="https://icp.gov.moe/?keyword=20230322" target="_blank">萌ICP备20230322号</a>
+                target="_blank">diyanqi</a>&nbsp;&amp;&nbsp;<a class="icon-btn mr-2" title="Blog"
+                href="https://www.lotuses.net/" target="_blank">Lotuses</a>&nbsp;,&nbsp;<a class="icon-btn mr-2"
+                title="Blog" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
+                class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
+                target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background" href="https://bing.com"
+                target="_blank">Bing Wallpaper</a> | <a href="https://icp.gov.moe/?keyword=20230322"
+                target="_blank">萌ICP备20230322号</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
@@ -1080,11 +1081,66 @@
         // console.log("log2!");
     </script>
 
+    <div class="mdui-dialog" id="dialog-editPendant" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">编辑头像挂件</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <p><b>高级计划</b>期间可注册及修改。</p>
+            <h5>设置头像挂件图片地址</h5>
+            <div class="mdui-textfield">
+                <input type="url" id="pendanturl" />
+            </div>
+            <h5>预览</h5>
+            <center>
+                <!-- luogu avatar img -->
+                <img id="avatarimg"/>
+                <img id="pendantimg" style="position: absolute;"/>
+            </center>
+            <p>完成后，请点击下方确认按钮。</p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="save_pendant();"
+                style="border-radius: 15px;">确认</button>
+        </div>
+    </div>
+    <script>
+        function get_pendant() {
+            var url = window['api'] + "/pendant/get?uid=" + String(window['uid']);
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if(data=='False'){
+                        mdui.snackbar("您还没有设置头像挂件捏");
+                    }else{
+                        $("#pendanturl").val(data);
+                    }
+                }
+            });
+        }
+        function save_pendant() {
+            var url = window['api'] + "/pendant/edit?url=" + $("#pendanturl").val();
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    if(data=='True'){
+                        mdui.snackbar("设置成功");
+                    }else{
+                        mdui.snackbar(data);
+                    }
+                }
+            });
+        }
+    </script>
+
     <div class="mdui-dialog" id="dialog-editTag" style="border-radius: 20px;">
         <div class="mdui-dialog-title">编辑 tag</div>
         <div class="mdui-dialog-content mdui-typo">
-
-            <p>目前可以免费自定义 tag ，如果以后要收费了，您仍持有 tag 修改权限。</p>
+            <p>高级用户：一次购买，永久获得。</p>
             <h5>设置文字颜色</h5>
             <div class="mdui-textfield">
                 <input type="color" id="textcolor" />
@@ -1818,7 +1874,8 @@
             <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
             <p id="present_trail">您当前的计划：</p>
             <p id="expire_time">到期时间：</p>
-            <p>什么，在哪里赞助我们？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p>什么，在哪里赞助我们？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！
+            </p>
             <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
@@ -1837,14 +1894,17 @@
             <p><b>一天只有10次请求机会，这是为了防止暴力破解，请您谅解。</b></p>
             <p><b>TIP：只有等当前计划到期了以后才能兑换新的计划。</b></p>
             <p>
-                <div class="mdui-textfield">
-                    <input class="mdui-textfield-input" id="redeem_code" type="text" placeholder="形如：XXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"/>
-                </div>
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" id="redeem_code" type="text"
+                    placeholder="形如：XXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" />
+            </div>
             </p>
             <p>
-                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="redeem_btn" style="border-radius: 15px;">点我兑换！</button>
+                <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="redeem_btn"
+                    style="border-radius: 15px;">点我兑换！</button>
             </p>
-            <p>什么，在哪里获取兑换代码？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！</p>
+            <p>什么，在哪里获取兑换代码？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi"
+                    style="color:yellow;">小黄车</a>即可购买！</p>
             <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
@@ -1871,7 +1931,7 @@
                     success: function (data) {
                         if (data["code"] == 200) {
                             mdui.snackbar({
-                                message: '兑换成功！'+data["msg"],
+                                message: '兑换成功！' + data["msg"],
                                 position: 'right-top'
                             });
                             document.getElementById("present_trail").innerHTML = "您当前的计划：" + data["data"]["plan"];
@@ -1885,7 +1945,7 @@
                     },
                     error: function (data) {
                         mdui.snackbar({
-                            message: '兑换失败！'+data["msg"],
+                            message: '兑换失败！' + data["msg"],
                             position: 'right-top'
                         });
                     }
@@ -2004,6 +2064,13 @@
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-editPendant'}" onclick="get_pendant();">
+                                        <i class="mdui-icon mdui-icon-left material-icons">account_circle</i>
+                                        头像挂件
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
                                         mdui-dialog="{target: '#dialog-logout'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">exit_to_app</i>
                                         退出登录
@@ -2062,7 +2129,7 @@
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
                                         mdui-dialog="{target: '#dialog-aidraw'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">sentiment_satisfied</i>
-                                        AI作图
+                                        AI 作图
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
