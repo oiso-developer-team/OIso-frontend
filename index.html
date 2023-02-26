@@ -1093,7 +1093,7 @@
             <center>
                 <!-- luogu avatar img -->
                 <img id="avatarimg"/>
-                <img id="pendantimg" style="position: absolute;"/>
+                <img id="pendantimg" style="position: absolute;margin-left: -100px;height: 100px;transform: scale(1.35);opacity: 0.75;"/>
             </center>
             <p>完成后，请点击下方确认按钮。</p>
         </div>
@@ -1116,8 +1116,8 @@
             $.ajax({
                 url: url,
                 type: "GET",
-                dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     if(data=='False'){
                         mdui.snackbar("您还没有设置头像挂件捏");
                     }else{
