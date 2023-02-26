@@ -344,6 +344,19 @@
                             src="https://www.oiso.cf/quickView.html"
                             style="border-radius:15px">
                         </iframe>
+                        <!-- 禁止跳转 -->
+                        <script>
+                            var iframe = document.getElementById("mainiframe");
+                            iframe.onload = function () {
+                                var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+                                var links = iframedoc.getElementsByTagName("a");
+                                for (var i = 0; i < links.length; i++) {
+                                    links[i].onclick = function () {
+                                        return false;
+                                    }
+                                }
+                            }
+                        </script>
                     </div>
 
                     <!-- 卡片的按钮 -->
