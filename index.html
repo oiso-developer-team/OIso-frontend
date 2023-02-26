@@ -1087,7 +1087,7 @@
             <p><b>高级计划</b>期间可注册及修改。</p>
             <h5>设置头像挂件图片地址</h5>
             <div class="mdui-textfield">
-                <input type="url" id="pendanturl" />
+                <input class="mdui-textfield-input" id="pendanturl" type="url" placeholder="请先将图片传到图床"/>
             </div>
             <h5>预览</h5>
             <center>
@@ -1105,6 +1105,11 @@
         </div>
     </div>
     <script>
+        // pendanturl的内容发生变化时：
+        $("#pendanturl").bind('input propertychange', function () {
+            // console.log("log!");
+            $("#pendantimg").attr("src", $("#pendanturl").val());
+        });
         function get_pendant() {
             var url = window['api'] + "/pendant/get?uid=" + String(window['uid']);
             $.ajax({
@@ -1116,6 +1121,7 @@
                         mdui.snackbar("您还没有设置头像挂件捏");
                     }else{
                         $("#pendanturl").val(data);
+                        $("pendantimg").src = data;
                     }
                 }
             });
