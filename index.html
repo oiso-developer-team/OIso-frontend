@@ -584,7 +584,7 @@
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
                     alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v0.9 测试版 | Developed
+                href="/">OIso.cf</a>&nbsp;| v1.0 正式版 | Developed
             by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top/"
                 target="_blank">diyanqi</a>&nbsp;&amp;&nbsp;<a class="icon-btn mr-2" title="Blog"
                 href="https://www.lotuses.net/" target="_blank">Lotuses</a>&nbsp;,&nbsp;<a class="icon-btn mr-2"
@@ -1091,13 +1091,14 @@
 https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <h5>设置头像挂件图片地址</h5>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" id="pendanturl" type="url" placeholder="请先将图片传到图床"/>
+                <input class="mdui-textfield-input" id="pendanturl" type="url" placeholder="请先将图片传到图床" />
             </div>
             <h5>预览</h5>
             <center>
                 <!-- luogu avatar img -->
-                <img id="avatarimg" style="border-radius: 50%;"/>
-                <img id="pendantimg" style="margin-left: -100px;height: 100px;transform: scale(1.35);opacity: 0.75;border-radius: 5%;"/>
+                <img id="avatarimg" style="border-radius: 50%;" />
+                <img id="pendantimg"
+                    style="margin-left: -100px;height: 100px;transform: scale(1.35);opacity: 0.75;border-radius: 5%;" />
             </center>
             <p>完成后，请点击下方确认按钮。</p>
         </div>
@@ -1122,9 +1123,9 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                 type: "GET",
                 success: function (data) {
                     console.log(data);
-                    if(data=='False'){
+                    if (data == 'False') {
                         mdui.snackbar("您还没有设置头像挂件捏");
-                    }else{
+                    } else {
                         document.getElementById("pendanturl").value = data;
                         document.getElementById("pendantimg").src = data;
                     }
@@ -1141,9 +1142,9 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                     withCredentials: true
                 },
                 success: function (data) {
-                    if(data=='True'){
+                    if (data == 'True') {
                         mdui.snackbar("设置成功");
-                    }else{
+                    } else {
                         mdui.snackbar(data);
                     }
                 }
@@ -1883,14 +1884,79 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
     <div class="mdui-dialog" id="dialog-vip" style="border-radius: 20px;">
         <div class="mdui-dialog-title">会员计划</div>
         <div class="mdui-dialog-content mdui-typo">
-            <h1><b>注：VIP功能还在开发中，请勿购买！</b></h1>
-            </p>
             <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
+            <div class="mdui-table-fluid">
+                <table class="mdui-table">
+                    <thead>
+                        <tr>
+                            <th>条目</th>
+                            <th>OIso Free 免费计划</th>
+                            <th>OIso Premium 会员计划</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>搜索限制</td>
+                            <td>500次/天</td>
+                            <td>无限制</td>
+                        </tr>
+                        <tr>
+                            <td>博客收录</td>
+                            <td>15次/天</td>
+                            <td>15次/天</td>
+                        </tr>
+                        <tr>
+                            <td>免费图床</td>
+                            <td>15张/天</td>
+                            <td>15张/天</td>
+                        </tr>
+                        <tr>
+                            <td>tamperOIso 洛谷增强脚本</td>
+                            <td>免费获取</td>
+                            <td>免费获取</td>
+                        </tr>
+                        <tr>
+                            <td>广告</td>
+                            <td>偶尔的广告</td>
+                            <td>无广告</td>
+                        </tr>
+                        <tr>
+                            <td>AI 对话服务</td>
+                            <td></td>
+                            <td>无限制使用（非滥用）</td>
+                        </tr>
+                        <tr>
+                            <td>AI 画图服务</td>
+                            <td></td>
+                            <td>30请求/天（非滥用）</td>
+                        </tr>
+                        <tr>
+                            <td>首页 tag</td>
+                            <td>如果之前订阅过 Premium 计划并注册过 tag ，日后也能修改</td>
+                            <td>一次购买，永久拥有</td>
+                        </tr>
+                        <tr>
+                            <td>洛谷网头像挂件</td>
+                            <td></td>
+                            <td>计划有效期内可编辑（需安装油猴插件）</td>
+                        </tr>
+                        <tr>
+                            <td>进入我们的感谢名单</td>
+                            <td></td>
+                            <td>永久获得</td>
+                        </tr>
+                        <tr>
+                            <td>更多权益</td>
+                            <td>正在开发中！</td>
+                            <td>敬请期待！</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <p id="present_trail">您当前的计划：</p>
             <p id="expire_time">到期时间：</p>
             <p>什么，在哪里赞助我们？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi" style="color:yellow;">小黄车</a>即可购买！
             </p>
-            <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -1901,8 +1967,6 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
     <div class="mdui-dialog" id="dialog-redeem" style="border-radius: 20px;">
         <div class="mdui-dialog-title">兑换代码</div>
         <div class="mdui-dialog-content mdui-typo">
-            <h1><b>注：VIP功能还在开发中，请勿购买！</b></h1>
-            </p>
             <p>成为我们的会员，不但能够维持我们的服务器费用，还可以激励我们更好地开发，更能为您带来更多会员权益。</p>
             <p>您可以在下方输入兑换代码，以兑换 OIso 会员服务等。</p>
             <p><b>一天只有10次请求机会，这是为了防止暴力破解，请您谅解。</b></p>
@@ -1919,7 +1983,6 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             </p>
             <p>什么，在哪里获取兑换代码？点击右方<a target="_blank" href="https://afdian.net/a/diyanqi"
                     style="color:yellow;">小黄车</a>即可购买！</p>
-            <p><b>注：VIP功能还在开发中，请勿购买！</b></p>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -2120,14 +2183,15 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-mylive'}" onclick="get_mylive_detail();">
+                                        mdui-dialog="{target: '#dialog-mylive'}" onclick="get_mylive_detail();"
+                                        disabled>
                                         <i class="mdui-icon mdui-icon-left material-icons">live_tv</i>
                                         我要直播
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-livelist'}" onclick="get_live_list();">
+                                        mdui-dialog="{target: '#dialog-livelist'}" onclick="get_live_list();" disabled>
                                         <i class="mdui-icon mdui-icon-left material-icons">tv</i>
                                         直播选台
                                     </button>
@@ -2141,14 +2205,16 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-aidraw'}">
+                                        mdui-dialog="{target: '#dialog-aidraw'}"
+                                        mdui-tooltip="{content: 'Premium 会员专享'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">sentiment_satisfied</i>
                                         AI 作图
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        onclick="window.open('https://www.oiso.cf/webgpt-main/');">
+                                        onclick="window.open('https://www.oiso.cf/webgpt-main/');"
+                                        mdui-tooltip="{content: 'Premium 会员专享'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">chat</i>
                                         ChatGPT
                                     </button>
