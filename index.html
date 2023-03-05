@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
-    crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
         window.OneSignal = window.OneSignal || [];
@@ -2035,6 +2035,10 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
     <div class="mdui-dialog" id="dialog-free" style="border-radius: 20px;">
         <div class="mdui-dialog-title">签到领红包</div>
         <div class="mdui-dialog-content mdui-typo">
+            <h3>每日签到心情好</h3>
+            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="dk_btn"
+                style="border-radius: 15px;" onclick="dk();">点我签到获取3积分</button>
+            <h3>支付宝红包</h3>
             <p>您只需支付宝搜索「813197162」，或者通过支付宝扫描二维码，即可领取 OIso 官方每日红包。</p>
             <img src="/img/redPacket.png"/>
         </div>
@@ -2043,6 +2047,75 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
         </div>
     </div>
+    <script>
+        function dk() {
+            $("#dk_btn").attr("disabled", true);
+            $.ajax({
+                url: window["api"] + "/rewards/dk",
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        mdui.snackbar({
+                            message: data["msg"],
+                            position: 'right-top'
+                        });
+                        $("#dk_btn").attr("disabled", false);
+                    } else {
+                        mdui.snackbar({
+                            message: data["msg"],
+                            position: 'right-top'
+                        });
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar({
+                        message: '今天已经打卡过了呢qwq',
+                        position: 'right-top'
+                    });
+                    $("#dk_btn").attr("disabled", false);
+                }
+            });
+        }
+    </script>
+
+    <div class="mdui-dialog" id="dialog-rewards" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">我的积分</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <p>积分可以在 OIso 中换取会员计划等。</p>
+            <p><b id="current_point">当前积分：获取中……</b></p>
+            <h3>积分奖励细则</h3>
+            <p>每日打卡：+3积分</p>
+            <p>邀请1位新用户登录：+3积分</p>
+            <p>安装油猴脚本：+5积分</p>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+    <script>
+        function get_my_rewards(){
+            $.ajax({
+                url: window["api"] + "/rewards/getmine",
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    document.getElementById("current_point").innerHTML = "当前积分：" + data;
+                },
+                error: function (data) {
+                    mdui.snackbar({
+                        message: '获取积分失败！',
+                        position: 'right-top'
+                    });
+                }
+            });
+        }
+    </script>
 
     <div class="mdui-dialog" id="dialog-csong" style="border-radius: 20px;">
         <div class="mdui-dialog-title">云点歌</div>
@@ -2258,6 +2331,13 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                         mdui-dialog="{target: '#dialog-free'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">monetization_on</i>
                                         签到红包
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-rewards'}" onclick="get_my_rewards();">
+                                        <i class="mdui-icon mdui-icon-left material-icons">cake</i>
+                                        我的积分
                                     </button>
                                 </div>
                             </div>
