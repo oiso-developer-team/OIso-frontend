@@ -2093,6 +2093,10 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <pre id="reflink">通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=222419)← 登录 OIso 官网，免费领取 3 积分，也能为我助力！</pre>
             <p>3. 安装油猴脚本：+5积分</p>
             <p>油猴脚本点击右边链接安装：<a href="https://tamper.oiso.cf/tamperoiso.user.js" target="_blank">tamperOIso</a></p>
+            <h3>兑换会员</h3>
+            <p>1. 15 积分兑换 3 天 Premium 会员！</p>
+            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="redeem1_btn"
+                style="border-radius: 15px;" onclick="redeem1();">点击兑换 3 天 Premium 会员！</button>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -2100,6 +2104,39 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
+        function redeem1() {
+            $("#redeem1_btn").attr("disabled", true);
+            $.ajax({
+                url: window["api"] + "/rewards/redeem1",
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    if (data["code"] == 200) {
+                        mdui.snackbar({
+                            message: data["msg"],
+                            position: 'right-top'
+                        });
+                        $("#redeem1_btn").attr("disabled", false);
+                    } else {
+                        mdui.snackbar({
+                            message: data["msg"],
+                            position: 'right-top'
+                        });
+                        $("#redeem1_btn").attr("disabled", false);
+                    }
+                },
+                error: function (data) {
+                    mdui.snackbar({
+                        message: '兑换失败！' + data["msg"],
+                        position: 'right-top'
+                    });
+                    $("#redeem1_btn").attr("disabled", false);
+                }
+            });
+        }
+
         $("#reflink").click(function () {
             var clipboard = new ClipboardJS('#reflink');
             clipboard.on('success', function (e) {
