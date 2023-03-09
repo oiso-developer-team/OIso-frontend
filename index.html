@@ -2456,9 +2456,9 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
 
                             <!-- 指示符 -->
                             <ul class="carousel-indicators">
-                                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                <!-- <li data-target="#demo" data-slide-to="0" class="active"></li>
                                 <li data-target="#demo" data-slide-to="1"></li>
-                                <li data-target="#demo" data-slide-to="2"></li>
+                                <li data-target="#demo" data-slide-to="2"></li> -->
                             </ul>
 
                             <!-- 轮播图片 -->
@@ -2476,13 +2476,22 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
 
                             <script>
                                 window['carousels'] = [
-                                    'https://cn.bing.com/th?id=OHR.WaimeaRainbow_EN-US1376447893_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4&pid=hp&w=384&h=216&rs=1&c=4',
-                                    'https://cn.bing.com/th?id=OHR.IntlWomensDayChange_EN-US1089722389_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4&pid=hp&w=384&h=216&rs=1&c=4'
+                                    'https://s2.loli.net/2023/03/09/juQSlhVcsprzyiP.png',
+                                    'https://s2.loli.net/2023/03/09/dKseN2UiR9Mkj17.png'
                                 ];
+                                window['carousel_links'] = [
+                                    'https://afdian.net/a/diyanqi',
+                                    'https://tamper.oiso.cf/tamperoiso.user.js'
+                                ]
                                 document.getElementsByClassName('carousel-inner')[0].innerHTML = carousels.map((item, index) => {
                                     return `<div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                        <img src="${item}">
+                                        <a href="${carousel_links[index]}" target="_blank">
+                                            <img src="${item}">
+                                        </a>
                                     </div>`
+                                }).join('');
+                                document.getElementsByClassName('carousel-indicators')[0].innerHTML = carousels.map((item, index) => {
+                                    return `<li data-target="#demo" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>`
                                 }).join('');
                             </script>
 
