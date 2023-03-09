@@ -20,6 +20,18 @@
         });
     </script>
 
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        /* Make the image fully responsive */
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
     <script>
         window['api'] = '//online.oiso.cf';
     </script>
@@ -2036,11 +2048,11 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         <div class="mdui-dialog-title">签到领红包</div>
         <div class="mdui-dialog-content mdui-typo">
             <h3>每日签到心情好</h3>
-            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="dk_btn"
-                style="border-radius: 15px;" onclick="dk();">点我签到获取3积分</button>
+            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="dk_btn" style="border-radius: 15px;"
+                onclick="dk();">点我签到获取3积分</button>
             <h3>支付宝红包</h3>
             <p>您只需支付宝搜索「813197162」，或者通过支付宝扫描二维码，即可领取 OIso 官方每日红包。</p>
-            <img src="/img/redPacket.png"/>
+            <img src="/img/redPacket.png" />
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -2090,13 +2102,14 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <p>1. 每日打卡：+3积分</p>
             <p>2. 邀请1位新用户登录：+3积分</p>
             <p>您可以复制下方的 Markdown 发送给好友！发到犇犇，发到帖子下，发到任何合理合规的地方！</p>
-            <pre id="reflink">通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=222419)← 登录 OIso 官网，免费领取 3 积分，也能为我助力！</pre>
+            <pre
+                id="reflink">通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=222419)← 登录 OIso 官网，免费领取 3 积分，也能为我助力！</pre>
             <p>3. 安装油猴脚本：+5积分</p>
             <p>油猴脚本点击右边链接安装：<a href="https://tamper.oiso.cf/tamperoiso.user.js" target="_blank">tamperOIso</a></p>
             <h3>兑换会员</h3>
             <p>1. 25 积分兑换 3 天 Premium 会员！</p>
-            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="redeem1_btn"
-                style="border-radius: 15px;" onclick="redeem1();">点击兑换 3 天 Premium 会员！</button>
+            <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="redeem1_btn" style="border-radius: 15px;"
+                onclick="redeem1();">点击兑换 3 天 Premium 会员！</button>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -2152,7 +2165,7 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                 });
             });
         });
-        function get_my_rewards(){
+        function get_my_rewards() {
             $.ajax({
                 url: window["api"] + "/rewards/getmine",
                 type: "GET",
@@ -2427,7 +2440,8 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                 </div>
                 <div class="mdui-col-xs-12 mdui-col-md-4">
                     <div class="mdui-card">
-                        <div id="media" class="mdui-card-media" style="border-radius: 20px;overflow: hidden;">
+                        <div hidden="hidden" id="media" class="mdui-card-media"
+                            style="border-radius: 20px;overflow: hidden;">
                             <!-- <div class="mdui-card-media-content">
                                 <div class="mdui-card-primary">
                                     <div class="mdui-card-primary-subtitle" id="sub">云听歌</div>
@@ -2435,6 +2449,51 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                             </div> -->
                             <img id="liveimg" src="https://via.placeholder.com/1920x1080" />
                             <!-- <iframe id="live" src="/musicPlayer/index.html" width="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
+                        </div>
+                        <!-- 轮播图 -->
+
+                        <div id="demo" class="carousel slide" data-ride="carousel">
+
+                            <!-- 指示符 -->
+                            <ul class="carousel-indicators">
+                                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                <li data-target="#demo" data-slide-to="1"></li>
+                                <li data-target="#demo" data-slide-to="2"></li>
+                            </ul>
+
+                            <!-- 轮播图片 -->
+                            <div class="carousel-inner">
+                                <!-- <div class="carousel-item active">
+                                    <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg">
+                                </div> -->
+                            </div>
+
+                            <script>
+                                window['carousels'] = [
+                                    'https://cn.bing.com/th?id=OHR.WaimeaRainbow_EN-US1376447893_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4&pid=hp&w=384&h=216&rs=1&c=4',
+                                    'https://cn.bing.com/th?id=OHR.IntlWomensDayChange_EN-US1089722389_UHD.jpg&rf=LaDigue_UHD.jpg&pid=hp&w=3840&h=2160&rs=1&c=4&pid=hp&w=384&h=216&rs=1&c=4'
+                                ];
+                                document.getElementsByClassName('carousel-inner')[0].innerHTML = carousels.map((item, index) => {
+                                    return `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                        <img src="${item}">
+                                    </div>`
+                                }).join('');
+                            </script>
+
+                            <!-- 左右切换按钮 -->
+                            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#demo" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+
                         </div>
                     </div>
                     <br />
