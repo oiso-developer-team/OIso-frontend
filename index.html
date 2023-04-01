@@ -1977,6 +1977,31 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
 
+    <div class="mdui-dialog" id="dialog-thanks" style="border-radius: 20px;">
+        <div class="mdui-dialog-title">鸣谢名单</div>
+        <div class="mdui-dialog-content mdui-typo">
+            <p>感谢以下同学赞助 OIso ！您的支持是开发者的不懈动力！</p>
+            <ul class="mdui-list">
+                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/541095');">
+                    <div class="mdui-list-item-avatar">
+                      <img src="https://cdn.luogu.com.cn/upload/usericon/541095.png"/>
+                    </div>
+                    <div class="mdui-list-item-content">@CR7_houyetong</div>
+                </li>
+                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/719939');">
+                  <div class="mdui-list-item-avatar">
+                    <img src="https://cdn.luogu.com.cn/upload/usericon/719939.png"/>
+                  </div>
+                  <div class="mdui-list-item-content">@a12a</div>
+                </li>
+            </ul>
+        </div>
+        <div class="mdui-divider"></div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" style="border-radius: 15px;">完成</button>
+        </div>
+    </div>
+
     <div class="mdui-dialog" id="dialog-redeem" style="border-radius: 20px;">
         <div class="mdui-dialog-title">兑换代码</div>
         <div class="mdui-dialog-content mdui-typo">
@@ -2361,15 +2386,14 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-mylive'}" onclick="get_mylive_detail();"
-                                        disabled>
+                                        mdui-dialog="{target: '#dialog-mylive'}" onclick="get_mylive_detail();">
                                         <i class="mdui-icon mdui-icon-left material-icons">live_tv</i>
                                         我要直播
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
                                     <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
-                                        mdui-dialog="{target: '#dialog-livelist'}" onclick="get_live_list();" disabled>
+                                        mdui-dialog="{target: '#dialog-livelist'}" onclick="get_live_list();">
                                         <i class="mdui-icon mdui-icon-left material-icons">tv</i>
                                         直播选台
                                     </button>
@@ -2409,6 +2433,13 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                         mdui-dialog="{target: '#dialog-redeem'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">redeem</i>
                                         兑换代码
+                                    </button>
+                                </div>
+                                <div class="mdui-col icon-code-wrap">
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple"
+                                        mdui-dialog="{target: '#dialog-thanks'}">
+                                        <i class="mdui-icon mdui-icon-left material-icons">whatshot</i>
+                                        鸣谢名单
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
