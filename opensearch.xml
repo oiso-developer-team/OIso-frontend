@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>OIso</ShortName>
+  <Description>一款为 OIer 和开发者而生的搜索引擎</Description>
+  <Image height="16" width="16" type="image/svg+xml">https://www.oiso.cf/img/favicon.svg</Image>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Url type="text/html" method="get" template="https://www.oiso.cf/search/?q={searchTerms}">
+    <Param name="q" value="{searchTerms}" />
+  </Url>
+  <Query role="example" searchTerms="搜索关键字" />
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+</OpenSearchDescription>
