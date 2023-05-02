@@ -4095,16 +4095,24 @@
 	}), i.default = r;
 	var o = e(2);
 	var requestCache = {};
+    // use LocalStorage to cache the request
+    // if the request is already cached, return the cached response
+    // otherwise, send the request and cache the response
 	r.prototype.loadBytes = function(t, i) {
-		if (requestCache[t] !== undefined) {
-			i(requestCache[t]);
-			return;
-		}
+		// if (requestCache[t] !== undefined) {
+		// 	i(requestCache[t]);
+		// 	return;
+		// }
+        if (localStorage.getItem(t) !== null) {
+            i(localStorage.getItem(t));
+            return;
+        }
 		var e = new XMLHttpRequest;
 		e.open("GET", t, !0), e.responseType = "arraybuffer", e.onload = function() {
 			switch (e.status) {
 				case 200:
-					requestCache[t] = e.response;
+					// requestCache[t] = e.response;
+                    localStorage.setItem(t, e.response);
 					i(e.response);
 					break;
 				default:
