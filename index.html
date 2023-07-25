@@ -1981,50 +1981,37 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         <div class="mdui-dialog-title">鸣谢名单</div>
         <div class="mdui-dialog-content mdui-typo">
             <p>感谢以下同学赞助 OIso ！您的支持是开发者的不懈动力！</p>
-            <ul class="mdui-list">
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/541095');">
-                    <div class="mdui-list-item-avatar">
-                      <img src="https://cdn.luogu.com.cn/upload/usericon/541095.png"/>
-                    </div>
-                    <div class="mdui-list-item-content">@CR7_houyetong</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/719939');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/719939.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@a12a</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/765440');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/765440.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@hycJuRuo</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/231343');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/231343.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@Icedpiggy</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/632128');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/632128.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@niceeeeeeeeeeee</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/874567');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/874567.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@WMH922</div>
-                </li>
-                <li class="mdui-list-item mdui-ripple" onclick="window.open('https://www.luogu.com.cn/user/609249');">
-                  <div class="mdui-list-item-avatar">
-                    <img src="https://cdn.luogu.com.cn/upload/usericon/609249.png"/>
-                  </div>
-                  <div class="mdui-list-item-content">@__Walter_Fang__</div>
-                </li>
-            </ul>
+            <ul class="mdui-list" id="thx"></ul>
+            <script>
+                const lst = [
+                    [325014, "liuliuabc"],
+                    [541095, "CR7_houyetong"],
+                    [719939, "a12a"],
+                    [765440, "hycJuRuo"],
+                    [231343, "Icedpiggy"],
+                    [632128, "niceeeeeeeeeeee"],
+                    [874567, "WMH922"],
+                    [609249, "__Walter_Fang__"],
+                ];
+                var thx = document.getElementById("thx");
+                thx.innerHTML = "";
+                for (var i = 0; i < lst.length; i++) {
+                    var item = document.createElement("li");
+                    item.className = "mdui-list-item mdui-ripple";
+                    item.setAttribute("onclick", "window.open('https://www.luogu.com.cn/user/" + lst[i][0] + "');");
+                    var item_avatar = document.createElement("div");
+                    item_avatar.className = "mdui-list-item-avatar";
+                    var item_avatar_img = document.createElement("img");
+                    item_avatar_img.src = "https://cdn.luogu.com.cn/upload/usericon/" + lst[i][0] + ".png";
+                    item_avatar.appendChild(item_avatar_img);
+                    var item_content = document.createElement("div");
+                    item_content.className = "mdui-list-item-content";
+                    item_content.innerText = "@" + lst[i][1];
+                    item.appendChild(item_avatar);
+                    item.appendChild(item_content);
+                    thx.appendChild(item);
+                }
+            </script>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
