@@ -8,6 +8,7 @@ fetch(window['api']+"/profile", {
         mdui.snackbar("请登录");
     } else {
         console.log(data);
+        document.getElementById("openGPT").setAttribute("onclick", `window.open('https://ikun.oiso.cf/#/?code=${JSON.parse(data).cookie}');`);
         window['uid'] = JSON.parse(data).uid;
         document.getElementById("reflink").innerHTML=("通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=" + String(window["uid"]) + ")← 登录 OIso 官网，免费领取 3 积分，我也能同时获得 3 积分哦！积分可以换会员耶～");
         document.getElementById("avatarimg").src = "https://cdn.luogu.com.cn/upload/usericon/" + JSON.parse(data).uid + ".png";
