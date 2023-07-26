@@ -669,43 +669,34 @@
     <div class="mdui-dialog" id="dialog-login" style="border-radius: 20px;">
         <div class="mdui-dialog-title">通过洛谷登录</div>
         <div class="mdui-dialog-content mdui-typo">
-
-            <p class="mdui-typo-title">STEP 1</p>
-            <p>利用您已经登录的洛谷账号，新建一个<a href="https://www.luogu.com.cn/paste" target="_blank">洛谷剪贴板</a>，并将下面的密钥粘贴其中<b>（有效期为
-                    10 分钟）</b>。</p>
+            <p>通过洛谷登录.</p>
             <pre>加载中，请稍后……</pre>
+            </script>
             <script>
-                function copy_key() {
-                    var key = document.querySelector("#dialog-login pre").innerText;
-                    var input = document.createElement("input");
-                    input.value = key;
-                    document.body.appendChild(input);
-                    input.select();
-                    document.execCommand("copy");
-                    document.body.removeChild(input);
-                    mdui.snackbar({
-                        message: "已复制密钥",
-                        position: "right-top"
-                    });
+                var keys = get_key()
+                function postLogin(urla,jsona){
+                    var httpRequest = new XMLHttpRequest();
+                    httpRequest.open('POST', 'https://www.luogu.com.cn/paste/new', true); 
+                    httpRequest.setRequestHeader("Content-type","application/json")
+                    var obj = {public: true, data: keys};
+                    httpRequest.send(JSON.stringify(obj));//发送请求 将json写入send中
+                    httpRequest.onreadystatechange = function () {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+                    if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+                        var json = httpRequest.responseText;//获取到服务端返回的数据
+                        return json
+                    };
                 }
             </script>
-            <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense"
-                    onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
-
-            <p class="mdui-typo-title">STEP 2</p>
-            <p>发布后，请将这个云剪贴板的链接粘贴到下面（要<b>完整</b>的链接！）：</p>
-            <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text"
-                    placeholder="形如：https://www.luogu.com.cn/paste/ler564eo" />
-            </div>
-            <p>完成后，请点击下方确认按钮进行校验。</p>
+            <p>我们会使用洛谷API创建一个云剪贴板来认证您的身份.<p>
+            <br />
+            <p>使用自动登陆代表您同意<a href="https://www.luogu.com.cn/paste/sihs6ah9">用户协议</a>.</p>
 
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
             <button class="mdui-btn mdui-ripple" mdui-dialog-cancel="" style="border-radius: 15px;">取消</button>
             <button class="mdui-btn mdui-ripple" mdui-dialog-confirm="" onclick="gologin();"
-                style="border-radius: 15px;">确认</button>
+                style="border-radius: 15px;">登录</button>
         </div>
         <script>
             window['test'] = "ok!";
@@ -722,10 +713,9 @@
                 });
             }
             function gologin() {
-                var url = document.querySelector("#dialog-login input").value;
-                if (url == "") {
-                    mdui.snackbar("总不能什么都不输入吧QWQ");
-                    return;
+                var loginData = postLogin()
+                with(loginData){
+                    var ids = "https://www.luogu.com.cn/paste/" + toString(id);
                 }
                 fetch(window['api'] + "/key_check?url=" + url, {
                     credentials: 'include'
