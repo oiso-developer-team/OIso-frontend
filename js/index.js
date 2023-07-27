@@ -11,8 +11,10 @@ fetch(window['api']+"/profile", {
         document.getElementById("openGPT").setAttribute("onclick", `window.open('https://ikun.oiso.cf/#/?code=${JSON.parse(data).cookie}');`);
         if(JSON.parse(data).vip.level != 0){
             document.getElementById("openGPT").removeAttribute("disabled");
+            document.getElementById("aipaint").removeAttribute("disabled");
         }else{
             document.getElementById("openGPT").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">chat</i>会员制GPT`;
+            document.getElementById("aipaint").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">sentiment_satisfied</i>会员制AI作图`
         }
         window['uid'] = JSON.parse(data).uid;
         document.getElementById("reflink").innerHTML=("通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=" + String(window["uid"]) + ")← 登录 OIso 官网，免费领取 3 积分，我也能同时获得 3 积分哦！积分可以换会员耶～");

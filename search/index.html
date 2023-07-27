@@ -10,8 +10,8 @@
     <script>
         window['api'] = '//online.oiso.cf'
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
-    crossorigin="anonymous"></script>
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
+    crossorigin="anonymous"></script> -->
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025" crossorigin="anonymous"></script> -->
     <!-- google 广告等页面加载完后再加载 -->
     <style>
@@ -654,6 +654,11 @@
                     window['type'] = type;
                     if (type == "all") urlbase = "search";
                     fetch(BASEURL + "/" + urlbase + "?q=" + getQueryVariable("q") + "&page=" + String(page) + "&sort=" + sort, { credentials: 'include' }).then(function (response) {
+                        // check 200
+                        if (response.status != 200) {
+                            mdui.snackbar("数据库发生错误，请刷新重试！" + response.status);
+                            return;
+                        }
                         return response.json();
                     }).then(function (data) {
                         console.log(data);
