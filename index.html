@@ -586,6 +586,7 @@
         function getRandomItem() {
             document.getElementById("randomBt").innerText = "正在获取";
             document.getElementById("randomBt").disabled = true;
+            document.getElementById("randomBt").style.color = "white";
             fetch(window['api'] + "/random", {
                 credentials: 'include'
             }).then(function (response) {
@@ -594,6 +595,7 @@
                 window.open(JSON.parse(data)['hits']['hits'][0]['_source']['url']);
                 document.getElementById("randomBt").innerText = "手气不错";
                 document.getElementById("randomBt").disabled = false;
+                document.getElementById("randomBt").removeAttribute("style");
             });
         }
     </script>
