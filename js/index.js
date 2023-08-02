@@ -71,7 +71,7 @@ fetch(window['api'] + "/profile", {
             }
         });
 
-        document.getElementById("updown").removeAttribute("hidden");
+        // document.getElementById("updown").removeAttribute("hidden");
         try {
             makeUserButton(data);
         } catch {
