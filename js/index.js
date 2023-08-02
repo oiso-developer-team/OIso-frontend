@@ -26,13 +26,13 @@ function makeUserButton(data) {
     // document.getElementById("lbt").remove();
     // mdui-dialog="{target: '#dialog-logout'}"
     const userInfoDiv = document.getElementById("userInfo");
-    userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" onclick="" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>
+    userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>
     <ul class="mdui-menu" id="user-attr">
         <li class="mdui-menu-item">
-            <a href="javascript:;" class="mdui-ripple" id="userInfo-name" target="_blank">欢迎</a>
+            <a href="javascript:;" class="mdui-ripple" id="userInfo-name" target="_blank" style="font-size: smaller;">欢迎</a>
         </li>
         <li class="mdui-menu-item">
-            <a mdui-dialog="{target: '#dialog-vip'}" class="mdui-ripple" id="userInfo-vip">当前计划</a>
+            <a mdui-dialog="{target: '#dialog-vip'}" class="mdui-ripple" id="userInfo-vip" style="font-size: xx-small;">当前计划</a>
         </li>
         <li class="mdui-divider"></li>
         <li class="mdui-menu-item">
@@ -140,7 +140,7 @@ fetch(window['api'] + "/profile", {
         } catch {
             document.getElementById("lbt").innerHTML = "登出";
         }
-        document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
+        // document.getElementById("lbt").setAttribute("mdui-dialog", "{target: '#dialog-logout'}");
         document.getElementById("lbt").setAttribute("onclick", "");
         document.getElementById("happy").removeAttribute("hidden");
         window['stream'] = undefined;
