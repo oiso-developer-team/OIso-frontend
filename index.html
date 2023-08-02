@@ -591,7 +591,7 @@
             }).then(function (response) {
                 return response.text();
             }).then(function (data) {
-                window.open(JSON.parse(data)['hits']['hits'][0]['url']);
+                window.open(JSON.parse(data)['hits']['hits'][0]['_source']['url']);
                 document.getElementById("randomBt").innerText = "手气不错";
                 document.getElementById("randomBt").disabled = false;
             });
