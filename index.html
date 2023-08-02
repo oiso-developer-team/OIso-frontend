@@ -574,7 +574,8 @@
         <center style="transform: translateY(180px);">
             <button class="mdui-btn mdui-ripple mdui-color-blue-grey-100 mdui-btn-dense opcBt"
                 onclick="window.open('https://lg.oiso.cf/')">帖子保存</button>
-            <button class="mdui-btn mdui-ripple mdui-color-blue-grey-100 mdui-btn-dense opcBt">手气不错</button>
+            <button class="mdui-btn mdui-ripple mdui-color-blue-grey-100 mdui-btn-dense opcBt" id="randomBt"
+                onclick="getRandomItem();">手气不错</button>
         </center>
         <div id="suggestionContainer"
             style="height: auto; opacity: 1; display: block; position: absolute; top: 400px; left: 50%; transform: translateX(-50%); width: 584px;">
@@ -582,122 +583,137 @@
         </div>
     </div>
     <script>
+        function getRandomItem() {
+            document.getElementById("randomBt").innerText = "正在获取";
+            document.getElementById("randomBt").disabled = true;
+            fetch(window['api'] + "/random", {
+                credentials: 'include'
+            }).then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                window.open(JSON.parse(data)['hits']['hits'][0]['url']);
+                document.getElementById("randomBt").innerText = "手气不错";
+                document.getElementById("randomBt").disabled = false;
+            });
+        }
+    </script>
+    <script>
         // 编辑 .bg 中 background 的 URL 中的 random 参数以防止缓存
         // 例如：https://www.wxiou.cn/api/?blur=15&random=1234
         random = Math.random().toString(36).substring(2);
-        url = "https://www.wxiou.cn/api/?blur=15&random=" + random;
-        // make it important!
-        document.querySelector(".bg").style.background = "url(" + url + ") !important";
+            url = "https://www.wxiou.cn/api/?blur=15&random=" + random;
+            // make it important!
+            document.querySelector(".bg").style.background = "url(" + url + ") !important";
     </script>
     <script type="text/javascript">
-        // window['now'] = ''
-        // setInterval(function () { //每0.5秒刷新一次
-        //     var text = document.getElementById('inputBox').value;
-        //     if (text != window['now']) {
-        //         window['now'] = text;
-        //         getSuggest();
-        //     }
-        // }, 500); 
-        //获得文本框元素
-        var lostfocus = false;
-        var txtSearch = document.getElementById('inputBox');
-        window['onfunction'] = false;
-        //文本框得到焦点事件 onfocus()
-        txtSearch.onfocus = function () {
-            window['onfunction'] = true;
-            document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-7");
-            // 如果不为空
-            if (txtSearch.value != '') {
-                // 显示搜索建议
-                getSuggest();
-            }
-        }
-        //文本框失去焦点事件 onblur()
-        txtSearch.onblur = function () {
+            // window['now'] = ''
+            // setInterval(function () { //每0.5秒刷新一次
+            //     var text = document.getElementById('inputBox').value;
+            //     if (text != window['now']) {
+            //         window['now'] = text;
+            //         getSuggest();
+            //     }
+            // }, 500); 
+            //获得文本框元素
+            var lostfocus = false;
+            var txtSearch = document.getElementById('inputBox');
             window['onfunction'] = false;
-            document.getElementById("container").setAttribute("class", "box mdui-hoverable");
-        }
+            //文本框得到焦点事件 onfocus()
+            txtSearch.onfocus = function () {
+                window['onfunction'] = true;
+                document.getElementById("container").setAttribute("class", "box mdui-hoverable mdui-shadow-7");
+                // 如果不为空
+                if (txtSearch.value != '') {
+                    // 显示搜索建议
+                    getSuggest();
+                }
+            }
+            //文本框失去焦点事件 onblur()
+            txtSearch.onblur = function () {
+                window['onfunction'] = false;
+                document.getElementById("container").setAttribute("class", "box mdui-hoverable");
+            }
     </script>
     <!-- MDUI JavaScript -->
     <script src="http://unpkg.zhimg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
     <script>
-        let zy = ["小黑子，露出鸡脚了吧~", "Bebe~oh~", "🐔你太美"]
-        function go() {
-            var value = document.getElementById("inputBox").value;
-            if (value == '') {
-                mdui.snackbar(zy[Math.floor(Math.random() * 3)]);
-            } else {
-                location.href = "/search?q=" + encodeURIComponent(document.getElementById("inputBox").value)
-            }
-        }
-        let sugStatus = false;
-        function getSuggest() {
-            if (sugStatus === true) {
-                return;
-            }
-            var myurl = `${window['api']}/suggestion?q=${$("#inputBox")[0].value}`;
-            console.log(myurl);
-            sugStatus = true;
-            $.ajax({
-                url: myurl, success: (data) => {
-                    lostfocus = false;
-                    // data = $.parseJSON(data);
-                    console.log(data);
-                    let hits = data.hits.hits;
-                    $("#suggestionContainer").empty();
-                    let sel = $("#suggestionContainer");
-                    for (const hit in hits) {
-                        console.log(hits[hit]._id);
-                        sel.append(`<div onclick="gosug('${hits[hit]._source.name}')">${hits[hit]._source.name}</div>`);
-                    }
-                    if (lostfocus) {
-                        $("#suggestionContainer").empty();
-                        lostfocus = false;
-                    }
-                    sugStatus = false;
-                }, error: () => {
-                    console.log("获取提示信息失败...");
-                    sugStatus = false;
+            let zy = ["小黑子，露出鸡脚了吧~", "Bebe~oh~", "🐔你太美"]
+            function go() {
+                var value = document.getElementById("inputBox").value;
+                if (value == '') {
+                    mdui.snackbar(zy[Math.floor(Math.random() * 3)]);
+                } else {
+                    location.href = "/search?q=" + encodeURIComponent(document.getElementById("inputBox").value)
                 }
-            });
-        }
-        // 当inputBox的内容发生变化
-        $("#inputBox").bind('input propertychange', function () {
-            if (window['onfunction'] === true) {
-                setTimeout(function () {
-                    getSuggest();
-                }, 200);
             }
-        })
-        function gosug(name) {
-            console.log("gosug" + name)
-            $("#inputBox")[0].value = name;
-            go();
-        }
-        function getKey() {
-            if (event.keyCode == 13) {
+            let sugStatus = false;
+            function getSuggest() {
+                if (sugStatus === true) {
+                    return;
+                }
+                var myurl = `${window['api']}/suggestion?q=${$("#inputBox")[0].value}`;
+                console.log(myurl);
+                sugStatus = true;
+                $.ajax({
+                    url: myurl, success: (data) => {
+                        lostfocus = false;
+                        // data = $.parseJSON(data);
+                        console.log(data);
+                        let hits = data.hits.hits;
+                        $("#suggestionContainer").empty();
+                        let sel = $("#suggestionContainer");
+                        for (const hit in hits) {
+                            console.log(hits[hit]._id);
+                            sel.append(`<div onclick="gosug('${hits[hit]._source.name}')">${hits[hit]._source.name}</div>`);
+                        }
+                        if (lostfocus) {
+                            $("#suggestionContainer").empty();
+                            lostfocus = false;
+                        }
+                        sugStatus = false;
+                    }, error: () => {
+                        console.log("获取提示信息失败...");
+                        sugStatus = false;
+                    }
+                });
+            }
+            // 当inputBox的内容发生变化
+            $("#inputBox").bind('input propertychange', function () {
+                if (window['onfunction'] === true) {
+                    setTimeout(function () {
+                        getSuggest();
+                    }, 200);
+                }
+            })
+            function gosug(name) {
+                console.log("gosug" + name)
+                $("#inputBox")[0].value = name;
                 go();
             }
-        }
+            function getKey() {
+                if (event.keyCode == 13) {
+                    go();
+                }
+            }
     </script>
     <script>
-        fetch(window['api']).then(function (response) {
-            return response.text();
-        }).then(function (data) {
-            // console.log(data);
-            if (data != `OIso 2023. All rights reserved.`) {
-                mdui.snackbar("服务器消息：" + data);
-            }
-        }).catch((error) => {
-            mdui.snackbar({
-                message: '服务器炸了：' + error + '，快去轰炸管理员！',
-                buttonText: '查看宕机监测',
-                onButtonClick: function () {
-                    window.open('https://stats.uptimerobot.com/JRlkxCB95r')
+            fetch(window['api']).then(function (response) {
+                return response.text();
+            }).then(function (data) {
+                // console.log(data);
+                if (data != `OIso 2023. All rights reserved.`) {
+                    mdui.snackbar("服务器消息：" + data);
                 }
+            }).catch((error) => {
+                mdui.snackbar({
+                    message: '服务器炸了：' + error + '，快去轰炸管理员！',
+                    buttonText: '查看宕机监测',
+                    onButtonClick: function () {
+                        window.open('https://stats.uptimerobot.com/JRlkxCB95r')
+                    }
+                });
+                // console.error('Server Error: ', error);
             });
-            // console.error('Server Error: ', error);
-        });
     </script>
 
     <!-- <div id="footer" style="position: absolute; bottom: 0; left: 50%; transform: translate(-50%, -50%);">
@@ -727,22 +743,22 @@
         <i class="mdui-icon material-icons">keyboard_arrow_down</i>
     </button>
     <script>
-        window['nowpage'] = 0;
-        function switch_page() {
-            if (window['nowpage'] == 0) {
-                window['nowpage'] = 1;
-                // 平滑地滑到页底
-                $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
-                // 将箭头换个方向
-                $(".mdui-fab i").html("keyboard_arrow_up");
-            } else if (window['nowpage'] == 1) {
-                window['nowpage'] = 0;
-                // 平滑地滑到页顶
-                $('html, body').animate({ scrollTop: 0 }, 'slow');
-                // 将箭头换个方向
-                $(".mdui-fab i").html("keyboard_arrow_down");
+            window['nowpage'] = 0;
+            function switch_page() {
+                if (window['nowpage'] == 0) {
+                    window['nowpage'] = 1;
+                    // 平滑地滑到页底
+                    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+                    // 将箭头换个方向
+                    $(".mdui-fab i").html("keyboard_arrow_up");
+                } else if (window['nowpage'] == 1) {
+                    window['nowpage'] = 0;
+                    // 平滑地滑到页顶
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    // 将箭头换个方向
+                    $(".mdui-fab i").html("keyboard_arrow_down");
+                }
             }
-        }
     </script>
 
     <div class="mdui-dialog" id="dialog-logout" style="border-radius: 20px;">
@@ -785,19 +801,19 @@
                     10 分钟）</b>。</p>
             <pre>加载中，请稍后……</pre>
             <script>
-                function copy_key() {
-                    var key = document.querySelector("#dialog-login pre").innerText;
-                    var input = document.createElement("input");
-                    input.value = key;
-                    document.body.appendChild(input);
-                    input.select();
-                    document.execCommand("copy");
-                    document.body.removeChild(input);
-                    mdui.snackbar({
-                        message: "已复制密钥",
-                        position: "right-top"
-                    });
-                }
+            function copy_key() {
+                var key = document.querySelector("#dialog-login pre").innerText;
+                var input = document.createElement("input");
+                input.value = key;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand("copy");
+                document.body.removeChild(input);
+                mdui.snackbar({
+                    message: "已复制密钥",
+                    position: "right-top"
+                });
+            }
             </script>
             <p><button class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense"
                     onclick="copy_key();">【一键粘贴】</button>然后选择发布。注意要<b>公开</b>可见！</p>
@@ -1146,61 +1162,61 @@
     </div>
 
     <script>
-        document.addEventListener('click', e => {
-            // 如果点击的不是 suggestionContainer
-            var targ = e.target;
-            var myid = targ.id;
-            if (myid != 'suggestionContainer' && myid != 'inputBox') {
-                $("#suggestionContainer").empty();
-                lostfocus = true;
-            }
-            setTimeout(function () {
-                var radio = document.getElementsByTagName("input");
-                for (i = 0; i < radio.length; i++) {
-                    if (radio[i].checked) {
-                        // console.log(radio[i]);
-                        c = document.getElementsByTagName("body")[0].className.split(" ");
-                        for (j in c) {
-                            if (c[j].indexOf(radio[i].name) != -1) {
-                                document.getElementsByTagName("body")[0].classList.remove(c[j]);
-                            }
-                        }
-                        document.getElementsByTagName("body")[0].classList.add("mdui-" + radio[i].name + "-" + radio[i].value);
-                        window.localStorage.setItem(radio[i].name, radio[i].value);
-                    }
+            document.addEventListener('click', e => {
+                // 如果点击的不是 suggestionContainer
+                var targ = e.target;
+                var myid = targ.id;
+                if (myid != 'suggestionContainer' && myid != 'inputBox') {
+                    $("#suggestionContainer").empty();
+                    lostfocus = true;
                 }
-                // console.log("log!");
-            }, 50);
-        })
+                setTimeout(function () {
+                    var radio = document.getElementsByTagName("input");
+                    for (i = 0; i < radio.length; i++) {
+                        if (radio[i].checked) {
+                            // console.log(radio[i]);
+                            c = document.getElementsByTagName("body")[0].className.split(" ");
+                            for (j in c) {
+                                if (c[j].indexOf(radio[i].name) != -1) {
+                                    document.getElementsByTagName("body")[0].classList.remove(c[j]);
+                                }
+                            }
+                            document.getElementsByTagName("body")[0].classList.add("mdui-" + radio[i].name + "-" + radio[i].value);
+                            window.localStorage.setItem(radio[i].name, radio[i].value);
+                        }
+                    }
+                    // console.log("log!");
+                }, 50);
+            })
     </script>
     <script>
-        var radio = document.getElementsByTagName("input");
-        for (i = 0; i < radio.length; i++) {
-            if (radio[i].checked) {
-                if (window.localStorage.getItem(radio[i].name) != radio[i].value) {
-                    radio[i].removeAttribute("checked");
-                }
-            } else {
-                if (window.localStorage.getItem(radio[i].name) == radio[i].value) {
-                    radio[i].setAttribute("checked", "checked");
-                }
-            }
-        }
-
-        var radio = document.getElementsByTagName("input");
-        for (i = 0; i < radio.length; i++) {
-            if (radio[i].checked) {
-                // console.log(radio[i]);
-                c = document.getElementsByTagName("body")[0].className.split(" ");
-                for (j in c) {
-                    if (c[j].indexOf(radio[i].name) != -1) {
-                        document.getElementsByTagName("body")[0].classList.remove(c[j]);
+            var radio = document.getElementsByTagName("input");
+            for (i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    if (window.localStorage.getItem(radio[i].name) != radio[i].value) {
+                        radio[i].removeAttribute("checked");
+                    }
+                } else {
+                    if (window.localStorage.getItem(radio[i].name) == radio[i].value) {
+                        radio[i].setAttribute("checked", "checked");
                     }
                 }
-                document.getElementsByTagName("body")[0].classList.add("mdui-" + radio[i].name + "-" + radio[i].value);
-                window.localStorage.setItem(radio[i].name, radio[i].value);
             }
-        }
+
+            var radio = document.getElementsByTagName("input");
+            for (i = 0; i < radio.length; i++) {
+                if (radio[i].checked) {
+                    // console.log(radio[i]);
+                    c = document.getElementsByTagName("body")[0].className.split(" ");
+                    for (j in c) {
+                        if (c[j].indexOf(radio[i].name) != -1) {
+                            document.getElementsByTagName("body")[0].classList.remove(c[j]);
+                        }
+                    }
+                    document.getElementsByTagName("body")[0].classList.add("mdui-" + radio[i].name + "-" + radio[i].value);
+                    window.localStorage.setItem(radio[i].name, radio[i].value);
+                }
+            }
         // console.log("log2!");
     </script>
 
@@ -1233,46 +1249,46 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        // pendanturl的内容发生变化时：
-        $("#pendanturl").bind('input propertychange', function () {
-            // console.log("log!");
-            $("#pendantimg").attr("src", $("#pendanturl").val());
-        });
-        function get_pendant() {
-            var url = window['api'] + "/pendant/get?uid=" + String(window['uid']);
-            console.log(url);
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (data) {
-                    console.log(data);
-                    if (data == 'False') {
-                        mdui.snackbar("您还没有设置头像挂件捏");
-                    } else {
-                        document.getElementById("pendanturl").value = data;
-                        document.getElementById("pendantimg").src = data;
-                    }
-                }
+            // pendanturl的内容发生变化时：
+            $("#pendanturl").bind('input propertychange', function () {
+                // console.log("log!");
+                $("#pendantimg").attr("src", $("#pendanturl").val());
             });
-        }
-        function save_pendant() {
-            var url = window['api'] + "/pendant/edit?url=" + $("#pendanturl").val();
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data == 'True') {
-                        mdui.snackbar("设置成功");
-                    } else {
-                        mdui.snackbar(data);
+            function get_pendant() {
+                var url = window['api'] + "/pendant/get?uid=" + String(window['uid']);
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data);
+                        if (data == 'False') {
+                            mdui.snackbar("您还没有设置头像挂件捏");
+                        } else {
+                            document.getElementById("pendanturl").value = data;
+                            document.getElementById("pendantimg").src = data;
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
+            function save_pendant() {
+                var url = window['api'] + "/pendant/edit?url=" + $("#pendanturl").val();
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data == 'True') {
+                            mdui.snackbar("设置成功");
+                        } else {
+                            mdui.snackbar(data);
+                        }
+                    }
+                });
+            }
     </script>
 
     <div class="mdui-dialog" id="dialog-editTag" style="border-radius: 20px;">
@@ -1488,10 +1504,10 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        let at = "@";
-        let email_address = "diyanqi" + at + "qq.com";
-        document.getElementById("email").setAttribute("href", "mailto:" + email_address);
-        document.getElementById("email").innerText = email_address;
+            let at = "@";
+            let email_address = "diyanqi" + at + "qq.com";
+            document.getElementById("email").setAttribute("href", "mailto:" + email_address);
+            document.getElementById("email").innerText = email_address;
     </script>
 
     <div class="mdui-dialog" id="dialog-spider-status" style="border-radius: 20px;">
@@ -1519,19 +1535,19 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
     </div>
 
     <script>
-        function start_live() {
-            // 将云听歌换成 /live
-            try {
-                document.getElementById("live").setAttribute("src", "/live/index.html");
-            } catch (e) {
-                console.log("云听歌不存在");
+            function start_live() {
+                // 将云听歌换成 /live
+                try {
+                    document.getElementById("live").setAttribute("src", "/live/index.html");
+                } catch (e) {
+                    console.log("云听歌不存在");
+                }
+                try {
+                    document.getElementById("livebot").setAttribute("src", "/live/index.html");
+                } catch (e) {
+                    console.log("云听歌不存在");
+                }
             }
-            try {
-                document.getElementById("livebot").setAttribute("src", "/live/index.html");
-            } catch (e) {
-                console.log("云听歌不存在");
-            }
-        }
     </script>
 
     <div class="mdui-dialog" id="dialog-mylive" style="border-radius: 20px;">
@@ -1580,102 +1596,102 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function get_mylive_detail() {
-            var uidstr = String(window["uid"]);
-            document.getElementById("live_dialog_title").innerText = "用户 " + uidstr + " 的直播间信息";
-            var url = window['api'] + "/live/detail?room=" + uidstr;
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
-                        var detail = data["data"];
-                        document.getElementById("title").value = detail["title"];
-                        document.getElementById("desc").value = detail["desc"];
-                        document.getElementById("coverurl").value = detail["cover"];
-                        document.getElementById("category").value = detail["category"];
-                        mdui.mutation();
-                        get_stream_key();
-                    } else {
-                        window['first_time'] = true;
-                        mdui.snackbar("这是你第一次创建直播间，快去填写信息吧！")
-                    }
-                },
-                error: function (data) {
-                    mdui.snackbar("获取直播间信息失败！")
-                }
-            });
-        }
-        function submit_liveinfo() {
-            var uidstr = String(window["uid"]);
-            var title = document.getElementById("title").value;
-            var desc = document.getElementById("desc").value;
-            var cover = document.getElementById("coverurl").value;
-            var category = document.getElementById("category").value;
-            var url = window['api'] + "/live/register";
-            $.ajax({
-                url: url,
-                type: "POST",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                data: {
-                    "title": title,
-                    "desc": desc,
-                    "cover": cover,
-                    "category": category
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
-                        if (window['first_time']) {
-                            window['first_time'] = false;
-                            mdui.snackbar("创建成功！刷新页面并重新打开此窗口即可获得推流地址！")
+            function get_mylive_detail() {
+                var uidstr = String(window["uid"]);
+                document.getElementById("live_dialog_title").innerText = "用户 " + uidstr + " 的直播间信息";
+                var url = window['api'] + "/live/detail?room=" + uidstr;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            var detail = data["data"];
+                            document.getElementById("title").value = detail["title"];
+                            document.getElementById("desc").value = detail["desc"];
+                            document.getElementById("coverurl").value = detail["cover"];
+                            document.getElementById("category").value = detail["category"];
+                            mdui.mutation();
+                            get_stream_key();
                         } else {
-                            mdui.snackbar("编辑成功！")
+                            window['first_time'] = true;
+                            mdui.snackbar("这是你第一次创建直播间，快去填写信息吧！")
                         }
-                    } else {
-                        if (window['first_time']) {
-                            window['first_time'] = false;
-                            mdui.snackbar("创建失败！")
-                        } else {
-                            mdui.snackbar("编辑失败！")
-                        }
+                    },
+                    error: function (data) {
+                        mdui.snackbar("获取直播间信息失败！")
                     }
-                },
-                error: function (data) {
-                    mdui.snackbar("编辑失败！")
-                }
-            });
-        }
-        function get_stream_key() {
-            var uidstr = String(window["uid"]);
-            var url = window['api'] + "/live/rtmpurl";
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
-                        var detail = data;
-                        document.getElementById("baseurl").innerText = detail["baseurl"];
-                        document.getElementById("streamkey").innerText = detail["key"];
-                    } else {
+                });
+            }
+            function submit_liveinfo() {
+                var uidstr = String(window["uid"]);
+                var title = document.getElementById("title").value;
+                var desc = document.getElementById("desc").value;
+                var cover = document.getElementById("coverurl").value;
+                var category = document.getElementById("category").value;
+                var url = window['api'] + "/live/register";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: {
+                        "title": title,
+                        "desc": desc,
+                        "cover": cover,
+                        "category": category
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            if (window['first_time']) {
+                                window['first_time'] = false;
+                                mdui.snackbar("创建成功！刷新页面并重新打开此窗口即可获得推流地址！")
+                            } else {
+                                mdui.snackbar("编辑成功！")
+                            }
+                        } else {
+                            if (window['first_time']) {
+                                window['first_time'] = false;
+                                mdui.snackbar("创建失败！")
+                            } else {
+                                mdui.snackbar("编辑失败！")
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        mdui.snackbar("编辑失败！")
+                    }
+                });
+            }
+            function get_stream_key() {
+                var uidstr = String(window["uid"]);
+                var url = window['api'] + "/live/rtmpurl";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            var detail = data;
+                            document.getElementById("baseurl").innerText = detail["baseurl"];
+                            document.getElementById("streamkey").innerText = detail["key"];
+                        } else {
+                            mdui.snackbar("获取推流地址失败！")
+                        }
+                    },
+                    error: function (data) {
                         mdui.snackbar("获取推流地址失败！")
                     }
-                },
-                error: function (data) {
-                    mdui.snackbar("获取推流地址失败！")
-                }
-            });
-        }
+                });
+            }
     </script>
 
     <div class="mdui-dialog" id="dialog-livelist" style="border-radius: 20px;">
@@ -1698,93 +1714,93 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function get_live_list() {
-            var url = window['api'] + "/live/list";
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
-                        var detail = data["data"];
-                        var list = document.getElementsByClassName("mdui-list")[0];
-                        list.innerHTML = "";
-                        for (var i = 0; i < detail.length; i++) {
-                            var item = document.createElement("li");
-                            item.className = "mdui-list-item mdui-ripple";
-                            item.setAttribute("onclick", "watchlive('" + detail[i]["roomid"] + "');");
-                            var item_content = document.createElement("div");
-                            item_content.className = "mdui-list-item-content";
-                            var item_title = document.createElement("div");
-                            item_title.className = "mdui-list-item-title mdui-list-item-one-line";
-                            item_title.innerText = detail[i]["title"];
-                            var item_text = document.createElement("div");
-                            item_text.className = "mdui-list-item-text mdui-list-item-two-line";
-                            item_text.innerText = detail[i]["desc"];
-                            item_content.appendChild(item_title);
-                            item_content.appendChild(item_text);
-                            item.appendChild(item_content);
-                            list.appendChild(item);
+            function get_live_list() {
+                var url = window['api'] + "/live/list";
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            var detail = data["data"];
+                            var list = document.getElementsByClassName("mdui-list")[0];
+                            list.innerHTML = "";
+                            for (var i = 0; i < detail.length; i++) {
+                                var item = document.createElement("li");
+                                item.className = "mdui-list-item mdui-ripple";
+                                item.setAttribute("onclick", "watchlive('" + detail[i]["roomid"] + "');");
+                                var item_content = document.createElement("div");
+                                item_content.className = "mdui-list-item-content";
+                                var item_title = document.createElement("div");
+                                item_title.className = "mdui-list-item-title mdui-list-item-one-line";
+                                item_title.innerText = detail[i]["title"];
+                                var item_text = document.createElement("div");
+                                item_text.className = "mdui-list-item-text mdui-list-item-two-line";
+                                item_text.innerText = detail[i]["desc"];
+                                item_content.appendChild(item_title);
+                                item_content.appendChild(item_text);
+                                item.appendChild(item_content);
+                                list.appendChild(item);
+                            }
+                            mdui.mutation();
+                        } else {
+                            mdui.snackbar("获取直播列表失败！")
                         }
-                        mdui.mutation();
-                    } else {
+                    },
+                    error: function (data) {
                         mdui.snackbar("获取直播列表失败！")
                     }
-                },
-                error: function (data) {
-                    mdui.snackbar("获取直播列表失败！")
-                }
-            });
-        }
-        function watchlive(roomid) {
-            window['live_chosen'] = roomid;
-            document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
+                });
+            }
+            function watchlive(roomid) {
+                window['live_chosen'] = roomid;
+                document.getElementById("mediadiv").innerHTML = `<div class="mainContainer" id="mainContain">
                 <video id="videoElement" class="centeredVideo" controls 
                 style="height: 333px; width: 100%; object-fit: fill;"
                 >Your browser is too old to
                     support HTML5 video.</video>
             </div>`;
-            setTimeout(function () {
-                setup_stream_user(roomid);
-            }, 100);
-            setTimeout(function () {
-                if (document.getElementById("videoElement").paused) {
-                    mdui.snackbar({
-                        message: '播放不通畅？试试刷新页面！',
-                        buttonText: '立即刷新',
-                        onButtonClick: function () {
-                            window.location.reload();
+                setTimeout(function () {
+                    setup_stream_user(roomid);
+                }, 100);
+                setTimeout(function () {
+                    if (document.getElementById("videoElement").paused) {
+                        mdui.snackbar({
+                            message: '播放不通畅？试试刷新页面！',
+                            buttonText: '立即刷新',
+                            onButtonClick: function () {
+                                window.location.reload();
+                            }
+                        });
+                    }
+                }, 5000);
+            }
+            function setup_stream_user(roomid) {
+                url = window['api'] + "/live/detail?room=" + roomid;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            setup_stream(data["urls"]["flv"]);
+                            document.getElementById("stream_title").innerText = data["data"]["title"] + " - 用户 " + String(data["data"]["uid"]);
+                        } else {
+                            mdui.snackbar("获取直播地址失败！")
                         }
-                    });
-                }
-            }, 5000);
-        }
-        function setup_stream_user(roomid) {
-            url = window['api'] + "/live/detail?room=" + roomid;
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
-                        setup_stream(data["urls"]["flv"]);
-                        document.getElementById("stream_title").innerText = data["data"]["title"] + " - 用户 " + String(data["data"]["uid"]);
-                    } else {
+                    },
+                    error: function (data) {
                         mdui.snackbar("获取直播地址失败！")
                     }
-                },
-                error: function (data) {
-                    mdui.snackbar("获取直播地址失败！")
-                }
-            });
-        }
-        get_live_list();
+                });
+            }
+            get_live_list();
     </script>
 
     <div class="mdui-dialog" id="dialog-aidraw" style="border-radius: 20px;">
@@ -1844,45 +1860,45 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function aidraw_submit() {
-            // https://api.oiso.cf:2096/ai/waifu?desc=cat,girl
-            document.getElementById("aidb").disabled = true;
-            document.getElementById("aiprogress").hidden = false;
-            mdui.snackbar("已提交任务，大约需要 30 秒，请耐心等待！")
-            var desc = document.getElementById("live_dialog_input").value;
-            if (desc == "") {
-                mdui.snackbar("请输入作图提示词！");
-                return;
-            }
-            var url = window['api'] + "/ai/waifu?desc=" + desc;
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    document.getElementById("img1").src = data["img1"];
-                    document.getElementById("img2").src = data["img2"];
-                    mdui.snackbar("作图成功！");
-                    document.getElementById("aidb").disabled = false;
-                    document.getElementById("aiprogress").hidden = true;
-                },
-                error: function (data) {
-                    mdui.snackbar("作图失败！");
-                    document.getElementById("aidb").disabled = false;
-                    document.getElementById("aiprogress").hidden = true;
+            function aidraw_submit() {
+                // https://api.oiso.cf:2096/ai/waifu?desc=cat,girl
+                document.getElementById("aidb").disabled = true;
+                document.getElementById("aiprogress").hidden = false;
+                mdui.snackbar("已提交任务，大约需要 30 秒，请耐心等待！")
+                var desc = document.getElementById("live_dialog_input").value;
+                if (desc == "") {
+                    mdui.snackbar("请输入作图提示词！");
+                    return;
                 }
-            });
-        }
-        function down(id) {
-            var img = document.getElementById(id).src;
-            var a = document.createElement("a");
-            a.href = img;
-            a.download = "waifu.png";
-            a.click();
-        }
+                var url = window['api'] + "/ai/waifu?desc=" + desc;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        document.getElementById("img1").src = data["img1"];
+                        document.getElementById("img2").src = data["img2"];
+                        mdui.snackbar("作图成功！");
+                        document.getElementById("aidb").disabled = false;
+                        document.getElementById("aiprogress").hidden = true;
+                    },
+                    error: function (data) {
+                        mdui.snackbar("作图失败！");
+                        document.getElementById("aidb").disabled = false;
+                        document.getElementById("aiprogress").hidden = true;
+                    }
+                });
+            }
+            function down(id) {
+                var img = document.getElementById(id).src;
+                var a = document.createElement("a");
+                a.href = img;
+                a.download = "waifu.png";
+                a.click();
+            }
     </script>
 
     <div class="mdui-dialog" id="dialog-imgupload" style="border-radius: 20px;">
@@ -1926,67 +1942,67 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function copyToClip(content) {
-            var aux = document.createElement("input");
-            aux.setAttribute("value", content);
-            document.body.appendChild(aux);
-            aux.select();
-            document.execCommand("copy");
-            document.body.removeChild(aux);
-        }
-        document.getElementById("subup").onclick = function () {
-            document.getElementById("subup").disabled = true;
-            document.getElementById("subup").innerText = "上传中...";
-            let file = document.getElementById("file").files[0];
-            let formData = new FormData();
-            formData.append("file", file);
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", window['api'] + "/img/upload", true);
-            xhr.withCredentials = true;
-            xhr.send(formData);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    if (data.code == 200) {
-                        mdui.snackbar(data.msg);
-                        document.getElementById('url').innerText = data.url;
-                        document.getElementById('copy-url').onclick = function () {
-                            copyToClip(data.url);
-                            mdui.snackbar("已复制到剪贴板");
+            function copyToClip(content) {
+                var aux = document.createElement("input");
+                aux.setAttribute("value", content);
+                document.body.appendChild(aux);
+                aux.select();
+                document.execCommand("copy");
+                document.body.removeChild(aux);
+            }
+            document.getElementById("subup").onclick = function () {
+                document.getElementById("subup").disabled = true;
+                document.getElementById("subup").innerText = "上传中...";
+                let file = document.getElementById("file").files[0];
+                let formData = new FormData();
+                formData.append("file", file);
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", window['api'] + "/img/upload", true);
+                xhr.withCredentials = true;
+                xhr.send(formData);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.code == 200) {
+                            mdui.snackbar(data.msg);
+                            document.getElementById('url').innerText = data.url;
+                            document.getElementById('copy-url').onclick = function () {
+                                copyToClip(data.url);
+                                mdui.snackbar("已复制到剪贴板");
+                            }
+                            document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
+                            document.getElementById('copy-url-markdown').onclick = function () {
+                                copyToClip("![](" + data.url + ")");
+                                mdui.snackbar("已复制到剪贴板");
+                            }
+                            document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
+                            document.getElementById('copy-url-html').onclick = function () {
+                                copyToClip("<img src=\"" + data.url + "\"/>");
+                                mdui.snackbar("已复制到剪贴板");
+                            }
+                            document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
+                            document.getElementById('copy-url-bbcode').onclick = function () {
+                                copyToClip("[img]" + data.url + "[/img]");
+                                mdui.snackbar("已复制到剪贴板");
+                            }
+                        } else {
+                            mdui.snackbar("出错了：" + data.msg);
                         }
-                        document.getElementById('url-markdown').innerText = "![](" + data.url + ")";
-                        document.getElementById('copy-url-markdown').onclick = function () {
-                            copyToClip("![](" + data.url + ")");
-                            mdui.snackbar("已复制到剪贴板");
-                        }
-                        document.getElementById('url-html').innerText = "<img src=\"" + data.url + "\"/>";
-                        document.getElementById('copy-url-html').onclick = function () {
-                            copyToClip("<img src=\"" + data.url + "\"/>");
-                            mdui.snackbar("已复制到剪贴板");
-                        }
-                        document.getElementById('url-bbcode').innerText = "[img]" + data.url + "[/img]";
-                        document.getElementById('copy-url-bbcode').onclick = function () {
-                            copyToClip("[img]" + data.url + "[/img]");
-                            mdui.snackbar("已复制到剪贴板");
-                        }
-                    } else {
-                        mdui.snackbar("出错了：" + data.msg);
+                    }
+                    document.getElementById("subup").disabled = false;
+                    document.getElementById("subup").innerText = "上传";
+                }
+                //进度条
+                xhr.upload.onprogress = function (e) {
+                    console.log(e.loaded, e.total);
+                    if (e.lengthComputable) {
+                        var percent = e.loaded / e.total * 100;
+                        console.log("上传进度：" + percent + "%")
+                        document.getElementById("upprogress").style.display = "block";
+                        document.getElementById("upprogress").style.width = percent + "%";
                     }
                 }
-                document.getElementById("subup").disabled = false;
-                document.getElementById("subup").innerText = "上传";
             }
-            //进度条
-            xhr.upload.onprogress = function (e) {
-                console.log(e.loaded, e.total);
-                if (e.lengthComputable) {
-                    var percent = e.loaded / e.total * 100;
-                    console.log("上传进度：" + percent + "%")
-                    document.getElementById("upprogress").style.display = "block";
-                    document.getElementById("upprogress").style.width = percent + "%";
-                }
-            }
-        }
     </script>
 
     <div class="mdui-dialog" id="dialog-online_show" style="border-radius: 20px;">
@@ -2093,33 +2109,33 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <p>感谢以下同学赞助 OIso ！您的支持是开发者的不懈动力！</p>
             <ul class="mdui-list" id="thx"></ul>
             <script>
-                const lst = [
-                    [325014, "liuliuabc"],
-                    [541095, "CR7_houyetong"],
-                    [719939, "a12a"],
-                    [231343, "Icedpiggy"],
-                    [632128, "niceeeeeeeeeeee"],
-                    [874567, "WMH922"],
-                    [609249, "__Walter_Fang__"],
-                ];
-                var thx = document.getElementById("thx");
-                thx.innerHTML = "";
-                for (var i = 0; i < lst.length; i++) {
-                    var item = document.createElement("li");
-                    item.className = "mdui-list-item mdui-ripple";
-                    item.setAttribute("onclick", "window.open('https://www.luogu.com.cn/user/" + lst[i][0] + "');");
-                    var item_avatar = document.createElement("div");
-                    item_avatar.className = "mdui-list-item-avatar";
-                    var item_avatar_img = document.createElement("img");
-                    item_avatar_img.src = "https://cdn.luogu.com.cn/upload/usericon/" + lst[i][0] + ".png";
-                    item_avatar.appendChild(item_avatar_img);
-                    var item_content = document.createElement("div");
-                    item_content.className = "mdui-list-item-content";
-                    item_content.innerText = "@" + lst[i][1];
-                    item.appendChild(item_avatar);
-                    item.appendChild(item_content);
-                    thx.appendChild(item);
-                }
+            const lst = [
+                [325014, "liuliuabc"],
+                [541095, "CR7_houyetong"],
+                [719939, "a12a"],
+                [231343, "Icedpiggy"],
+                [632128, "niceeeeeeeeeeee"],
+                [874567, "WMH922"],
+                [609249, "__Walter_Fang__"],
+            ];
+            var thx = document.getElementById("thx");
+            thx.innerHTML = "";
+            for (var i = 0; i < lst.length; i++) {
+                var item = document.createElement("li");
+                item.className = "mdui-list-item mdui-ripple";
+                item.setAttribute("onclick", "window.open('https://www.luogu.com.cn/user/" + lst[i][0] + "');");
+                var item_avatar = document.createElement("div");
+                item_avatar.className = "mdui-list-item-avatar";
+                var item_avatar_img = document.createElement("img");
+                item_avatar_img.src = "https://cdn.luogu.com.cn/upload/usericon/" + lst[i][0] + ".png";
+                item_avatar.appendChild(item_avatar_img);
+                var item_content = document.createElement("div");
+                item_content.className = "mdui-list-item-content";
+                item_content.innerText = "@" + lst[i][1];
+                item.appendChild(item_avatar);
+                item.appendChild(item_content);
+                thx.appendChild(item);
+            }
             </script>
         </div>
         <div class="mdui-divider"></div>
@@ -2154,45 +2170,45 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        document.getElementById("redeem_btn").onclick = function () {
-            var code = document.getElementById("redeem_code").value;
-            if (code == "") {
-                mdui.snackbar({
-                    message: '请输入兑换代码！',
-                    position: 'right-top'
-                });
-            } else {
-                // window["api"]+/redeem?code=code; withCredentials=true; use ajax
-                $.ajax({
-                    url: window["api"] + "/redeem?code=" + code,
-                    type: "GET",
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    success: function (data) {
-                        if (data["code"] == 200) {
+            document.getElementById("redeem_btn").onclick = function () {
+                var code = document.getElementById("redeem_code").value;
+                if (code == "") {
+                    mdui.snackbar({
+                        message: '请输入兑换代码！',
+                        position: 'right-top'
+                    });
+                } else {
+                    // window["api"]+/redeem?code=code; withCredentials=true; use ajax
+                    $.ajax({
+                        url: window["api"] + "/redeem?code=" + code,
+                        type: "GET",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        success: function (data) {
+                            if (data["code"] == 200) {
+                                mdui.snackbar({
+                                    message: '兑换成功！' + data["msg"],
+                                    position: 'right-top'
+                                });
+                                document.getElementById("present_trail").innerHTML = "您当前的计划：" + data["data"]["plan"];
+                                document.getElementById("expire_time").innerHTML = "到期时间：" + data["data"]["expire"];
+                            } else {
+                                mdui.snackbar({
+                                    message: data["msg"],
+                                    position: 'right-top'
+                                });
+                            }
+                        },
+                        error: function (data) {
                             mdui.snackbar({
-                                message: '兑换成功！' + data["msg"],
-                                position: 'right-top'
-                            });
-                            document.getElementById("present_trail").innerHTML = "您当前的计划：" + data["data"]["plan"];
-                            document.getElementById("expire_time").innerHTML = "到期时间：" + data["data"]["expire"];
-                        } else {
-                            mdui.snackbar({
-                                message: data["msg"],
+                                message: '兑换失败！' + data["msg"],
                                 position: 'right-top'
                             });
                         }
-                    },
-                    error: function (data) {
-                        mdui.snackbar({
-                            message: '兑换失败！' + data["msg"],
-                            position: 'right-top'
-                        });
-                    }
-                });
+                    });
+                }
             }
-        }
     </script>
 
     <div class="mdui-dialog" id="dialog-free" style="border-radius: 20px;">
@@ -2249,96 +2265,96 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function redeem1() {
-            $("#redeem1_btn").attr("disabled", true);
-            $.ajax({
-                url: window["api"] + "/rewards/redeem1",
-                type: "GET",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    if (data["code"] == 200) {
+            function redeem1() {
+                $("#redeem1_btn").attr("disabled", true);
+                $.ajax({
+                    url: window["api"] + "/rewards/redeem1",
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        if (data["code"] == 200) {
+                            mdui.snackbar({
+                                message: data["msg"],
+                                position: 'right-top'
+                            });
+                            $("#redeem1_btn").attr("disabled", false);
+                        } else {
+                            mdui.snackbar({
+                                message: data["msg"],
+                                position: 'right-top'
+                            });
+                            $("#redeem1_btn").attr("disabled", false);
+                        }
+                    },
+                    error: function (data) {
                         mdui.snackbar({
-                            message: data["msg"],
-                            position: 'right-top'
-                        });
-                        $("#redeem1_btn").attr("disabled", false);
-                    } else {
-                        mdui.snackbar({
-                            message: data["msg"],
+                            message: '兑换失败！' + data["msg"],
                             position: 'right-top'
                         });
                         $("#redeem1_btn").attr("disabled", false);
                     }
-                },
-                error: function (data) {
-                    mdui.snackbar({
-                        message: '兑换失败！' + data["msg"],
-                        position: 'right-top'
-                    });
-                    $("#redeem1_btn").attr("disabled", false);
-                }
-            });
-        }
+                });
+            }
 
-        $("#reflink").click(function () {
-            var clipboard = new ClipboardJS('#reflink');
-            clipboard.on('success', function (e) {
-                mdui.snackbar({
-                    message: '复制成功！',
-                    position: 'right-top'
-                });
-            });
-            clipboard.on('error', function (e) {
-                mdui.snackbar({
-                    message: '复制失败！',
-                    position: 'right-top'
-                });
-            });
-        });
-        function get_my_rewards() {
-            $.ajax({
-                url: window["api"] + "/rewards/getmine",
-                type: "GET",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    document.getElementById("current_point").innerHTML = "当前积分：" + data;
-                },
-                error: function (data) {
+            $("#reflink").click(function () {
+                var clipboard = new ClipboardJS('#reflink');
+                clipboard.on('success', function (e) {
                     mdui.snackbar({
-                        message: '获取积分失败！',
+                        message: '复制成功！',
                         position: 'right-top'
                     });
-                }
+                });
+                clipboard.on('error', function (e) {
+                    mdui.snackbar({
+                        message: '复制失败！',
+                        position: 'right-top'
+                    });
+                });
             });
-        }
+            function get_my_rewards() {
+                $.ajax({
+                    url: window["api"] + "/rewards/getmine",
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        document.getElementById("current_point").innerHTML = "当前积分：" + data;
+                    },
+                    error: function (data) {
+                        mdui.snackbar({
+                            message: '获取积分失败！',
+                            position: 'right-top'
+                        });
+                    }
+                });
+            }
     </script>
     <script>
-        // 获取url中是否有ref参数
-        var url = location.search;
-        var theRequest = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-            }
-        }
-        if (theRequest["ref"] != undefined) {
-            $.ajax({
-                url: window["api"] + "/rewards/ref/" + theRequest["ref"],
-                type: "GET",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    ;
+            // 获取url中是否有ref参数
+            var url = location.search;
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
                 }
-            });
-        }
+            }
+            if (theRequest["ref"] != undefined) {
+                $.ajax({
+                    url: window["api"] + "/rewards/ref/" + theRequest["ref"],
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        ;
+                    }
+                });
+            }
     </script>
 
     <div class="mdui-dialog" id="dialog-csong" style="border-radius: 20px;">
@@ -2621,24 +2637,24 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                             </div>
 
                             <script>
-                                window['carousels'] = [
-                                    'https://s2.loli.net/2023/03/09/juQSlhVcsprzyiP.png',
-                                    'https://s2.loli.net/2023/03/09/dKseN2UiR9Mkj17.png'
-                                ];
-                                window['carousel_links'] = [
-                                    'https://afdian.net/a/diyanqi',
-                                    'https://tamper.oiso.cf/tamperoiso.user.js'
-                                ]
-                                document.getElementsByClassName('carousel-inner')[0].innerHTML = carousels.map((item, index) => {
-                                    return `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+            window['carousels'] = [
+                'https://s2.loli.net/2023/03/09/juQSlhVcsprzyiP.png',
+                'https://s2.loli.net/2023/03/09/dKseN2UiR9Mkj17.png'
+            ];
+            window['carousel_links'] = [
+                'https://afdian.net/a/diyanqi',
+                'https://tamper.oiso.cf/tamperoiso.user.js'
+            ]
+            document.getElementsByClassName('carousel-inner')[0].innerHTML = carousels.map((item, index) => {
+                return `<div class="carousel-item ${index === 0 ? 'active' : ''}">
                                         <a href="${carousel_links[index]}" target="_blank">
                                             <img src="${item}">
                                         </a>
                                     </div>`
-                                }).join('');
-                                document.getElementsByClassName('carousel-indicators')[0].innerHTML = carousels.map((item, index) => {
-                                    return `<li data-target="#demo" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>`
-                                }).join('');
+            }).join('');
+            document.getElementsByClassName('carousel-indicators')[0].innerHTML = carousels.map((item, index) => {
+                return `<li data-target="#demo" data-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>`
+            }).join('');
                             </script>
 
                             <!-- 左右切换按钮 -->
@@ -2666,77 +2682,77 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                 </div>
             </div>
             <script>
-                $.ajax({
-                    url: window['api'] + "/bingimg/detail", success: (data) => {
-                        // console.log(data);
-                        // 先解析成json对象
-                        var json = JSON.parse(data);
-                        // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
-                        var copyright = json.images[0].copyright;
-                        var title = json.images[0].title;
-                        var copyrightlink = json.images[0].copyrightlink;
-                        $("#detail").html(title + " - " + copyright);
-                        $("#detail").attr("href", "https://cn.bing.com" + json.images[0].url);
-                        // copilot 就是好用，我不会写也能给我写上（（（
-                    }
-                });
-            </script>
-            <script>
-                function getWindowHeight2() {
-                    var windowHeight = 0;
-                    if (document.compatMode == "CSS1Compat") {
-                        windowHeight = document.documentElement.clientHeight;
-                    } else {
-                        windowHeight = document.body.clientHeight;
-                    }
-                    return windowHeight;
+            $.ajax({
+                url: window['api'] + "/bingimg/detail", success: (data) => {
+                    // console.log(data);
+                    // 先解析成json对象
+                    var json = JSON.parse(data);
+                    // { "images": [ { "startdate": "20230111", "fullstartdate": "202301111600", "enddate": "20230112", "url": "/th?id=OHR.RumeliHisari_ZH-CN0185820275_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp", "urlbase": "/th?id=OHR.RumeliHisari_ZH-CN0185820275", "copyright": "博斯普鲁斯海峡的如梅利堡垒，土耳其伊斯坦布尔 (© Drone in Wonderland/Amazing Aerial Agency)", "copyrightlink": "https://www.bing.com/search?q=%E5%A6%82%E6%A2%85%E5%88%A9%E5%A0%A1%E5%9E%92&form=hpcapt&mkt=zh-cn", "title": "两大洲交接的地方", "quiz": "/search?q=Bing+homepage+quiz&filters=WQOskey:%22HPQuiz_20230111_RumeliHisari%22&FORM=HPQUIZ", "wp": true, "hsh": "b18686a00c2932211c717fad37ba6747", "drk": 1, "top": 1, "bot": 1, "hs": [] } ], "tooltips": { "loading": "正在加载...", "previous": "上一个图像", "next": "下一个图像", "walle": "此图片不能下载用作壁纸。", "walls": "下载今日美图。仅限用作桌面壁纸。" } }
+                    var copyright = json.images[0].copyright;
+                    var title = json.images[0].title;
+                    var copyrightlink = json.images[0].copyrightlink;
+                    $("#detail").html(title + " - " + copyright);
+                    $("#detail").attr("href", "https://cn.bing.com" + json.images[0].url);
+                    // copilot 就是好用，我不会写也能给我写上（（（
                 }
-                document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.5) + "px;overflow:scroll;")
+            });
             </script>
             <script>
-                function send_benben() {
-                    document.getElementById("ib").setAttribute("disabled", "disabled");
-                    var time_is_up = false;
-                    setTimeout(() => {
-                        document.getElementById("ib").removeAttribute("disabled");
-                        document.getElementById("ib").value = "";
-                        time_is_up = true;
-                    }, 5000);
-                    var text = document.getElementById("ib").value;
-                    if (text == "") {
-                        mdui.snackbar("总要说点什么吧？");
-                        return;
-                    }
-                    text = encodeURIComponent(text);
-                    fetch(window['api'] + "/msg?msg=" + text, {
-                        credentials: 'include'
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (data) {
-                        // console.log(data);
-                        if (data == "True") {
-                            mdui.snackbar("发送成功！");
-                            get_benben();
-                            document.getElementById("ib").value = "冷却中……";
-                            if (time_is_up) {
-                                document.getElementById("ib").value = "";
-                            }
-                        } else {
-                            mdui.snackbar("发送失败：" + data);
+            function getWindowHeight2() {
+                var windowHeight = 0;
+                if (document.compatMode == "CSS1Compat") {
+                    windowHeight = document.documentElement.clientHeight;
+                } else {
+                    windowHeight = document.body.clientHeight;
+                }
+                return windowHeight;
+            }
+            document.getElementById("benben").setAttribute("style", "max-height:" + String(getWindowHeight2() * 0.5) + "px;overflow:scroll;")
+            </script>
+            <script>
+            function send_benben() {
+                document.getElementById("ib").setAttribute("disabled", "disabled");
+                var time_is_up = false;
+                setTimeout(() => {
+                    document.getElementById("ib").removeAttribute("disabled");
+                    document.getElementById("ib").value = "";
+                    time_is_up = true;
+                }, 5000);
+                var text = document.getElementById("ib").value;
+                if (text == "") {
+                    mdui.snackbar("总要说点什么吧？");
+                    return;
+                }
+                text = encodeURIComponent(text);
+                fetch(window['api'] + "/msg?msg=" + text, {
+                    credentials: 'include'
+                }).then(function (response) {
+                    return response.text();
+                }).then(function (data) {
+                    // console.log(data);
+                    if (data == "True") {
+                        mdui.snackbar("发送成功！");
+                        get_benben();
+                        document.getElementById("ib").value = "冷却中……";
+                        if (time_is_up) {
+                            document.getElementById("ib").value = "";
                         }
-                    }).catch(function () {
-                        mdui.snackbar("发送失败：" + error);
-                    });
-                }
-                document.getElementById("ib").addEventListener("keyup", function (event) {
-                    // console.log(event);
-                    if (event.keyCode === 13) {
-                        event.preventDefault();
-                        // 把最后的换行去掉
-                        document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
-                        send_benben();
+                    } else {
+                        mdui.snackbar("发送失败：" + data);
                     }
+                }).catch(function () {
+                    mdui.snackbar("发送失败：" + error);
                 });
+            }
+            document.getElementById("ib").addEventListener("keyup", function (event) {
+                // console.log(event);
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    // 把最后的换行去掉
+                    document.getElementById("ib").value = document.getElementById("ib").value.replace(/\n$/, "");
+                    send_benben();
+                }
+            });
             </script>
             <br><br>
             <br><br>
@@ -2744,40 +2760,40 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
         </div>
     </div>
     <script>
-        function parseElement(htmlString) {
-            return new DOMParser().parseFromString(htmlString, 'text/html').body.childNodes[0]
-        }
-        function getWindowHeight() {
-            var windowHeight = 0;
-            if (document.compatMode == "CSS1Compat") {
-                windowHeight = document.documentElement.clientHeight;
-            } else {
-                windowHeight = document.body.clientHeight;
+            function parseElement(htmlString) {
+                return new DOMParser().parseFromString(htmlString, 'text/html').body.childNodes[0]
             }
-            return windowHeight;
-        }
-
-        // console.log(getWindowHeight());
-
-        document.getElementById("happy").style.position = "absolute";
-        document.getElementById("happy").style.top = getWindowHeight() + "px";
-
-        function replyto(content) {
-            document.getElementById("ib").value = " > " + content;
-            document.getElementById("ib").focus();
-            // 把光标移到文本框最前面
-            var input = document.getElementById("ib");
-            if (input.setSelectionRange) {
-                input.focus();
-                input.setSelectionRange(0, 0);
-            } else if (input.createTextRange) {
-                var range = input.createTextRange();
-                range.collapse(true);
-                range.moveEnd('character', 0);
-                range.moveStart('character', 0);
-                range.select();
+            function getWindowHeight() {
+                var windowHeight = 0;
+                if (document.compatMode == "CSS1Compat") {
+                    windowHeight = document.documentElement.clientHeight;
+                } else {
+                    windowHeight = document.body.clientHeight;
+                }
+                return windowHeight;
             }
-        }
+
+            // console.log(getWindowHeight());
+
+            document.getElementById("happy").style.position = "absolute";
+            document.getElementById("happy").style.top = getWindowHeight() + "px";
+
+            function replyto(content) {
+                document.getElementById("ib").value = " > " + content;
+                document.getElementById("ib").focus();
+                // 把光标移到文本框最前面
+                var input = document.getElementById("ib");
+                if (input.setSelectionRange) {
+                    input.focus();
+                    input.setSelectionRange(0, 0);
+                } else if (input.createTextRange) {
+                    var range = input.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', 0);
+                    range.moveStart('character', 0);
+                    range.select();
+                }
+            }
 
 
     </script>
@@ -2786,144 +2802,144 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
 
     </script>
     <script> // 鼠标点击特效
-        function clickEffect() {
-            let balls = [];
-            let longPressed = false;
-            let longPress;
-            let multiplier = 0;
-            let width, height;
-            let origin;
-            let normal;
-            let ctx;
-            const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
-            const canvas = document.createElement("canvas");
-            document.body.appendChild(canvas);
-            canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
-            const pointer = document.createElement("span");
-            pointer.classList.add("pointer");
-            document.body.appendChild(pointer);
+            function clickEffect() {
+                let balls = [];
+                let longPressed = false;
+                let longPress;
+                let multiplier = 0;
+                let width, height;
+                let origin;
+                let normal;
+                let ctx;
+                const colours = ["#F73859", "#14FFEC", "#00E0FF", "#FF99FE", "#FAF15D"];
+                const canvas = document.createElement("canvas");
+                document.body.appendChild(canvas);
+                canvas.setAttribute("style", "width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; position: fixed; pointer-events: none;");
+                const pointer = document.createElement("span");
+                pointer.classList.add("pointer");
+                document.body.appendChild(pointer);
 
-            if (canvas.getContext && window.addEventListener) {
-                ctx = canvas.getContext("2d");
-                updateSize();
-                window.addEventListener('resize', updateSize, false);
-                loop();
-                window.addEventListener("mousedown", function (e) {
-                    pushBalls(randBetween(10, 20), e.clientX, e.clientY);
-                    document.body.classList.add("is-pressed");
-                    longPress = setTimeout(function () {
-                        document.body.classList.add("is-longpress");
-                        longPressed = true;
-                    }, 500);
-                }, false);
-                window.addEventListener("mouseup", function (e) {
-                    clearInterval(longPress);
+                if (canvas.getContext && window.addEventListener) {
+                    ctx = canvas.getContext("2d");
+                    updateSize();
+                    window.addEventListener('resize', updateSize, false);
+                    loop();
+                    window.addEventListener("mousedown", function (e) {
+                        pushBalls(randBetween(10, 20), e.clientX, e.clientY);
+                        document.body.classList.add("is-pressed");
+                        longPress = setTimeout(function () {
+                            document.body.classList.add("is-longpress");
+                            longPressed = true;
+                        }, 500);
+                    }, false);
+                    window.addEventListener("mouseup", function (e) {
+                        clearInterval(longPress);
+                        if (longPressed == true) {
+                            document.body.classList.remove("is-longpress");
+                            pushBalls(randBetween(50 + Math.ceil(multiplier), 100 + Math.ceil(multiplier)), e.clientX, e.clientY);
+                            longPressed = false;
+                        }
+                        document.body.classList.remove("is-pressed");
+                    }, false);
+                    window.addEventListener("mousemove", function (e) {
+                        let x = e.clientX;
+                        let y = e.clientY;
+                        pointer.style.top = y + "px";
+                        pointer.style.left = x + "px";
+                    }, false);
+                } else {
+                    console.log("canvas or addEventListener is unsupported!");
+                }
+
+
+                function updateSize() {
+                    canvas.width = window.innerWidth * 2;
+                    canvas.height = window.innerHeight * 2;
+                    canvas.style.width = window.innerWidth + 'px';
+                    canvas.style.height = window.innerHeight + 'px';
+                    ctx.scale(2, 2);
+                    width = (canvas.width = window.innerWidth);
+                    height = (canvas.height = window.innerHeight);
+                    origin = {
+                        x: width / 2,
+                        y: height / 2
+                    };
+                    normal = {
+                        x: width / 2,
+                        y: height / 2
+                    };
+                }
+                class Ball {
+                    constructor(x = origin.x, y = origin.y) {
+                        this.x = x;
+                        this.y = y;
+                        this.angle = Math.PI * 2 * Math.random();
+                        if (longPressed == true) {
+                            this.multiplier = randBetween(14 + multiplier, 15 + multiplier);
+                        } else {
+                            this.multiplier = randBetween(6, 12);
+                        }
+                        this.vx = (this.multiplier + Math.random() * 0.5) * Math.cos(this.angle);
+                        this.vy = (this.multiplier + Math.random() * 0.5) * Math.sin(this.angle);
+                        this.r = randBetween(8, 12) + 3 * Math.random();
+                        this.color = colours[Math.floor(Math.random() * colours.length)];
+                    }
+                    update() {
+                        this.x += this.vx - normal.x;
+                        this.y += this.vy - normal.y;
+                        normal.x = -2 / window.innerWidth * Math.sin(this.angle);
+                        normal.y = -2 / window.innerHeight * Math.cos(this.angle);
+                        this.r -= 0.3;
+                        this.vx *= 0.9;
+                        this.vy *= 0.9;
+                    }
+                }
+
+                function pushBalls(count = 1, x = origin.x, y = origin.y) {
+                    for (let i = 0; i < count; i++) {
+                        balls.push(new Ball(x, y));
+                    }
+                }
+
+                function randBetween(min, max) {
+                    return Math.floor(Math.random() * max) + min;
+                }
+
+                function loop() {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0)";
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (let i = 0; i < balls.length; i++) {
+                        let b = balls[i];
+                        if (b.r < 0) continue;
+                        ctx.fillStyle = b.color;
+                        ctx.beginPath();
+                        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
+                        ctx.fill();
+                        b.update();
+                    }
                     if (longPressed == true) {
-                        document.body.classList.remove("is-longpress");
-                        pushBalls(randBetween(50 + Math.ceil(multiplier), 100 + Math.ceil(multiplier)), e.clientX, e.clientY);
-                        longPressed = false;
+                        multiplier += 0.2;
+                    } else if (!longPressed && multiplier >= 0) {
+                        multiplier -= 0.4;
                     }
-                    document.body.classList.remove("is-pressed");
-                }, false);
-                window.addEventListener("mousemove", function (e) {
-                    let x = e.clientX;
-                    let y = e.clientY;
-                    pointer.style.top = y + "px";
-                    pointer.style.left = x + "px";
-                }, false);
-            } else {
-                console.log("canvas or addEventListener is unsupported!");
-            }
-
-
-            function updateSize() {
-                canvas.width = window.innerWidth * 2;
-                canvas.height = window.innerHeight * 2;
-                canvas.style.width = window.innerWidth + 'px';
-                canvas.style.height = window.innerHeight + 'px';
-                ctx.scale(2, 2);
-                width = (canvas.width = window.innerWidth);
-                height = (canvas.height = window.innerHeight);
-                origin = {
-                    x: width / 2,
-                    y: height / 2
-                };
-                normal = {
-                    x: width / 2,
-                    y: height / 2
-                };
-            }
-            class Ball {
-                constructor(x = origin.x, y = origin.y) {
-                    this.x = x;
-                    this.y = y;
-                    this.angle = Math.PI * 2 * Math.random();
-                    if (longPressed == true) {
-                        this.multiplier = randBetween(14 + multiplier, 15 + multiplier);
-                    } else {
-                        this.multiplier = randBetween(6, 12);
-                    }
-                    this.vx = (this.multiplier + Math.random() * 0.5) * Math.cos(this.angle);
-                    this.vy = (this.multiplier + Math.random() * 0.5) * Math.sin(this.angle);
-                    this.r = randBetween(8, 12) + 3 * Math.random();
-                    this.color = colours[Math.floor(Math.random() * colours.length)];
+                    removeBall();
+                    requestAnimationFrame(loop);
                 }
-                update() {
-                    this.x += this.vx - normal.x;
-                    this.y += this.vy - normal.y;
-                    normal.x = -2 / window.innerWidth * Math.sin(this.angle);
-                    normal.y = -2 / window.innerHeight * Math.cos(this.angle);
-                    this.r -= 0.3;
-                    this.vx *= 0.9;
-                    this.vy *= 0.9;
-                }
-            }
 
-            function pushBalls(count = 1, x = origin.x, y = origin.y) {
-                for (let i = 0; i < count; i++) {
-                    balls.push(new Ball(x, y));
-                }
-            }
-
-            function randBetween(min, max) {
-                return Math.floor(Math.random() * max) + min;
-            }
-
-            function loop() {
-                ctx.fillStyle = "rgba(255, 255, 255, 0)";
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < balls.length; i++) {
-                    let b = balls[i];
-                    if (b.r < 0) continue;
-                    ctx.fillStyle = b.color;
-                    ctx.beginPath();
-                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
-                    ctx.fill();
-                    b.update();
-                }
-                if (longPressed == true) {
-                    multiplier += 0.2;
-                } else if (!longPressed && multiplier >= 0) {
-                    multiplier -= 0.4;
-                }
-                removeBall();
-                requestAnimationFrame(loop);
-            }
-
-            function removeBall() {
-                for (let i = 0; i < balls.length; i++) {
-                    let b = balls[i];
-                    if (b.x + b.r < 0 || b.x - b.r > width || b.y + b.r < 0 || b.y - b.r > height || b.r < 0) {
-                        balls.splice(i, 1);
+                function removeBall() {
+                    for (let i = 0; i < balls.length; i++) {
+                        let b = balls[i];
+                        if (b.x + b.r < 0 || b.x - b.r > width || b.y + b.r < 0 || b.y - b.r > height || b.r < 0) {
+                            balls.splice(i, 1);
+                        }
                     }
                 }
             }
-        }
         // clickEffect(); tnnd 卡爆了
     </script>
     <script type="text/javascript" src="https://cdn.lyshark.com/javascript/socket.io/socket.io.min.js"></script>
     <script type="text/javascript">
-        document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
+            document.write("<script src='/js/index.js?" + Math.random() + "'><\/script>");
     </script>
 </body>
 
