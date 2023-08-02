@@ -490,6 +490,71 @@
             </button>
         </div>
     </div>
+    <script>
+        // preLogin - 使用缓存快速显示登录信息
+        function getTimeCn() {
+            var now = new Date();
+            var hour = now.getHours();
+            if (hour < 6) {
+                return "早上好，";
+            } else if (hour < 9) {
+                return "早上好，";
+            } else if (hour < 12) {
+                return "上午好，";
+            } else if (hour < 14) {
+                return "中午好，";
+            } else if (hour < 17) {
+                return "下午好，";
+            } else if (hour < 19) {
+                return "傍晚好，";
+            } else if (hour < 22) {
+                return "晚上好，";
+            } else {
+                return "夜里好，";
+            }
+        }
+
+        function makeUserButton(data) {
+            // var fa = document.getElementById("lbt").parentNode;
+            // fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))
+            // document.getElementById("lbt").remove();
+            // mdui-dialog="{target: '#dialog-logout'}"
+            const userInfoDiv = document.getElementById("userInfo");
+            userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>
+    <ul class="mdui-menu" id="user-attr">
+        <li class="mdui-menu-item">
+            <a href="javascript:;" class="mdui-ripple" id="userInfo-name" target="_blank" style="font-size: smaller;">欢迎</a>
+        </li>
+        <li class="mdui-menu-item">
+            <a mdui-dialog="{target: '#dialog-vip'}" class="mdui-ripple" id="userInfo-vip" style="font-size: xx-small;">当前计划</a>
+        </li>
+        <li class="mdui-divider"></li>
+        <li class="mdui-menu-item">
+            <a href="javascript:;" mdui-dialog="{target: '#dialog-logout'}" class="mdui-ripple" style="color: red;"><i class="mdui-icon material-icons">exit_to_app</i>登出</a>
+        </li>
+    </ul>
+    `;
+            const userInfoName = document.getElementById("userInfo-name");
+            userInfoName.innerText = getTimeCn() + JSON.parse(data).name;
+            userInfoName.setAttribute("href", `https://www.luogu.com.cn/user/${JSON.parse(data).uid}`);
+            const userInfoVip = document.getElementById("userInfo-vip");
+            const TRAILS = {
+                0: "OIso Free",
+                1: "OIso Plus",
+                2: "OIso Pro",
+                3: "OIso Premium"
+            }
+            userInfoVip.innerText = "当前计划：" + TRAILS[JSON.parse(data).vip.level];
+        }
+
+        try {
+            makeUserButton(localStorage.getItem("profile"));
+        } catch {
+            const userInfoDiv = document.getElementById("userInfo");
+            userInfoDiv.innerHTML = `<button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white mdui-color-blue"
+        style="color: white!important" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();">Logging</button>`;
+        }
+    </script>
 
     <div class="mdui-container">
         <center>
@@ -646,12 +711,11 @@
         dark="bg-dark-700" bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
-                    alt="🍋OIso🔍" style="margin-top: -2px;"></a> ©️ 2023&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v1.1 | Developed with ❤️ by <a class="icon-btn" title="DevTeam" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a>| <a
-                class="icon-btn" href="https://www.amzcd.top/posts/OIso/"
-                target="_blank">开发日志</a> | <a class="bing-background" href="https://bing.com"
-                target="_blank">必应壁纸</a> | <a href="https://icp.gov.moe/?keyword=20230322"
-                target="_blank">萌ICP备20230322号</a>
+                    alt="🍋OIso🔍" style="margin-top: -2px;"></a> ©️ 2023&nbsp;<a href="/">OIso.cf</a>&nbsp;| v1.1 |
+            Developed with ❤️ by <a class="icon-btn" title="DevTeam" href="https://github.com/orgs/oiso-developer-team/"
+                target="_blank">OIso 开发团队</a>| <a class="icon-btn" href="https://www.amzcd.top/posts/OIso/"
+                target="_blank">开发日志</a> | <a class="bing-background" href="https://bing.com" target="_blank">必应壁纸</a> |
+            <a href="https://icp.gov.moe/?keyword=20230322" target="_blank">萌ICP备20230322号</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
                 <div i-ri-information-line=""></div>
