@@ -11,7 +11,8 @@
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
         crossorigin="anonymous"></script> -->
     <link rel="search" type="application/opensearchdescription+xml" href="opensearch.xml" title="🍋OIso🔍>
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script src=" https://cdn.onesignal.com/sdks/OneSignalSDK.js" async="">
+    </script>
     <script>
         window.OneSignal = window.OneSignal || [];
         OneSignal.push(function () {
@@ -101,7 +102,7 @@
             height: 36px;
             border-radius: 50%;
             margin: 0 12px !important;
-            transform: translateY(10px);
+            /* transform: translateY(10px); */
         }
 
         .infoBoard {
@@ -380,7 +381,33 @@
         }
 
         #lbt {
-            color: rgb(225, 225, 225)
+            /* color: rgb(225, 225, 225); */
+            opacity: 0.5;
+        }
+
+        /*当鼠标掠过，动画过渡到不透明*/
+        #lbt:hover {
+            opacity: 1;
+        }
+
+        .opcBt,.avatar {
+            opacity: 0.5;
+        }
+
+        .opcBt:hover,.avatar:hover {
+            opacity: 1;
+        }
+
+        button {
+            outline: none;
+        }
+
+        :focus {
+            outline: none;
+        }
+
+        ::-moz-focus-inner {
+            border-color: transparent;
         }
     </style>
     <style>
@@ -416,6 +443,11 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        button {
+            outline: none !important;
+            ;
+        }
     </style>
     <!-- 借用 Luogu cdn -->
     <script src="https://cdn.luogu.com.cn/js/jquery-2.1.1.min.js"></script>
@@ -440,19 +472,21 @@
     <div class="mdui-toolbar">
         <div class="mdui-toolbar-spacer"></div>
 
-        <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white" mdui-dialog="{target: '#dialog-login'}"
-            onclick="get_key();">
-            Logging
-        </button>
+        <div id="userInfo">
+            <button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white mdui-color-blue"
+                style="color: white!important" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();">
+                Logging
+            </button>
+        </div>
     </div>
 
     <div class="mdui-container">
         <center>
-            <img id="logo" src="img/logo.png" class="mdui-img-fluid" style="transform: translateY(100%);"
+            <img id="logo" src="/img/logo.png" class="mdui-img-fluid" style="transform: translateY(100%);"
                 onload="if(this.width >= 333){this.width = 333;}" />
         </center>
         <center>
-            <div id="container" class="box mdui-hoverable" style="transform: translateY(170px);">
+            <div id="container" class="box mdui-hoverable" style="transform: translateY(150px);">
                 <div class="left"></div>
                 <input class="search" id="inputBox" type="text" placeholder="OIso数据库正在全面升级，搜索结果或不全，重大更新敬请期待！"
                     onkeypress="getKey();" />
@@ -460,6 +494,11 @@
                     <i class="mdui-icon material-icons topbar mdui-text-color-black" onclick="go();">search</i>
                 </div>
             </div>
+        </center>
+        <center style="transform: translateY(180px);">
+            <button class="mdui-btn mdui-ripple mdui-color-blue-grey-100 mdui-btn-dense opcBt"
+                onclick="window.open('https://lg.oiso.cf/')">帖子保存</button>
+            <button class="mdui-btn mdui-ripple mdui-color-blue-grey-100 mdui-btn-dense opcBt">手气不错</button>
         </center>
         <div id="suggestionContainer"
             style="height: auto; opacity: 1; display: block; position: absolute; top: 400px; left: 50%; transform: translateX(-50%); width: 584px;">
@@ -596,15 +635,11 @@
         dark="bg-dark-700" bg="gray-100" w="full" h="12" text="xs" style="z-index: 999;">
         <div class="inline-flex justify-center items-center" m="x-2" style="letter-spacing:0.3px;" opacity="75"><a
                 href="/"><img width="28" height="16" class="filter grayscale" m="x-2" src="img/favicon.svg"
-                    alt="🍋OIso🔍" style="margin-top: -2px;transform: translateY(3px);"></a> ©️ 2023&nbsp;<a
-                href="/">OIso.cf</a>&nbsp;| v1.0 正式版 | Developed
-            by&nbsp;<a class="icon-btn mr-2" title="Blog" href="https://www.amzcd.top/"
-                target="_blank">diyanqi</a>&nbsp;&amp;&nbsp;<a class="icon-btn mr-2" title="Blog"
-                href="https://www.lotuses.net/" target="_blank">Lotuses</a>&nbsp;,&nbsp;<a class="icon-btn mr-2"
-                title="Blog" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
-                class="icon-btn mr-2" title="评论需 Github 账号，洛谷也可私信我" href="https://www.amzcd.top/posts/OIso/"
-                target="_blank">👉食用指南&反馈👈</a> | <a class="bing-background" href="https://bing.com"
-                target="_blank">Bing Wallpaper</a> | <a href="https://icp.gov.moe/?keyword=20230322"
+                    alt="🍋OIso🔍" style="margin-top: -2px;"></a> ©️ 2023&nbsp;<a
+                href="/">OIso.cf</a>&nbsp;| v1.1 | Developed with ❤️ by <a class="icon-btn mr-2" title="DevTeam" href="https://github.com/orgs/oiso-developer-team/" target="_blank">OIso 开发团队</a> | <a
+                class="icon-btn mr-2" href="https://www.amzcd.top/posts/OIso/"
+                target="_blank">开发日志</a> | <a class="bing-background" href="https://bing.com"
+                target="_blank">必应壁纸</a> | <a href="https://icp.gov.moe/?keyword=20230322"
                 target="_blank">萌ICP备20230322号</a>
         </div>
         <div class="inline-flex justify-center items-center" m="x-2"><a href="/about" class="icon-btn mx-2" title="关于">
@@ -2131,8 +2166,7 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
             <p>OIso 用户体验反馈群：891536401</p>
             <p>入群验证码：1145141919810</p>
             <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="qq_jq_btn" style="border-radius: 15px;"
-                onclick="window.open('http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=0fNrMp2BEfCPEK4rT8PDkpVLRBeuL6VA&authKey=k0O9FleyVDWW7ai8hOXPTZ2d0SFfn5%2FJNKqyLmfvDHyluHAR03Vh8gA0pe1f9dJL&noverify=0&group_code=891536401');"
-                >点我一键加群！</button>
+                onclick="window.open('http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=0fNrMp2BEfCPEK4rT8PDkpVLRBeuL6VA&authKey=k0O9FleyVDWW7ai8hOXPTZ2d0SFfn5%2FJNKqyLmfvDHyluHAR03Vh8gA0pe1f9dJL&noverify=0&group_code=891536401');">点我一键加群！</button>
         </div>
         <div class="mdui-divider"></div>
         <div class="mdui-dialog-actions">
@@ -2412,8 +2446,9 @@ https://s2.loli.net/2023/02/26/1OK6EYewAP4htSN.png</pre>
                                     </button>
                                 </div>
                                 <div class="mdui-col icon-code-wrap">
-                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" id="openGPT" disabled="disabled
-                                        onclick="window.open('https://www.oiso.cf/webgpt-main/');"
+                                    <button style="border-radius: 15px;" class="mdui-btn mdui-ripple" id="openGPT"
+                                        disabled="disabled
+                                        onclick=" window.open('https://www.oiso.cf/webgpt-main/');"
                                         mdui-tooltip="{content: 'Premium 会员专享 [全新上线!]'}">
                                         <i class="mdui-icon mdui-icon-left material-icons">chat</i>
                                         Chat🐔PT

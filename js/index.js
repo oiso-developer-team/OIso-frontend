@@ -1,37 +1,108 @@
-fetch(window['api']+"/profile", {
+function getTimeCn() {
+    var now = new Date();
+    var hour = now.getHours();
+    if (hour < 6) {
+      return "早上好，";
+    } else if (hour < 9) {
+      return "早上好，";
+    } else if (hour < 12) {
+      return "上午好，";
+    } else if (hour < 14) {
+      return "中午好，";
+    } else if (hour < 17) {
+      return "下午好，";
+    } else if (hour < 19) {
+      return "傍晚好，";
+    } else if (hour < 22) {
+      return "晚上好，";
+    } else {
+      return "夜里好，";
+    }
+}
+
+function makeUserButton(data) {
+    // var fa = document.getElementById("lbt").parentNode;
+    // fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))
+    // document.getElementById("lbt").remove();
+    // mdui-dialog="{target: '#dialog-logout'}"
+    const userInfoDiv = document.getElementById("userInfo");
+    userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" onclick="" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>
+    <ul class="mdui-menu" id="user-attr">
+        <li class="mdui-menu-item">
+            <a href="javascript:;" class="mdui-ripple" id="userInfo-name" target="_blank">欢迎</a>
+        </li>
+        <li class="mdui-menu-item">
+            <a mdui-dialog="{target: '#dialog-vip'}" class="mdui-ripple" id="userInfo-vip">当前计划</a>
+        </li>
+        <li class="mdui-divider"></li>
+        <li class="mdui-menu-item">
+            <a href="javascript:;" mdui-dialog="{target: '#dialog-logout'}" class="mdui-ripple" style="color: red;"><i class="mdui-icon material-icons">exit_to_app</i>登出</a>
+        </li>
+    </ul>
+    `;
+    const userInfoName = document.getElementById("userInfo-name");
+    userInfoName.innerText = getTimeCn() + JSON.parse(data).name;
+    userInfoName.setAttribute("href", `https://www.luogu.com.cn/user/${JSON.parse(data).uid}`);
+    const userInfoVip = document.getElementById("userInfo-vip");
+    const TRAILS = {
+        0: "OIso Free",
+        1: "OIso Plus",
+        2: "OIso Pro",
+        3: "OIso Premium"
+    }
+    userInfoVip.innerText = "当前计划：" + TRAILS[JSON.parse(data).vip.level];
+}
+
+try {
+    makeUserButton(localStorage.getItem("profile"));
+} catch {
+    const userInfoDiv = document.getElementById("userInfo");
+    userInfoDiv.innerHTML = `<button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white mdui-color-blue"
+        style="color: white!important" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();">Logging</button>`;
+}
+
+fetch(window['api'] + "/profile", {
     credentials: 'include'
 }).then(function (response) {
     return response.text();
 }).then(function (data) {
     if (data == `False`) { // !!!!!!!!!!!!!!
-        document.getElementById("lbt").innerHTML = "未登录";
-        mdui.snackbar("请登录");
+        const userInfoDiv = document.getElementById("userInfo");
+        userInfoDiv.innerHTML = `<button id="lbt" class="mdui-btn mdui-ripple mdui-ripple-white mdui-color-blue"
+        style="color: white!important" mdui-dialog="{target: '#dialog-login'}" onclick="get_key();"></button>`;
+        document.getElementById("lbt").innerHTML = "登录";
+        localStorage.removeItem("profile");
+        // mdui.snackbar("请登录");
     } else {
         console.log(data);
+        // write to localstorage cache
+        let data_copy = JSON.parse(data);
+        data_copy.cookie = "******";
+        localStorage.setItem("profile", JSON.stringify(data_copy));
         document.getElementById("openGPT").setAttribute("onclick", `window.open('https://ikun.oiso.cf/#/?code=${JSON.parse(data).cookie}');`);
-        if(JSON.parse(data).vip.level != 0){
+        if (JSON.parse(data).vip.level != 0) {
             document.getElementById("openGPT").removeAttribute("disabled");
             document.getElementById("aipaint").removeAttribute("disabled");
-        }else{
+        } else {
             document.getElementById("openGPT").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">chat</i>会员制GPT`;
             document.getElementById("aipaint").innerHTML = `<i class="mdui-icon mdui-icon-left material-icons">sentiment_satisfied</i>会员制AI作图`
         }
         window['uid'] = JSON.parse(data).uid;
-        document.getElementById("reflink").innerHTML=("通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=" + String(window["uid"]) + ")← 登录 OIso 官网，免费领取 3 积分，我也能同时获得 3 积分哦！积分可以换会员耶～");
+        document.getElementById("reflink").innerHTML = ("通过这个链接 →[https://www.oiso.cf/](https://www.oiso.cf?ref=" + String(window["uid"]) + ")← 登录 OIso 官网，免费领取 3 积分，我也能同时获得 3 积分哦！积分可以换会员耶～");
         document.getElementById("avatarimg").src = "https://cdn.luogu.com.cn/upload/usericon/" + JSON.parse(data).uid + ".png";
         const TRAILS = {
-            0:"OIso Free",
-            1:"OIso Plus",
-            2:"OIso Pro",
-            3:"OIso Premium"
+            0: "OIso Free",
+            1: "OIso Plus",
+            2: "OIso Pro",
+            3: "OIso Premium"
         }
         document.getElementById("present_trail").innerText = "当前计划：" + TRAILS[JSON.parse(data).vip.level] + "（ 等级" + String(JSON.parse(data).vip.level) + " / 3 ）";
-        if(JSON.parse(data).vip.level != 0){
-            document.getElementById("expire_time").innerHTML = `到期时间：${new Date(JSON.parse(data).vip.expire*1000).toLocaleString()}`;
-        }else{
+        if (JSON.parse(data).vip.level != 0) {
+            document.getElementById("expire_time").innerHTML = `到期时间：${new Date(JSON.parse(data).vip.expire * 1000).toLocaleString()}`;
+        } else {
             document.getElementById("expire_time").innerHTML += `只要服务器不挂，就可以永久免费使用！`;
         }
-        if(JSON.parse(data).vip == false){
+        if (JSON.parse(data).vip == false) {
             document.getElementById("present_trail").innerText = "当前计划：OIso Free（ 等级0 / 3 ）";
             document.getElementById("expire_time").innerHTML = `到期时间：只要服务器不挂，就可以永久免费使用！`;
         }
@@ -58,16 +129,14 @@ fetch(window['api']+"/profile", {
             parse_benben(data.chat_msg);
             parse_music(data.song_msg);
             parse_spiderstatus(data.spider_status);
-            if(window['live_chosen'] == undefined){
+            if (window['live_chosen'] == undefined) {
                 parse_stream(data.live);
             }
         });
 
         document.getElementById("updown").removeAttribute("hidden");
         try {
-            var fa = document.getElementById("lbt").parentNode;
-            fa.appendChild(parseElement(`<a id="lbt" mdui-dialog="{target: '#dialog-logout'}" onclick="" href="javascript:void 0"><b class="name">${JSON.parse(data).name}</b><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>`))
-            document.getElementById("lbt").remove();
+            makeUserButton(data);
         } catch {
             document.getElementById("lbt").innerHTML = "登出";
         }
@@ -399,7 +468,7 @@ function parse_spiderstatus(data) {
 }
 
 function get_benben() {
-    fetch(window['api']+"/getmsg", {
+    fetch(window['api'] + "/getmsg", {
         credentials: 'include'
     }).then(function (response) {
         return response.text();
@@ -527,7 +596,7 @@ function get_benben() {
 function msgdel(time) {
     mdui.confirm("确定删除这条犇犇吗？", "删除犇犇", function () {
         // https://api.oiso.cf:2096/msg/delete?time=1674726448.608633
-        var url = window['api']+"/msg/delete?time=" + time;
+        var url = window['api'] + "/msg/delete?time=" + time;
         fetch(url, {
             method: "GET",
             mode: "cors",
