@@ -392,7 +392,7 @@
 
         .avatar {
             transition: all 0.75s;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .avatar:hover {
@@ -520,7 +520,7 @@
             // document.getElementById("lbt").remove();
             // mdui-dialog="{target: '#dialog-logout'}"
             const userInfoDiv = document.getElementById("userInfo");
-            userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar"></a>
+            userInfoDiv.innerHTML = `<a id="lbt" mdui-menu="{target: '#user-attr'}" href="javascript:void 0"><img src="https://cdn.luogu.com.cn/upload/usericon/${JSON.parse(data).uid}.png" alt="${JSON.parse(data).name}" class="avatar mdui-hoverable"></a>
     <ul class="mdui-menu" id="user-attr">
         <li class="mdui-menu-item">
             <a href="javascript:;" class="mdui-ripple" id="userInfo-name" target="_blank" style="font-size: smaller;">欢迎</a>
