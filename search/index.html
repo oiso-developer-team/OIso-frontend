@@ -8,7 +8,11 @@
     <meta name="force-rendering" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <script>
-        window['api'] = '//online.oiso.cf'
+        if (navigator.language != "zh-CN") {
+            window['api'] = '//online.oiso.cf'
+        } else {
+            window['api'] = '//api.amzcd.top:32323'
+        }
     </script>
     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3597621909882025"
     crossorigin="anonymous"></script> -->
